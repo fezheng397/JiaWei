@@ -38,13 +38,13 @@ The API runs on `http://localhost:8080`.
 Useful endpoints:
 
 - `GET /actuator/health`
-- `GET /api/recipes`
-- `GET /api/recipes?kind=dish`
-- `GET /api/recipes/{publicId}`
-- `GET /api/recipes/{publicId}/ingredient-redirect`
-- `GET /api/ingredients`
-- `GET /api/ingredients?hasRecipe=true`
-- `GET /api/ingredients/{publicId}`
+- `GET /recipes`
+- `GET /recipes?kind=dish`
+- `GET /recipes/{publicId}`
+- `GET /recipes/{publicId}/ingredient-redirect`
+- `GET /ingredients`
+- `GET /ingredients?hasRecipe=true`
+- `GET /ingredients/{publicId}`
 
 ## Database
 
