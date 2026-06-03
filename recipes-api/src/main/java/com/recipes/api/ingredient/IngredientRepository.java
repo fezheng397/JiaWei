@@ -10,6 +10,19 @@ import org.springframework.data.repository.query.Param;
 public interface IngredientRepository extends JpaRepository<Ingredient, UUID> {
   List<Ingredient> findAllByOrderByName();
 
+  @Query(
+      """
+      select ingredient
+      from Ingredient ingredient
+      where exists (
+        select recipe
+        from Recipe recipe
+        where recipe.ingredient = ingredient
+      )
+      order by ingredient.name
+      """)
+  List<Ingredient> findAllHavingRecipeOrderByName();
+
   Optional<Ingredient> findByPublicId(String publicId);
 
   @Query("select ingredient from Ingredient ingredient where lower(ingredient.name) = lower(:name)")

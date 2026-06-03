@@ -3,16 +3,16 @@ package com.recipes.api.recipe;
 import com.recipes.api.author.Author;
 import com.recipes.api.common.AuditedEntity;
 import com.recipes.api.ingredient.Ingredient;
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -51,9 +51,11 @@ public class Recipe extends AuditedEntity {
   private String yieldQuantity;
   private String yieldUnit;
 
-  @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-  @OrderBy("position ASC")
-  private List<RecipeTag> tags = new ArrayList<>();
+  @ElementCollection
+  @CollectionTable(name = "recipe_tags", joinColumns = @JoinColumn(name = "recipe_id"))
+  @OrderColumn(name = "position")
+  @Column(name = "tag", nullable = false)
+  private List<String> tags = new ArrayList<>();
 
   protected Recipe() {}
 
@@ -110,6 +112,6 @@ public class Recipe extends AuditedEntity {
   }
 
   public List<String> getTags() {
-    return tags.stream().map(RecipeTag::getTag).toList();
+    return List.copyOf(tags);
   }
 }
