@@ -65,12 +65,12 @@ public class IngredientService {
   private IngredientResponse toIngredient(Ingredient ingredient) {
     RecipeSummaryResponse madeByRecipe =
         recipeRepository
-            .findByKindAndIngredientId(RecipeKind.INGREDIENT, ingredient.getId())
+            .findByKindAndIngredient(RecipeKind.INGREDIENT, ingredient)
             .map(recipeMapper::toSummary)
             .orElse(null);
 
     List<RecipeSummaryResponse> usedInRecipes =
-        recipeRepository.findUsedByIngredientId(ingredient.getId()).stream()
+        recipeRepository.findUsedByIngredient(ingredient).stream()
             .limit(5)
             .map(recipeMapper::toSummary)
             .toList();

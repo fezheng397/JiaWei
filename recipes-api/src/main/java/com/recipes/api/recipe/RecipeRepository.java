@@ -1,5 +1,6 @@
 package com.recipes.api.recipe;
 
+import com.recipes.api.ingredient.Ingredient;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,10 +18,10 @@ public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
       """
       select recipe
       from Recipe recipe
-      where recipe.kind = :kind and recipe.ingredient.id = :ingredientId
+      where recipe.kind = :kind and recipe.ingredient = :ingredient
       """)
-  Optional<Recipe> findByKindAndIngredientId(
-      @Param("kind") RecipeKind kind, @Param("ingredientId") UUID ingredientId);
+  Optional<Recipe> findByKindAndIngredient(
+      @Param("kind") RecipeKind kind, @Param("ingredient") Ingredient ingredient);
 
   @EntityGraph(attributePaths = {"author", "ingredient", "tags"})
   Optional<Recipe> findByPublicId(String publicId);
@@ -34,8 +35,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
       select distinct recipe
       from RecipeIngredient recipeIngredient
       join recipeIngredient.recipe recipe
-      where recipeIngredient.ingredient.id = :ingredientId
+      where recipeIngredient.ingredient = :ingredient
       order by recipe.name
       """)
-  List<Recipe> findUsedByIngredientId(@Param("ingredientId") UUID ingredientId);
+  List<Recipe> findUsedByIngredient(@Param("ingredient") Ingredient ingredient);
 }
