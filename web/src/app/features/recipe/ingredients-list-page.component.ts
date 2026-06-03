@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { ChefFilterComponent } from "./chef-filter.component";
 import {
@@ -6,6 +7,7 @@ import {
   type RecipeCardView,
 } from "./recipe-card.component";
 import { RecipeService } from "./recipe.service";
+import type { IngredientDetailView, RecipeView } from "./recipe-view-model";
 
 @Component({
   selector: "app-ingredients-list-page",
@@ -21,24 +23,31 @@ import { RecipeService } from "./recipe.service";
 export class IngredientsListPageComponent {
   private readonly recipeService = inject(RecipeService);
 
-  readonly recipes = this.recipeService.getDishRecipeViews();
-  readonly ingredients = this.recipeService.getIngredientsWithRecipes();
-  readonly chefs = [
+  readonly recipes = toSignal(this.recipeService.getDishRecipeViews(), {
+    initialValue: [] as readonly RecipeView[],
+  });
+  readonly ingredients = toSignal(
+    this.recipeService.getIngredientsWithRecipes(),
+    {
+      initialValue: [] as readonly IngredientDetailView[],
+    },
+  );
+  readonly chefs = computed(() => [
     ...new Set(
-      this.ingredients.flatMap((ingredient) =>
+      this.ingredients().flatMap((ingredient) =>
         ingredient.madeByRecipe ? [ingredient.madeByRecipe.authorName] : [],
       ),
     ),
-  ];
+  ]);
   readonly selectedChef = signal<string | null>(null);
   readonly filteredIngredients = computed(() => {
     const selectedChef = this.selectedChef();
 
     if (selectedChef === null) {
-      return this.ingredients;
+      return this.ingredients();
     }
 
-    return this.ingredients.filter(
+    return this.ingredients().filter(
       (ingredient) => ingredient.madeByRecipe?.authorName === selectedChef,
     );
   });
@@ -70,10 +79,10 @@ export class IngredientsListPageComponent {
     const selectedChef = this.selectedChef();
 
     if (selectedChef === null) {
-      return this.recipes.length;
+      return this.recipes().length;
     }
 
-    return this.recipes.filter((recipe) => recipe.authorName === selectedChef)
+    return this.recipes().filter((recipe) => recipe.authorName === selectedChef)
       .length;
   });
   readonly pageTitle = computed(() => {

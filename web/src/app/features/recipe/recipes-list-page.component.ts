@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { ChefFilterComponent } from "./chef-filter.component";
 import {
@@ -6,6 +7,7 @@ import {
   type RecipeCardView,
 } from "./recipe-card.component";
 import { RecipeService } from "./recipe.service";
+import type { IngredientDetailView, RecipeView } from "./recipe-view-model";
 
 @Component({
   selector: "app-recipes-list-page",
@@ -21,19 +23,23 @@ import { RecipeService } from "./recipe.service";
 export class RecipesListPageComponent {
   private readonly recipeService = inject(RecipeService);
 
-  readonly recipes = this.recipeService.getDishRecipeViews();
-  readonly chefs = [
-    ...new Set(this.recipes.map((recipe) => recipe.authorName)),
-  ];
+  readonly recipes = toSignal(this.recipeService.getDishRecipeViews(), {
+    initialValue: [] as readonly RecipeView[],
+  });
+  readonly chefs = computed(() => [
+    ...new Set(this.recipes().map((recipe) => recipe.authorName)),
+  ]);
   readonly selectedChef = signal<string | null>(null);
   readonly filteredRecipes = computed(() => {
     const selectedChef = this.selectedChef();
 
     if (selectedChef === null) {
-      return this.recipes;
+      return this.recipes();
     }
 
-    return this.recipes.filter((recipe) => recipe.authorName === selectedChef);
+    return this.recipes().filter(
+      (recipe) => recipe.authorName === selectedChef,
+    );
   });
   readonly recipeCards = computed<RecipeCardView[]>(() =>
     this.filteredRecipes().map((recipe) => ({
@@ -50,16 +56,20 @@ export class RecipesListPageComponent {
         recipe.servings === null ? null : recipe.servings.toString(),
     })),
   );
-  readonly ingredientsWithRecipes =
-    this.recipeService.getIngredientsWithRecipes();
+  readonly ingredientsWithRecipes = toSignal(
+    this.recipeService.getIngredientsWithRecipes(),
+    {
+      initialValue: [] as readonly IngredientDetailView[],
+    },
+  );
   readonly filteredIngredientCount = computed(() => {
     const selectedChef = this.selectedChef();
 
     if (selectedChef === null) {
-      return this.ingredientsWithRecipes.length;
+      return this.ingredientsWithRecipes().length;
     }
 
-    return this.ingredientsWithRecipes.filter(
+    return this.ingredientsWithRecipes().filter(
       (ingredient) => ingredient.madeByRecipe?.authorName === selectedChef,
     ).length;
   });

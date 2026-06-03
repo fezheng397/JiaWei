@@ -1,5 +1,6 @@
 import { inject } from "@angular/core";
 import { CanActivateFn, Router, Routes } from "@angular/router";
+import { map } from "rxjs";
 import { IngredientDetailPageComponent } from "./features/recipe/ingredient-detail-page.component";
 import { IngredientsListPageComponent } from "./features/recipe/ingredients-list-page.component";
 import { RecipeDetailPageComponent } from "./features/recipe/recipe-detail-page.component";
@@ -8,15 +9,18 @@ import { RecipesListPageComponent } from "./features/recipe/recipes-list-page.co
 import { ShellComponent } from "./layout/shell/shell.component";
 
 const redirectIngredientRecipes: CanActivateFn = (route) => {
-  const ingredientId = inject(RecipeService).getIngredientRecipeRedirect(
-    route.paramMap.get("recipeId"),
-  );
+  const recipeService = inject(RecipeService);
+  const router = inject(Router);
 
-  if (ingredientId !== null) {
-    return inject(Router).createUrlTree(["/ingredients", ingredientId]);
-  }
-
-  return true;
+  return recipeService
+    .getIngredientRecipeRedirect(route.paramMap.get("recipeId"))
+    .pipe(
+      map((ingredientId) =>
+        ingredientId === null
+          ? true
+          : router.createUrlTree(["/ingredients", ingredientId]),
+      ),
+    );
 };
 
 export const routes: Routes = [

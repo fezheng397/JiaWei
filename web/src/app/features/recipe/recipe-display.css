@@ -169,7 +169,6 @@ h1 {
 }
 
 .ingredient-summary h2 a:hover,
-.ingredient-link:hover,
 .prerequisite:hover,
 .related-recipe:hover strong {
   text-decoration: underline;
@@ -312,9 +311,8 @@ h3 {
   color: var(--text-h);
 }
 
-.ingredient-link {
+.ingredient-name {
   color: var(--text-h);
-  text-decoration: none;
 }
 
 .prerequisite {
