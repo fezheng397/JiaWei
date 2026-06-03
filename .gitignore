@@ -4,6 +4,7 @@ node_modules/
 # Build output
 dist/
 out-tsc/
+target/
 
 # Angular cache
 .angular/
@@ -32,3 +33,6 @@ npm-debug.log*
 
 # Testing
 coverage/
+
+# misc
+*.zip
