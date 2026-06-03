@@ -1,12 +1,11 @@
-import { Component, computed, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { ChefFilterComponent } from "./chef-filter.component";
-import { INGREDIENT_VIEWS } from "./ingredient-view-model";
 import {
   RecipeCardComponent,
   type RecipeCardView,
 } from "./recipe-card.component";
-import { RECIPE_VIEWS } from "./recipe-view-model";
+import { RecipeService } from "./recipe.service";
 
 @Component({
   selector: "app-ingredients-list-page",
@@ -20,10 +19,10 @@ import { RECIPE_VIEWS } from "./recipe-view-model";
   styleUrl: "./recipe-display.css",
 })
 export class IngredientsListPageComponent {
-  readonly recipes = RECIPE_VIEWS.filter((recipe) => recipe.kind === "dish");
-  readonly ingredients = INGREDIENT_VIEWS.filter(
-    (ingredient) => ingredient.madeByRecipe !== null,
-  );
+  private readonly recipeService = inject(RecipeService);
+
+  readonly recipes = this.recipeService.getDishRecipeViews();
+  readonly ingredients = this.recipeService.getIngredientsWithRecipes();
   readonly chefs = [
     ...new Set(
       this.ingredients.flatMap((ingredient) =>

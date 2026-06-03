@@ -8,6 +8,7 @@
 }
 
 .chef-filter {
+  position: relative;
   display: inline-flex;
   min-width: 240px;
   min-height: 46px;
@@ -16,7 +17,7 @@
   gap: 8px;
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 10px 16px;
+  padding: 10px 44px 10px 16px;
   color: var(--text-h);
   background: var(--panel-bg);
   cursor: pointer;
@@ -24,7 +25,7 @@
 }
 
 .chef-filter.has-selection {
-  padding-right: 44px;
+  padding-right: 76px;
 }
 
 .chef-filter app-icon:first-child {
@@ -35,14 +36,15 @@
   flex: 1;
 }
 
-.chef-filter:hover {
+.chef-filter-control:hover .chef-filter,
+.chef-filter[aria-expanded="true"] {
   background: var(--social-bg);
 }
 
 .chef-filter-clear {
   position: absolute;
   top: 50%;
-  right: 38px;
+  right: 44px;
   display: inline-grid;
   width: 22px;
   height: 22px;
@@ -57,12 +59,16 @@
 }
 
 .chef-filter-caret {
+  position: absolute;
+  top: 50%;
+  right: 16px;
   color: var(--text);
   transition: transform 160ms ease;
+  transform: translateY(-50%);
 }
 
 .chef-filter-caret.is-open {
-  transform: rotate(180deg);
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .chef-filter-panel {

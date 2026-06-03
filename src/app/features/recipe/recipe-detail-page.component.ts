@@ -2,7 +2,7 @@ import { Component, computed, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import { RecipeDocumentComponent } from "./recipe-document.component";
-import { RECIPE_VIEWS } from "./recipe-view-model";
+import { RecipeService } from "./recipe.service";
 
 @Component({
   selector: "app-recipe-detail-page",
@@ -11,6 +11,7 @@ import { RECIPE_VIEWS } from "./recipe-view-model";
   styleUrl: "./recipe-display.css",
 })
 export class RecipeDetailPageComponent {
+  private readonly recipeService = inject(RecipeService);
   private readonly route = inject(ActivatedRoute);
   private readonly paramMap = toSignal(this.route.paramMap, {
     initialValue: this.route.snapshot.paramMap,
@@ -18,6 +19,6 @@ export class RecipeDetailPageComponent {
 
   readonly recipeId = computed(() => this.paramMap().get("recipeId"));
   readonly recipe = computed(() =>
-    RECIPE_VIEWS.find((recipe) => recipe.id === this.recipeId()),
+    this.recipeService.getRecipeView(this.recipeId()),
   );
 }
