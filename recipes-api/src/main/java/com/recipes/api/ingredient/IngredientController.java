@@ -1,6 +1,5 @@
 package com.recipes.api.ingredient;
 
-import com.recipes.api.recipe.RecipeService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -16,26 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/ingredients")
 public class IngredientController {
-  private final RecipeService recipeService;
+  private final IngredientService ingredientService;
 
-  public IngredientController(RecipeService recipeService) {
-    this.recipeService = recipeService;
+  public IngredientController(IngredientService ingredientService) {
+    this.ingredientService = ingredientService;
   }
 
   @GetMapping
   public List<IngredientResponse> getIngredients(
       @RequestParam(defaultValue = "false") boolean hasRecipe) {
-    return recipeService.getIngredients(hasRecipe);
+    return ingredientService.getIngredients(hasRecipe);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public IngredientResponse createIngredient(@Valid @RequestBody IngredientRequest request) {
-    return recipeService.createIngredient(request.name());
+    return ingredientService.createIngredient(request.name());
   }
 
   @GetMapping("/{publicId}")
   public IngredientResponse getIngredient(@PathVariable String publicId) {
-    return recipeService.getIngredient(publicId);
+    return ingredientService.getIngredient(publicId);
   }
 }

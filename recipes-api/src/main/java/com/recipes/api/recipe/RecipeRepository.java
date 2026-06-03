@@ -27,4 +27,15 @@ public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
 
   @EntityGraph(attributePaths = {"author", "ingredient", "tags"})
   List<Recipe> findAllByOrderByName();
+
+  @EntityGraph(attributePaths = {"author", "ingredient", "tags"})
+  @Query(
+      """
+      select distinct recipe
+      from RecipeIngredient recipeIngredient
+      join recipeIngredient.recipe recipe
+      where recipeIngredient.ingredient.id = :ingredientId
+      order by recipe.name
+      """)
+  List<Recipe> findUsedByIngredientId(@Param("ingredientId") UUID ingredientId);
 }
