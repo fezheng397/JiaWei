@@ -3,6 +3,8 @@ package com.recipes.api.ingredient;
 import com.recipes.api.common.AuditedEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,10 +16,16 @@ public class Ingredient extends AuditedEntity {
   protected Ingredient() {}
 
   public Ingredient(String name) {
-    this.name = name;
+    this.name = IngredientNameNormalizer.normalize(name);
   }
 
   public String getName() {
     return name;
+  }
+
+  @PrePersist
+  @PreUpdate
+  void normalizeName() {
+    name = IngredientNameNormalizer.normalize(name);
   }
 }

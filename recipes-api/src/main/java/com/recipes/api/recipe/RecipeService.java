@@ -1,7 +1,9 @@
 package com.recipes.api.recipe;
 
+import com.recipes.api.common.ConflictException;
 import com.recipes.api.common.NotFoundException;
 import com.recipes.api.ingredient.Ingredient;
+import com.recipes.api.ingredient.IngredientNameNormalizer;
 import com.recipes.api.ingredient.IngredientRepository;
 import com.recipes.api.ingredient.IngredientResponse;
 import java.util.Comparator;
@@ -11,6 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -105,6 +108,21 @@ public class RecipeService {
     return toIngredient(ingredient);
   }
 
+  @Transactional
+  public IngredientResponse createIngredient(String name) {
+    String normalizedName = IngredientNameNormalizer.normalize(name);
+
+    ingredientRepository
+        .findByNameIgnoringCase(normalizedName)
+        .ifPresent(this::throwIngredientAlreadyExists);
+
+    try {
+      return toIngredient(ingredientRepository.saveAndFlush(new Ingredient(normalizedName)));
+    } catch (DataIntegrityViolationException exception) {
+      throw new ConflictException("Ingredient already exists: " + normalizedName);
+    }
+  }
+
   public Optional<String> getIngredientRecipeRedirect(String recipePublicId) {
     return recipeRepository
         .findByPublicId(recipePublicId)
@@ -134,6 +152,15 @@ public class RecipeService {
 
     return new IngredientResponse(
         ingredient.getPublicId(), ingredient.getName(), madeByRecipe, usedInRecipes);
+  }
+
+  private void throwIngredientAlreadyExists(Ingredient ingredient) {
+    throw new ConflictException(
+        "Ingredient already exists: "
+            + ingredient.getName()
+            + " (publicId: "
+            + ingredient.getPublicId()
+            + ")");
   }
 
   private RecipeSummaryResponse toSummary(Recipe recipe) {

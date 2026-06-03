@@ -4,9 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface IngredientRepository extends JpaRepository<Ingredient, UUID> {
   List<Ingredient> findAllByOrderByName();
 
   Optional<Ingredient> findByPublicId(String publicId);
+
+  @Query("select ingredient from Ingredient ingredient where lower(ingredient.name) = lower(:name)")
+  Optional<Ingredient> findByNameIgnoringCase(@Param("name") String name);
 }
