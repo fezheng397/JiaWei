@@ -1,0 +1,29 @@
+<main class="recipes-page recipe-document-page">
+  @if (ingredient(); as ingredient) {
+    @if (ingredient.madeByRecipe; as recipe) {
+      <app-recipe-document
+        [recipe]="recipe"
+        [title]="ingredient.name"
+        [usedInRecipes]="ingredient.usedInRecipes"
+        backLink="/ingredients"
+        backLabel="Back to all ingredients"
+      />
+    } @else {
+      <a class="back-link document-back-link" routerLink="/ingredients">
+        Back to all ingredients
+      </a>
+      <section class="empty-state">
+        <h2>{{ ingredient.name }}</h2>
+        <p>No preparation recipe is available.</p>
+      </section>
+    }
+  } @else {
+    <section class="empty-state">
+      <h2>Ingredient not found</h2>
+      <p>
+        No mock ingredient has the ID <code>{{ ingredientId() }}</code
+        >.
+      </p>
+    </section>
+  }
+</main>

@@ -1,0 +1,78 @@
+.recipe-timer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 10px;
+  padding: 12px;
+  background: var(--social-bg);
+}
+
+.timer-face {
+  position: relative;
+  flex: none;
+  width: 48px;
+  height: 48px;
+}
+
+.timer-face svg {
+  width: 48px;
+  height: 48px;
+  transform: rotate(-90deg);
+}
+
+.timer-face circle {
+  fill: none;
+  stroke-width: 3;
+}
+
+.timer-track {
+  stroke: var(--border);
+}
+
+.timer-progress {
+  stroke: var(--accent);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 180ms ease;
+}
+
+.timer-face span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--text-h);
+}
+
+.timer-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.timer-actions button {
+  display: inline-grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  padding: 8px;
+  color: var(--text-h);
+  background: transparent;
+  cursor: pointer;
+}
+
+.timer-actions button:hover {
+  background: var(--panel-bg);
+}
+
+.recipe-timer p {
+  margin: 0;
+  color: var(--text);
+}
+
+@media (max-width: 560px) {
+  .recipe-timer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,70 @@
+<div class="chef-filter-menu">
+  <div class="chef-filter-control">
+    <button
+      class="chef-filter type-ui"
+      type="button"
+      (click)="toggle()"
+      [class.has-selection]="selectedChef"
+      [attr.aria-expanded]="isOpen()"
+    >
+      <app-icon name="search" [size]="18" />
+      <span>{{ selectedChef ?? "All Chefs" }}</span>
+      <app-icon
+        class="chef-filter-caret"
+        name="chevron-down"
+        [size]="18"
+        [class.is-open]="isOpen()"
+      />
+    </button>
+
+    @if (selectedChef) {
+      <button
+        class="chef-filter-clear"
+        type="button"
+        aria-label="Clear chef filter"
+        (click)="clear($event)"
+      >
+        <app-icon name="x" [size]="16" />
+      </button>
+    }
+  </div>
+
+  @if (isOpen()) {
+    <div class="chef-filter-panel">
+      <label>
+        <span class="sr-only">Search chefs</span>
+        <input
+          type="search"
+          class="type-ui"
+          placeholder="Search chefs..."
+          [value]="search()"
+          (input)="updateSearch($event)"
+        />
+      </label>
+
+      <div class="chef-filter-options">
+        <button
+          class="type-ui"
+          type="button"
+          [class.is-selected]="selectedChef === null"
+          (click)="selectChef(null)"
+        >
+          All Chefs
+        </button>
+
+        @for (chef of filteredChefs; track chef) {
+          <button
+            class="type-ui"
+            type="button"
+            [class.is-selected]="selectedChef === chef"
+            (click)="selectChef(chef)"
+          >
+            {{ chef }}
+          </button>
+        } @empty {
+          <p class="type-ui">No chefs found</p>
+        }
+      </div>
+    </div>
+  }
+</div>

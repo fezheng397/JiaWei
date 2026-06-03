@@ -1,0 +1,17 @@
+<main class="recipes-page recipe-document-page">
+  @if (recipe(); as recipe) {
+    <app-recipe-document
+      [recipe]="recipe"
+      backLink="/recipes"
+      backLabel="Back to all recipes"
+    />
+  } @else {
+    <section class="empty-state">
+      <h2>Recipe not found</h2>
+      <p>
+        No mock recipe has the ID <code>{{ recipeId() }}</code
+        >.
+      </p>
+    </section>
+  }
+</main>

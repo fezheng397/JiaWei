@@ -1,0 +1,147 @@
+<a class="back-link document-back-link type-body" [routerLink]="backLink">
+  {{ backLabel }}
+</a>
+
+<article class="recipe-document-card">
+  <div class="document-hero">
+    @if (recipe.heroImageUrl) {
+      <img [src]="recipe.heroImageUrl" [alt]="displayTitle" />
+    } @else {
+      <span class="type-display-image">{{ displayTitle }}</span>
+    }
+  </div>
+
+  <div class="document-content">
+    <header class="document-title">
+      <p class="document-category type-label">{{ recipe.categoryLabel }}</p>
+      <h1 class="type-document-title">{{ displayTitle }}</h1>
+      <div class="document-byline type-body">
+        <span>By {{ recipe.authorName }}</span>
+        @if (recipe.postedLabel) {
+          <span aria-hidden="true">&middot;</span>
+          <span>{{ recipe.postedLabel }}</span>
+        }
+      </div>
+      <p class="description type-body-relaxed">{{ recipe.description }}</p>
+    </header>
+
+    <dl class="document-stats" aria-label="Recipe details">
+      <div>
+        <dt class="type-ui-sm">
+          <app-icon name="clock" [size]="20" />
+          Prep & Cook
+        </dt>
+        <dd class="type-stat-value">
+          @if (recipe.totalTimeMinutes !== null) {
+            {{ recipe.totalTimeMinutes }} min
+          } @else {
+            Not set
+          }
+        </dd>
+      </div>
+      <div>
+        <dt class="type-ui-sm">
+          @if (recipe.kind === "dish") {
+            <app-icon name="users" [size]="20" />
+          }
+          {{ secondaryStatLabel }}
+        </dt>
+        <dd class="type-stat-value">{{ secondaryStatValue }}</dd>
+      </div>
+    </dl>
+
+    <section class="document-section ingredients" aria-label="Ingredients">
+      <h2 class="type-section-title">Ingredients</h2>
+      <ul class="document-ingredient-list">
+        @for (ingredient of recipe.ingredients; track ingredient.id) {
+          <li>
+            <span class="amount type-ui-sm">{{ ingredient.amount }}</span>
+            <span>
+              <a
+                class="ingredient-link type-ui-sm"
+                [routerLink]="['/ingredients', ingredient.ingredientId]"
+              >
+                {{ ingredient.name }}
+              </a>
+              @if (ingredient.preparedByRecipeName) {
+                <a
+                  class="prerequisite type-ui-sm"
+                  [routerLink]="['/ingredients', ingredient.ingredientId]"
+                >
+                  Prepare: {{ ingredient.preparedByRecipeName }}
+                </a>
+              }
+            </span>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section class="document-section method" aria-label="Instructions">
+      <h2 class="type-section-title">Instructions</h2>
+      <ol class="document-steps">
+        @for (step of recipe.steps; track step.id) {
+          <li>
+            <div class="step-number type-step-number">{{ step.position }}</div>
+            <div class="step-content">
+              <p class="type-body">{{ step.instructions }}</p>
+
+              @if (step.ingredientDetails.length > 0) {
+                <div class="step-ingredients">
+                  <p class="type-ui-sm">Ingredients for this step:</p>
+                  <ul>
+                    @for (
+                      ingredient of step.ingredientDetails;
+                      track ingredient.id
+                    ) {
+                      <li>
+                        <span class="type-ui-sm">{{ ingredient.amount }}</span>
+                        <a
+                          class="type-ui-sm"
+                          [routerLink]="[
+                            '/ingredients',
+                            ingredient.ingredientId,
+                          ]"
+                        >
+                          {{ ingredient.name }}
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+
+              @if (step.timerMinutes !== null) {
+                <app-recipe-timer [minutes]="step.timerMinutes" />
+              }
+            </div>
+          </li>
+        }
+      </ol>
+    </section>
+
+    @if (usedInRecipes.length > 0) {
+      <section
+        class="document-section ingredient-usage"
+        aria-label="Used in recipes"
+      >
+        <h2 class="type-section-title">Used In Recipes</h2>
+        <ul class="related-recipes">
+          @for (usedRecipe of usedInRecipes; track usedRecipe.id) {
+            <li>
+              <a
+                class="related-recipe"
+                [routerLink]="['/recipe', usedRecipe.id]"
+              >
+                <strong class="type-section-title">{{
+                  usedRecipe.name
+                }}</strong>
+                <span class="type-ui-sm">By {{ usedRecipe.authorName }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  </div>
+</article>
