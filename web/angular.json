@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "file-tree-angular": {
+    "jiawei": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -43,6 +43,7 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "outputPath": "dist/jiawei",
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -82,10 +83,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "file-tree-angular:build:production"
+              "buildTarget": "jiawei:build:production"
             },
             "development": {
-              "buildTarget": "file-tree-angular:build:development"
+              "buildTarget": "jiawei:build:development"
             }
           },
           "defaultConfiguration": "development"
