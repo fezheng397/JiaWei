@@ -2,8 +2,11 @@ import { Component, computed, signal } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { ChefFilterComponent } from "./chef-filter.component";
 import { INGREDIENT_VIEWS } from "./ingredient-view-model";
+import {
+  RecipeCardComponent,
+  type RecipeCardView,
+} from "./recipe-card.component";
 import { RECIPE_VIEWS } from "./recipe-view-model";
-import { AppIconComponent } from "../../shared/ui/app-icon.component";
 
 @Component({
   selector: "app-recipes-list-page",
@@ -11,7 +14,7 @@ import { AppIconComponent } from "../../shared/ui/app-icon.component";
     RouterLink,
     RouterLinkActive,
     ChefFilterComponent,
-    AppIconComponent,
+    RecipeCardComponent,
   ],
   templateUrl: "./recipes-list-page.component.html",
   styleUrl: "./recipe-display.css",
@@ -31,6 +34,21 @@ export class RecipesListPageComponent {
 
     return this.recipes.filter((recipe) => recipe.authorName === selectedChef);
   });
+  readonly recipeCards = computed<RecipeCardView[]>(() =>
+    this.filteredRecipes().map((recipe) => ({
+      title: recipe.name,
+      description: recipe.description,
+      authorName: recipe.authorName,
+      heroImageUrl: recipe.heroImageUrl,
+      route: ["/recipe", recipe.id],
+      ariaLabel: `View recipe for ${recipe.name}`,
+      detailsLabel: "Recipe details",
+      totalTimeMinutes: recipe.totalTimeMinutes,
+      secondaryIcon: "users",
+      secondaryText:
+        recipe.servings === null ? null : recipe.servings.toString(),
+    })),
+  );
   readonly ingredientsWithRecipes = INGREDIENT_VIEWS.filter(
     (ingredient) => ingredient.madeByRecipe !== null,
   );

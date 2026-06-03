@@ -1,0 +1,42 @@
+<article class="recipe-card">
+  <a
+    class="recipe-card-link"
+    [routerLink]="card.route"
+    [attr.aria-label]="card.ariaLabel"
+  >
+    <div class="recipe-card-image">
+      @if (card.heroImageUrl) {
+        <img [src]="card.heroImageUrl" [alt]="card.title" />
+      } @else {
+        <span class="type-image-title">{{ card.title }}</span>
+      }
+    </div>
+
+    <div class="recipe-card-body">
+      <header class="recipe-title">
+        <h2 class="type-card-title">{{ card.title }}</h2>
+        <p class="type-ui-sm">{{ card.description }}</p>
+      </header>
+
+      <footer class="card-footer">
+        <p class="type-ui-sm-strong">By {{ card.authorName }}</p>
+        <div class="card-stats" [attr.aria-label]="card.detailsLabel">
+          @if (card.totalTimeMinutes !== null) {
+            <span class="type-ui-sm-strong">
+              <app-icon name="clock" [size]="16" />
+              {{ card.totalTimeMinutes }} mins
+            </span>
+          }
+          @if (card.secondaryText !== null) {
+            <span class="type-ui-sm-strong">
+              @if (card.secondaryIcon) {
+                <app-icon [name]="card.secondaryIcon" [size]="16" />
+              }
+              {{ card.secondaryText }}
+            </span>
+          }
+        </div>
+      </footer>
+    </div>
+  </a>
+</article>

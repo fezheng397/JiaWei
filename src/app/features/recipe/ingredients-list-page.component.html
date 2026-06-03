@@ -32,49 +32,8 @@
   </nav>
 
   <section class="ingredient-grid" aria-label="Ingredients">
-    @for (ingredient of filteredIngredients(); track ingredient.id) {
-      <article class="ingredient-card ingredient-summary">
-        @if (ingredient.madeByRecipe; as recipe) {
-          <a
-            class="recipe-card-image ingredient-card-image"
-            [routerLink]="['/ingredients', ingredient.id]"
-          >
-            @if (recipe.heroImageUrl) {
-              <img [src]="recipe.heroImageUrl" [alt]="ingredient.name" />
-            } @else {
-              <span class="type-image-title">{{ ingredient.name }}</span>
-            }
-          </a>
-
-          <div class="recipe-card-body">
-            <header class="recipe-title">
-              <h2 class="type-card-title">
-                <a [routerLink]="['/ingredients', ingredient.id]">
-                  {{ ingredient.name }}
-                </a>
-              </h2>
-              <p class="type-ui-sm-strong">{{ recipe.description }}</p>
-            </header>
-
-            <footer class="card-footer">
-              <p class="type-ui-sm-strong">By {{ recipe.authorName }}</p>
-              <div class="card-stats" aria-label="Ingredient recipe details">
-                @if (recipe.totalTimeMinutes !== null) {
-                  <span class="type-ui-sm-strong">
-                    <app-icon name="clock" [size]="16" />
-                    {{ recipe.totalTimeMinutes }} mins
-                  </span>
-                }
-                @if (recipe.yieldAmount !== null) {
-                  <span class="type-ui-sm-strong">{{
-                    recipe.yieldAmount
-                  }}</span>
-                }
-              </div>
-            </footer>
-          </div>
-        }
-      </article>
+    @for (card of ingredientCards(); track card.route.join("/")) {
+      <app-recipe-card [card]="card" />
     } @empty {
       <section class="empty-state">
         <h2 class="type-card-title">No ingredients found</h2>

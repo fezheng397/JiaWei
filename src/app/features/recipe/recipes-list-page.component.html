@@ -31,45 +31,10 @@
     </a>
   </nav>
 
-  @if (filteredRecipes().length > 0) {
+  @if (recipeCards().length > 0) {
     <section class="recipe-grid" aria-label="Recipes">
-      @for (recipe of filteredRecipes(); track recipe.id) {
-        <article class="recipe-card">
-          <a class="recipe-card-image" [routerLink]="['/recipe', recipe.id]">
-            @if (recipe.heroImageUrl) {
-              <img [src]="recipe.heroImageUrl" [alt]="recipe.name" />
-            } @else {
-              <span class="type-image-title">{{ recipe.name }}</span>
-            }
-          </a>
-
-          <div class="recipe-card-body">
-            <header class="recipe-title">
-              <h2 class="type-card-title">
-                <a [routerLink]="['/recipe', recipe.id]">{{ recipe.name }}</a>
-              </h2>
-              <p class="type-ui-sm-strong">{{ recipe.description }}</p>
-            </header>
-
-            <footer class="card-footer">
-              <p class="type-ui-sm-strong">By {{ recipe.authorName }}</p>
-              <div class="card-stats" aria-label="Recipe details">
-                @if (recipe.totalTimeMinutes !== null) {
-                  <span class="type-ui-sm-strong">
-                    <app-icon name="clock" [size]="16" />
-                    {{ recipe.totalTimeMinutes }} mins
-                  </span>
-                }
-                @if (recipe.servings !== null) {
-                  <span class="type-ui-sm-strong">
-                    <app-icon name="users" [size]="16" />
-                    {{ recipe.servings }}
-                  </span>
-                }
-              </div>
-            </footer>
-          </div>
-        </article>
+      @for (card of recipeCards(); track card.route.join("/")) {
+        <app-recipe-card [card]="card" />
       }
     </section>
   } @else {
