@@ -48,7 +48,7 @@ export const MOCK_RECIPES: readonly Recipe[] = [
   {
     id: "recipe-grandmas-signature-tomato-soup",
     name: "Grandma's Signature Tomato Soup",
-    authorId: "author-your-kitchen",
+    authorId: "author-tiff-grandma",
     description:
       "A hearty tomato soup with corn and potatoes. Made just like grandma used to make it, perfect for cold evenings.",
     publishedAt: "2026-06-02T12:00:00.000Z",
