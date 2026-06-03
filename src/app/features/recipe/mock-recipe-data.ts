@@ -9,6 +9,7 @@ import type {
 
 export const MOCK_AUTHORS: readonly Author[] = [
   { id: "author-honglei", name: "Honglei Huang" },
+  { id: "author-tiff-grandma", name: "Tiff's Grandma" },
 ];
 
 export const MOCK_RECIPES: readonly Recipe[] = [
@@ -44,6 +45,21 @@ export const MOCK_RECIPES: readonly Recipe[] = [
     kind: "dish",
     servings: 2,
   },
+  {
+    id: "recipe-grandmas-signature-tomato-soup",
+    name: "Grandma's Signature Tomato Soup",
+    authorId: "author-your-kitchen",
+    description:
+      "A hearty tomato soup with corn and potatoes. Made just like grandma used to make it, perfect for cold evenings.",
+    publishedAt: "2026-06-02T12:00:00.000Z",
+    heroImageUrl: null,
+    prepTimeMinutes: 6,
+    cookTimeMinutes: 39,
+    difficulty: "easy",
+    tags: ["soup"],
+    kind: "dish",
+    servings: 6,
+  },
 ];
 
 export const MOCK_INGREDIENTS: readonly Ingredient[] = [
@@ -53,6 +69,14 @@ export const MOCK_INGREDIENTS: readonly Ingredient[] = [
   { id: "ingredient-eggs", name: "eggs" },
   { id: "ingredient-scallions", name: "scallions" },
   { id: "ingredient-soy-sauce", name: "soy sauce" },
+  { id: "ingredient-vegetable-broth", name: "vegetable broth" },
+  { id: "ingredient-crushed-tomatoes", name: "crushed tomatoes" },
+  { id: "ingredient-corn-on-the-cob", name: "corn on the cob" },
+  { id: "ingredient-potatoes", name: "potatoes" },
+  { id: "ingredient-onion", name: "onion" },
+  { id: "ingredient-garlic", name: "garlic" },
+  { id: "ingredient-olive-oil", name: "olive oil" },
+  { id: "ingredient-dried-basil", name: "dried basil" },
 ];
 
 export const MOCK_RECIPE_INGREDIENTS: readonly RecipeIngredient[] = [
@@ -108,6 +132,78 @@ export const MOCK_RECIPE_INGREDIENTS: readonly RecipeIngredient[] = [
     quantity: "to taste",
     unit: null,
     position: 4,
+    preparedByRecipeId: null,
+  },
+  {
+    id: "line-tomato-soup-vegetable-broth",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    ingredientId: "ingredient-vegetable-broth",
+    quantity: "6",
+    unit: "cups",
+    position: 1,
+    preparedByRecipeId: null,
+  },
+  {
+    id: "line-tomato-soup-crushed-tomatoes",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    ingredientId: "ingredient-crushed-tomatoes",
+    quantity: "2",
+    unit: "cans (28 oz each)",
+    position: 2,
+    preparedByRecipeId: null,
+  },
+  {
+    id: "line-tomato-soup-corn",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    ingredientId: "ingredient-corn-on-the-cob",
+    quantity: "3",
+    unit: null,
+    position: 3,
+    preparedByRecipeId: null,
+  },
+  {
+    id: "line-tomato-soup-potatoes",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    ingredientId: "ingredient-potatoes",
+    quantity: "4",
+    unit: "medium",
+    position: 4,
+    preparedByRecipeId: null,
+  },
+  {
+    id: "line-tomato-soup-onion",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    ingredientId: "ingredient-onion",
+    quantity: "1",
+    unit: null,
+    position: 5,
+    preparedByRecipeId: null,
+  },
+  {
+    id: "line-tomato-soup-garlic",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    ingredientId: "ingredient-garlic",
+    quantity: "3",
+    unit: "cloves",
+    position: 6,
+    preparedByRecipeId: null,
+  },
+  {
+    id: "line-tomato-soup-olive-oil",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    ingredientId: "ingredient-olive-oil",
+    quantity: "2",
+    unit: "tbsp",
+    position: 7,
+    preparedByRecipeId: null,
+  },
+  {
+    id: "line-tomato-soup-dried-basil",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    ingredientId: "ingredient-dried-basil",
+    quantity: "1",
+    unit: "tsp",
+    position: 8,
     preparedByRecipeId: null,
   },
 ];
@@ -173,6 +269,51 @@ export const MOCK_RECIPE_STEPS: readonly RecipeStep[] = [
     instructions: "Cover the pot and steam for 20 minutes.",
     timerMinutes: 20,
   },
+  {
+    id: "step-tomato-soup-onion",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    position: 1,
+    instructions:
+      "Heat olive oil in a large pot over medium heat. Add diced onion and cook until softened.",
+    timerMinutes: 5,
+  },
+  {
+    id: "step-tomato-soup-garlic",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    position: 2,
+    instructions: "Add minced garlic and cook until fragrant.",
+    timerMinutes: 1,
+  },
+  {
+    id: "step-tomato-soup-liquids",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    position: 3,
+    instructions:
+      "Pour in crushed tomatoes and vegetable broth. Stir in dried basil and season with salt and pepper.",
+    timerMinutes: null,
+  },
+  {
+    id: "step-tomato-soup-vegetables",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    position: 4,
+    instructions: "Add quartered potatoes and corn pieces to the pot.",
+    timerMinutes: null,
+  },
+  {
+    id: "step-tomato-soup-simmer",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    position: 5,
+    instructions:
+      "Bring to a boil, then reduce heat and simmer until potatoes are tender.",
+    timerMinutes: 33,
+  },
+  {
+    id: "step-tomato-soup-serve",
+    recipeId: "recipe-grandmas-signature-tomato-soup",
+    position: 6,
+    instructions: "Taste and adjust seasonings. Serve hot with crusty bread!",
+    timerMinutes: null,
+  },
 ];
 
 export const MOCK_STEP_INGREDIENTS: readonly StepIngredient[] = [
@@ -219,5 +360,37 @@ export const MOCK_STEP_INGREDIENTS: readonly StepIngredient[] = [
   {
     stepId: "step-steamed-pork-top",
     recipeIngredientId: "line-steamed-pork-scallions",
+  },
+  {
+    stepId: "step-tomato-soup-onion",
+    recipeIngredientId: "line-tomato-soup-olive-oil",
+  },
+  {
+    stepId: "step-tomato-soup-onion",
+    recipeIngredientId: "line-tomato-soup-onion",
+  },
+  {
+    stepId: "step-tomato-soup-garlic",
+    recipeIngredientId: "line-tomato-soup-garlic",
+  },
+  {
+    stepId: "step-tomato-soup-liquids",
+    recipeIngredientId: "line-tomato-soup-vegetable-broth",
+  },
+  {
+    stepId: "step-tomato-soup-liquids",
+    recipeIngredientId: "line-tomato-soup-crushed-tomatoes",
+  },
+  {
+    stepId: "step-tomato-soup-liquids",
+    recipeIngredientId: "line-tomato-soup-dried-basil",
+  },
+  {
+    stepId: "step-tomato-soup-vegetables",
+    recipeIngredientId: "line-tomato-soup-potatoes",
+  },
+  {
+    stepId: "step-tomato-soup-vegetables",
+    recipeIngredientId: "line-tomato-soup-corn",
   },
 ];
