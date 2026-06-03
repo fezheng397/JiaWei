@@ -2,21 +2,8 @@
   <header class="app-header">
     <div class="app-header-inner">
       <a class="app-brand" routerLink="/recipes">
-        <span>Recipes</span>
-        <small>Home-cooked favorites</small>
+        <span class="app-logo">Jiawei</span>
       </a>
-
-      <nav aria-label="Primary">
-        @for (item of navItems; track item.path) {
-          <a
-            routerLinkActive="is-active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            [routerLink]="item.path"
-          >
-            {{ item.label }}
-          </a>
-        }
-      </nav>
     </div>
   </header>
 

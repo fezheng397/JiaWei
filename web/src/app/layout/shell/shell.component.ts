@@ -7,9 +7,4 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
   templateUrl: "./shell.component.html",
   styleUrl: "./shell.component.css",
 })
-export class ShellComponent {
-  readonly navItems = [
-    { path: "/recipes", label: "Recipes" },
-    { path: "/ingredients", label: "Ingredients" },
-  ];
-}
+export class ShellComponent {}
