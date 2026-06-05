@@ -57,12 +57,9 @@
           <li>
             <span class="amount type-ui-sm">{{ ingredient.amount }}</span>
             <span>
-              <a
-                class="ingredient-link type-ui-sm"
-                [routerLink]="['/ingredients', ingredient.ingredientId]"
-              >
+              <span class="ingredient-name type-ui-sm">
                 {{ ingredient.name }}
-              </a>
+              </span>
               @if (ingredient.preparedByRecipeName) {
                 <a
                   class="prerequisite type-ui-sm"
@@ -96,15 +93,22 @@
                     ) {
                       <li>
                         <span class="type-ui-sm">{{ ingredient.amount }}</span>
-                        <a
-                          class="type-ui-sm"
-                          [routerLink]="[
-                            '/ingredients',
-                            ingredient.ingredientId,
-                          ]"
-                        >
-                          {{ ingredient.name }}
-                        </a>
+                        <span>
+                          <span class="ingredient-name type-ui-sm">
+                            {{ ingredient.name }}
+                          </span>
+                          @if (ingredient.preparedByRecipeName) {
+                            <a
+                              class="prerequisite type-ui-sm"
+                              [routerLink]="[
+                                '/ingredients',
+                                ingredient.ingredientId,
+                              ]"
+                            >
+                              Prepare: {{ ingredient.preparedByRecipeName }}
+                            </a>
+                          }
+                        </span>
                       </li>
                     }
                   </ul>

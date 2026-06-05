@@ -6,7 +6,7 @@
     </div>
 
     <app-chef-filter
-      [chefs]="chefs"
+      [chefs]="chefs()"
       [selectedChef]="selectedChef()"
       (selectedChefChange)="selectedChef.set($event)"
     />
