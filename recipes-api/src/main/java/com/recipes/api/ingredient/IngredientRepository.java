@@ -14,4 +14,17 @@ public interface IngredientRepository extends JpaRepository<Ingredient, UUID> {
 
   @Query("select ingredient from Ingredient ingredient where lower(ingredient.name) = lower(:name)")
   Optional<Ingredient> findByNameIgnoringCase(@Param("name") String name);
+
+  @Query(
+      """
+      select ingredient
+      from Ingredient ingredient
+      where exists (
+        select recipe
+        from Recipe recipe
+        where recipe.ingredient = ingredient
+      )
+      order by ingredient.name
+      """)
+  List<Ingredient> findAllHavingRecipeOrderByName();
 }

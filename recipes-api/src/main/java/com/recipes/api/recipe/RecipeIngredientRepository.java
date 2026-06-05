@@ -19,11 +19,5 @@ public interface RecipeIngredientRepository
       """)
   List<RecipeIngredient> findByRecipeIdOrderByPosition(@Param("recipeId") UUID recipeId);
 
-  @Query(
-      """
-      select ingredient
-      from RecipeIngredient ingredient
-      where ingredient.ingredient.id = :ingredientId
-      """)
-  List<RecipeIngredient> findByIngredientId(@Param("ingredientId") UUID ingredientId);
+  void deleteByRecipe(Recipe recipe);
 }

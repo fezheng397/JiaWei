@@ -34,6 +34,23 @@ public class RecipeIngredient extends AuditedEntity {
 
   protected RecipeIngredient() {}
 
+  static RecipeIngredient create(
+      Recipe recipe,
+      Ingredient ingredient,
+      String quantity,
+      String unit,
+      int position,
+      Recipe preparedByRecipe) {
+    RecipeIngredient recipeIngredient = new RecipeIngredient();
+    recipeIngredient.recipe = recipe;
+    recipeIngredient.ingredient = ingredient;
+    recipeIngredient.quantity = quantity;
+    recipeIngredient.unit = unit;
+    recipeIngredient.position = position;
+    recipeIngredient.preparedByRecipe = preparedByRecipe;
+    return recipeIngredient;
+  }
+
   public Recipe getRecipe() {
     return recipe;
   }

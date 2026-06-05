@@ -25,6 +25,16 @@ public class RecipeStep extends AuditedEntity {
 
   protected RecipeStep() {}
 
+  static RecipeStep create(
+      Recipe recipe, int position, String instructions, Integer timerMinutes) {
+    RecipeStep step = new RecipeStep();
+    step.recipe = recipe;
+    step.position = position;
+    step.instructions = instructions;
+    step.timerMinutes = timerMinutes;
+    return step;
+  }
+
   public Recipe getRecipe() {
     return recipe;
   }

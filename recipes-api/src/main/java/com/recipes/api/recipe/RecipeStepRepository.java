@@ -15,4 +15,6 @@ public interface RecipeStepRepository extends JpaRepository<RecipeStep, UUID> {
       order by step.position
       """)
   List<RecipeStep> findByRecipeIdOrderByPosition(@Param("recipeId") UUID recipeId);
+
+  void deleteByRecipe(Recipe recipe);
 }
