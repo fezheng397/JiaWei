@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import {
   MOCK_AUTHORS,
   MOCK_INGREDIENTS,
@@ -20,9 +20,18 @@ import type {
   StepIngredientView,
   StepView,
 } from "./recipe-view-model";
+import { HttpClient } from "@angular/common/http";
+import { RecipeSummaryResponse } from "../../api/generated";
+import { map, Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
+import { ApiService } from "../../core/api/api.service";
 
 @Injectable({ providedIn: "root" })
 export class RecipeService {
+  private readonly http = inject(HttpClient);
+
+  private readonly apiService = inject(ApiService);
+
   private readonly authorsById = new Map(
     MOCK_AUTHORS.map((author) => [author.id, author]),
   );
@@ -46,8 +55,10 @@ export class RecipeService {
     return this.recipeViews;
   }
 
-  getDishRecipeViews(): readonly RecipeView[] {
-    return this.recipeViews.filter((recipe) => recipe.kind === "dish");
+  getDishRecipeViews(): Observable<readonly RecipeView[]> {
+    return this.apiService
+      .get<RecipeSummaryResponse[]>("/recipes?kind=dish")
+      .pipe(map((dtos) => dtos.map((dto) => this.summaryViewFor(dto))));
   }
 
   getRecipeView(recipeId: Id | null): RecipeView | undefined {
