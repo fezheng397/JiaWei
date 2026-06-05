@@ -1,0 +1,114 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "recipes-api/**"
+      - "render.yaml"
+      - ".github/workflows/deploy-backend.yml"
+
+concurrency:
+  group: backend-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: recipes-api
+    env:
+      SPRING_PROFILES_ACTIVE: ci
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/recipes
+      SPRING_DATASOURCE_USERNAME: recipes
+      SPRING_DATASOURCE_PASSWORD: recipes
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: recipes
+          POSTGRES_USER: recipes
+          POSTGRES_PASSWORD: recipes
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U recipes -d recipes"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          cache-dependency-path: recipes-api/pom.xml
+      - name: Test API and production migrations
+        run: mvn clean verify
+
+  migrate-production:
+    needs: test-api
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        working-directory: recipes-api
+    env:
+      PROD_DATABASE_JDBC_URL: ${{ secrets.PROD_DATABASE_JDBC_URL }}
+      PROD_DATABASE_USERNAME: ${{ secrets.PROD_DATABASE_USERNAME }}
+      PROD_DATABASE_PASSWORD: ${{ secrets.PROD_DATABASE_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          cache-dependency-path: recipes-api/pom.xml
+      - name: Validate production database URL
+        run: |
+          case "$PROD_DATABASE_JDBC_URL" in
+            jdbc:postgresql://*) ;;
+            *)
+              echo "::error::PROD_DATABASE_JDBC_URL must be a PostgreSQL JDBC URL."
+              exit 1
+              ;;
+          esac
+
+          case "$PROD_DATABASE_JDBC_URL" in
+            *-pooler.*)
+              echo "::error::Flyway migrations must use Neon's direct endpoint, not a pooled endpoint."
+              exit 1
+              ;;
+          esac
+
+          case "$PROD_DATABASE_JDBC_URL" in
+            *sslmode=verify-full*) ;;
+            *)
+              echo "::error::PROD_DATABASE_JDBC_URL must use sslmode=verify-full."
+              exit 1
+              ;;
+          esac
+      - name: Prepare migration classpath
+        run: mvn process-resources
+      - name: Migrate production database
+        run: |
+          mvn \
+            -Dflyway.url="$PROD_DATABASE_JDBC_URL" \
+            -Dflyway.user="$PROD_DATABASE_USERNAME" \
+            -Dflyway.password="$PROD_DATABASE_PASSWORD" \
+            -Dflyway.locations="classpath:db/migration" \
+            flyway:migrate
+
+  deploy-render:
+    needs: migrate-production
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+    steps:
+      - name: Trigger Render deployment
+        run: curl --fail-with-body -X POST "$RENDER_DEPLOY_HOOK_URL"

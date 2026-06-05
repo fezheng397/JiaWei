@@ -1,0 +1,70 @@
+name: Inspect Production Migrations
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: backend-production-migration-inspection
+  cancel-in-progress: false
+
+jobs:
+  inspect-production:
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        working-directory: recipes-api
+    env:
+      PROD_DATABASE_JDBC_URL: ${{ secrets.PROD_DATABASE_JDBC_URL }}
+      PROD_DATABASE_USERNAME: ${{ secrets.PROD_DATABASE_USERNAME }}
+      PROD_DATABASE_PASSWORD: ${{ secrets.PROD_DATABASE_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          cache-dependency-path: recipes-api/pom.xml
+      - name: Validate production database URL
+        run: |
+          case "$PROD_DATABASE_JDBC_URL" in
+            jdbc:postgresql://*) ;;
+            *)
+              echo "::error::PROD_DATABASE_JDBC_URL must be a PostgreSQL JDBC URL."
+              exit 1
+              ;;
+          esac
+
+          case "$PROD_DATABASE_JDBC_URL" in
+            *-pooler.*)
+              echo "::error::Flyway inspections must use Neon's direct endpoint, not a pooled endpoint."
+              exit 1
+              ;;
+          esac
+
+          case "$PROD_DATABASE_JDBC_URL" in
+            *sslmode=verify-full*) ;;
+            *)
+              echo "::error::PROD_DATABASE_JDBC_URL must use sslmode=verify-full."
+              exit 1
+              ;;
+          esac
+      - name: Prepare migration classpath
+        run: mvn process-resources
+      - name: Show production migration status
+        run: |
+          mvn \
+            -Dflyway.url="$PROD_DATABASE_JDBC_URL" \
+            -Dflyway.user="$PROD_DATABASE_USERNAME" \
+            -Dflyway.password="$PROD_DATABASE_PASSWORD" \
+            -Dflyway.locations="classpath:db/migration" \
+            flyway:info
+      - name: Validate production migration history
+        run: |
+          mvn \
+            -Dflyway.url="$PROD_DATABASE_JDBC_URL" \
+            -Dflyway.user="$PROD_DATABASE_USERNAME" \
+            -Dflyway.password="$PROD_DATABASE_PASSWORD" \
+            -Dflyway.locations="classpath:db/migration" \
+            flyway:validate
