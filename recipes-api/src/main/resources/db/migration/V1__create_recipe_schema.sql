@@ -51,10 +51,17 @@ create table recipes (
 );
 
 create table recipe_tags (
+  id uuid primary key default gen_random_uuid(),
+  public_id varchar(26) unique not null check (public_id ~ '^[0-9A-HJKMNP-TV-Z]{26}$'),
   recipe_id uuid not null references recipes(id) on delete cascade,
   position integer not null,
   tag text not null,
-  primary key (recipe_id, position)
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  created_by uuid,
+  updated_by uuid,
+  version integer not null default 0,
+  unique (recipe_id, position)
 );
 
 create table recipe_ingredients (
