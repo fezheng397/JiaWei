@@ -51,13 +51,42 @@ Useful endpoints:
 Flyway owns the schema:
 
 - `src/main/resources/db/migration/V1__create_recipe_schema.sql`
+- `src/main/resources/db/migration/V2__add_ingredient_name_unique_index.sql`
+- `src/main/resources/db/migration/V3__add_author_name_unique_index.sql`
+- `src/main/resources/db/migration/V5__simplify_tag_and_step_link_tables.sql`
 
 Development seed data lives in:
 
-- `src/main/resources/db/dev-migration/V2__seed_mock_recipe_data.sql`
+- `src/main/resources/db/dev-migration/R__seed_development_recipe_data.sql`
 
 The default Flyway location only runs schema migrations. The `dev` Spring profile adds the
-development migration location, so mock seed data is loaded locally but not in production.
+development migration location, so repeatable seed data is loaded locally but not in production.
+The missing schema migration version `V4` is intentional because that version was previously
+used only for development seed data. The next schema migration should use `V6`.
+
+### Local Flyway Reset
+
+If local development startup fails with a Flyway checksum mismatch after migration edits, reset
+the disposable local development database instead of editing `flyway_schema_history` manually or
+using `flyway repair`:
+
+```bash
+dropdb recipes
+createdb recipes
+SPRING_PROFILES_ACTIVE=dev mvn spring-boot:run
+```
+
+When using the included Docker Postgres service, remove and recreate its local database volume:
+
+```bash
+docker compose down -v
+docker compose up -d postgres
+SPRING_PROFILES_ACTIVE=dev mvn spring-boot:run
+```
+
+Versioned `V__` migrations must not be edited after they have been applied to a shared or permanent
+database. Add a new `V__` migration for schema changes. Use idempotent `R__` repeatable migrations
+for development seed data because Flyway reruns them whenever their checksum changes.
 
 The schema is normalized around the current web entities:
 
