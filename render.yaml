@@ -4,8 +4,15 @@ services:
     runtime: docker
     rootDir: recipes-api
     plan: starter
+    autoDeploy: false
     healthCheckPath: /actuator/health
     envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_FLYWAY_ENABLED
+        value: "false"
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: validate
       - key: SPRING_DATASOURCE_URL
         sync: false
       - key: SPRING_DATASOURCE_USERNAME
