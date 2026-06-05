@@ -148,8 +148,9 @@ RENDER_DEPLOY_HOOK_URL
 
 Use Neon's direct, non-`-pooler` endpoint for `PROD_DATABASE_JDBC_URL`; schema migration tools
 should not use transaction-pooled connections. The deployment and manual inspection workflows
-require `sslmode=verify-full`. The application runtime may use a pooled endpoint if needed for
-connection concurrency.
+require `sslmode=verify-full` and install the Let's Encrypt ISRG Root X1 certificate at
+`~/.postgresql/root.crt` for PostgreSQL JDBC hostname and certificate verification. The
+application runtime may use a pooled endpoint if needed for connection concurrency.
 
 Run the manual `Inspect Production Migrations` GitHub Actions workflow to execute `flyway:info`
 and `flyway:validate` against production without applying migrations.
