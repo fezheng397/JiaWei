@@ -20,16 +20,12 @@ import type {
   StepIngredientView,
   StepView,
 } from "./recipe-view-model";
-import { HttpClient } from "@angular/common/http";
 import { RecipeSummaryResponse } from "../../api/generated";
 import { map, Observable } from "rxjs";
-import { environment } from "../../../environments/environment";
 import { ApiService } from "../../core/api/api.service";
 
 @Injectable({ providedIn: "root" })
 export class RecipeService {
-  private readonly http = inject(HttpClient);
-
   private readonly apiService = inject(ApiService);
 
   private readonly authorsById = new Map(
@@ -58,7 +54,7 @@ export class RecipeService {
   getDishRecipeViews(): Observable<readonly RecipeView[]> {
     return this.apiService
       .get<RecipeSummaryResponse[]>("/recipes?kind=dish")
-      .pipe(map((dtos) => dtos.map((dto) => this.summaryViewFor(dto))));
+      .pipe(map((dtos) => dtos.map((dto) => this.recipeSummaryViewFor(dto))));
   }
 
   getRecipeView(recipeId: Id | null): RecipeView | undefined {
@@ -131,57 +127,27 @@ export class RecipeService {
     };
   }
 
-  private recipeViewFor(recipe: Recipe): RecipeView {
-    const author = this.required(
-      this.authorsById.get(recipe.authorId),
-      `author ${recipe.authorId}`,
-    );
-    const ingredients = MOCK_RECIPE_INGREDIENTS.filter(
-      (ingredient) => ingredient.recipeId === recipe.id,
-    )
-      .sort((left, right) => left.position - right.position)
-      .map((ingredient) => ({
-        id: ingredient.id,
-        ingredientId: ingredient.ingredientId,
-        amount: this.amountFor(ingredient),
-        name: this.required(
-          this.ingredientsById.get(ingredient.ingredientId),
-          `ingredient ${ingredient.ingredientId}`,
-        ).name,
-        preparedByRecipeId: ingredient.preparedByRecipeId,
-        preparedByRecipeName: this.preparingRecipeNameFor(ingredient),
-      }));
-    const steps = MOCK_RECIPE_STEPS.filter(
-      (step) => step.recipeId === recipe.id,
-    )
-      .sort((left, right) => left.position - right.position)
-      .map((step) => this.stepViewFor(recipe, step));
-
+  private recipeSummaryViewFor(dto: RecipeSummaryResponse): RecipeView {
     return {
-      id: recipe.id,
-      name: recipe.name,
-      description: recipe.description,
-      categoryLabel:
-        recipe.tags.length > 0
-          ? recipe.tags[0]
-          : recipe.kind === "dish"
-            ? "Recipe"
-            : "Ingredient",
-      authorName: author.name,
-      postedLabel: this.postedLabelFor(recipe),
-      kind: recipe.kind,
-      ingredientId: recipe.kind === "ingredient" ? recipe.ingredientId : null,
-      heroImageUrl: recipe.heroImageUrl,
-      prepTimeMinutes: recipe.prepTimeMinutes,
-      cookTimeMinutes: recipe.cookTimeMinutes,
-      totalTimeMinutes: this.totalTimeFor(recipe),
-      difficulty: recipe.difficulty,
-      difficultyLabel: this.difficultyLabelFor(recipe),
-      tags: recipe.tags,
-      servings: recipe.kind === "dish" ? recipe.servings : null,
-      yieldAmount: this.yieldAmountFor(recipe),
-      ingredients,
-      steps,
+      id: dto.publicId,
+      name: dto.name,
+      description: dto.description,
+      categoryLabel: dto.categoryLabel,
+      authorName: dto.authorName,
+      postedLabel: this.postedLabelFor(dto.publishedAt),
+      kind: dto.kind,
+      ingredientId: dto.ingredientPublicId,
+      heroImageUrl: dto.heroImageUrl,
+      prepTimeMinutes: null,
+      cookTimeMinutes: null,
+      totalTimeMinutes: dto.totalTimeMinutes,
+      difficulty: dto.difficulty,
+      difficultyLabel: this.difficultyLabelFor(dto.difficulty),
+      tags: dto.tags,
+      servings: dto.servings,
+      yieldAmount: dto.yieldAmount,
+      ingredients: [],
+      steps: [],
     };
   }
 
@@ -277,23 +243,27 @@ export class RecipeService {
       : recipe.yieldQuantity;
   }
 
-  private difficultyLabelFor(recipe: Recipe): string | null {
-    if (recipe.difficulty === null) {
+  private difficultyLabelFor(
+    difficulty: RecipeSummaryResponse["difficulty"],
+  ): string | null {
+    if (difficulty === null) {
       return null;
     }
 
-    return recipe.difficulty[0].toUpperCase() + recipe.difficulty.slice(1);
+    return difficulty[0].toUpperCase() + difficulty.slice(1);
   }
 
-  private postedLabelFor(recipe: Recipe): string | null {
-    if (recipe.publishedAt === null) {
+  private postedLabelFor(
+    publishedAt: RecipeSummaryResponse["publishedAt"],
+  ): string | null {
+    if (publishedAt === null) {
       return null;
     }
 
-    const publishedAt = new Date(recipe.publishedAt);
+    const publishedAtDate = new Date(publishedAt);
     const formatter = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
     const daysSincePublished = Math.round(
-      (publishedAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+      (publishedAtDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
     );
 
     return `Posted ${formatter.format(daysSincePublished, "day")}`;

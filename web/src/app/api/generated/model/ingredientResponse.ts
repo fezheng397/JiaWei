@@ -11,9 +11,9 @@ import { RecipeSummaryResponse } from './recipeSummaryResponse';
 
 
 export interface IngredientResponse { 
-    publicId?: string;
-    name?: string;
-    madeByRecipe?: RecipeSummaryResponse;
-    usedInRecipes?: Array<RecipeSummaryResponse>;
+    publicId: string;
+    name: string;
+    madeByRecipe: RecipeSummaryResponse | null;
+    usedInRecipes: Array<RecipeSummaryResponse>;
 }
 

@@ -10,11 +10,11 @@
 
 
 export interface IngredientLineResponse { 
-    publicId?: string;
-    ingredientPublicId?: string;
-    amount?: string;
-    name?: string;
-    preparedByRecipePublicId?: string;
-    preparedByRecipeName?: string;
+    publicId: string;
+    ingredientPublicId: string;
+    amount: string;
+    name: string;
+    preparedByRecipePublicId: string | null;
+    preparedByRecipeName: string | null;
 }
 

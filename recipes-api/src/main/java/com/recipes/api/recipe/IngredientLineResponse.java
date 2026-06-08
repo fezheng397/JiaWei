@@ -1,9 +1,13 @@
 package com.recipes.api.recipe;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public record IngredientLineResponse(
-    String publicId,
-    String ingredientPublicId,
-    String amount,
-    String name,
-    String preparedByRecipePublicId,
-    String preparedByRecipeName) {}
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String publicId,
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String ingredientPublicId,
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String amount,
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String name,
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
+        String preparedByRecipePublicId,
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
+        String preparedByRecipeName) {}

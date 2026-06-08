@@ -6,6 +6,8 @@ import {
   type RecipeCardView,
 } from "./recipe-card.component";
 import { RecipeService } from "./recipe.service";
+import { rxResource, toSignal } from "@angular/core/rxjs-interop";
+import { RecipeView } from "./recipe-view-model";
 
 @Component({
   selector: "app-recipes-list-page",
@@ -21,20 +23,28 @@ import { RecipeService } from "./recipe.service";
 export class RecipesListPageComponent {
   private readonly recipeService = inject(RecipeService);
 
-  readonly recipes = this.recipeService.getDishRecipeViews();
-  readonly chefs = [
-    ...new Set(this.recipes.map((recipe) => recipe.authorName)),
-  ];
+  readonly recipesResource = rxResource({
+    stream: () => this.recipeService.getDishRecipeViews(),
+    defaultValue: [] as readonly RecipeView[],
+  });
+
+  readonly recipes = this.recipesResource.value;
+
+  readonly chefs = computed(() => [
+    ...new Set(this.recipes().map((recipe) => recipe.authorName)),
+  ]);
+
   readonly selectedChef = signal<string | null>(null);
+
   readonly filteredRecipes = computed(() => {
     const selectedChef = this.selectedChef();
+    const recipes = this.recipes();
 
-    if (selectedChef === null) {
-      return this.recipes;
-    }
-
-    return this.recipes.filter((recipe) => recipe.authorName === selectedChef);
+    return selectedChef === null
+      ? recipes
+      : recipes.filter((recipe) => recipe.authorName === selectedChef);
   });
+
   readonly recipeCards = computed<RecipeCardView[]>(() =>
     this.filteredRecipes().map((recipe) => ({
       title: recipe.name,

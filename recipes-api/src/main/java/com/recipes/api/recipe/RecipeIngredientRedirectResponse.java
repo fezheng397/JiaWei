@@ -1,3 +1,6 @@
 package com.recipes.api.recipe;
 
-public record RecipeIngredientRedirectResponse(String ingredientPublicId) {}
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public record RecipeIngredientRedirectResponse(
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String ingredientPublicId) {}

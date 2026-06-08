@@ -12,23 +12,32 @@ import { IngredientLineResponse } from './ingredientLineResponse';
 
 
 export interface RecipeResponse { 
-    publicId?: string;
-    name?: string;
-    description?: string;
-    categoryLabel?: string;
-    authorName?: string;
-    publishedAt?: string;
-    kind?: string;
-    ingredientPublicId?: string;
-    heroImageUrl?: string;
-    prepTimeMinutes?: number;
-    cookTimeMinutes?: number;
-    totalTimeMinutes?: number;
-    difficulty?: string;
-    tags?: Array<string>;
-    servings?: number;
-    yieldAmount?: string;
-    ingredients?: Array<IngredientLineResponse>;
-    steps?: Array<StepResponse>;
+    publicId: string;
+    name: string;
+    description: string;
+    categoryLabel: string;
+    authorName: string;
+    publishedAt: string | null;
+    kind: RecipeResponseKindEnum;
+    ingredientPublicId: string | null;
+    heroImageUrl: string | null;
+    prepTimeMinutes: number | null;
+    cookTimeMinutes: number | null;
+    totalTimeMinutes: number | null;
+    difficulty: RecipeResponseDifficultyEnum | null;
+    tags: Array<string>;
+    servings: number | null;
+    yieldAmount: string | null;
+    ingredients: Array<IngredientLineResponse>;
+    steps: Array<StepResponse>;
 }
+export enum RecipeResponseKindEnum {
+    Dish = 'dish',
+    Ingredient = 'ingredient'
+};
+export enum RecipeResponseDifficultyEnum {
+    Easy = 'easy',
+    Medium = 'medium',
+    Hard = 'hard'
+};
 
