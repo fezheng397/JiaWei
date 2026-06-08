@@ -1,5 +1,19 @@
 <main class="recipes-page recipe-document-page">
-  @if (recipe(); as recipe) {
+  @if (recipeResource.isLoading()) {
+    <section class="empty-state" aria-live="polite">
+      <h2>Loading recipe</h2>
+      <p>Gathering the full recipe.</p>
+    </section>
+  } @else if (recipeResource.error()) {
+    <section class="empty-state" role="alert">
+      <h2>Recipe could not be loaded</h2>
+      <p>
+        No recipe could be loaded for ID <code>{{ recipeId() }}</code
+        >.
+      </p>
+      <button type="button" (click)="recipeResource.reload()">Try again</button>
+    </section>
+  } @else if (recipeResource.value(); as recipe) {
     <app-recipe-document
       [recipe]="recipe"
       backLink="/recipes"
@@ -9,7 +23,7 @@
     <section class="empty-state">
       <h2>Recipe not found</h2>
       <p>
-        No mock recipe has the ID <code>{{ recipeId() }}</code
+        No recipe has the ID <code>{{ recipeId() }}</code
         >.
       </p>
     </section>

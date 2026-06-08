@@ -6,8 +6,8 @@ import {
   type RecipeCardView,
 } from "./recipe-card.component";
 import { RecipeService } from "./recipe.service";
-import { rxResource, toSignal } from "@angular/core/rxjs-interop";
-import { RecipeView } from "./recipe-view-model";
+import { rxResource } from "@angular/core/rxjs-interop";
+import type { RecipeView } from "./recipe-view-model";
 
 @Component({
   selector: "app-recipes-list-page",
@@ -60,19 +60,6 @@ export class RecipesListPageComponent {
         recipe.servings === null ? null : recipe.servings.toString(),
     })),
   );
-  readonly ingredientsWithRecipes =
-    this.recipeService.getIngredientsWithRecipes();
-  readonly filteredIngredientCount = computed(() => {
-    const selectedChef = this.selectedChef();
-
-    if (selectedChef === null) {
-      return this.ingredientsWithRecipes.length;
-    }
-
-    return this.ingredientsWithRecipes.filter(
-      (ingredient) => ingredient.madeByRecipe?.authorName === selectedChef,
-    ).length;
-  });
   readonly pageTitle = computed(() => {
     const selectedChef = this.selectedChef();
 

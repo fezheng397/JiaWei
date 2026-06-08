@@ -6,6 +6,8 @@ import {
   type RecipeCardView,
 } from "./recipe-card.component";
 import { RecipeService } from "./recipe.service";
+import { rxResource } from "@angular/core/rxjs-interop";
+import type { IngredientDetailView } from "./recipe-view-model";
 
 @Component({
   selector: "app-ingredients-list-page",
@@ -21,24 +23,27 @@ import { RecipeService } from "./recipe.service";
 export class IngredientsListPageComponent {
   private readonly recipeService = inject(RecipeService);
 
-  readonly recipes = this.recipeService.getDishRecipeViews();
-  readonly ingredients = this.recipeService.getIngredientsWithRecipes();
-  readonly chefs = [
+  readonly ingredientsResource = rxResource({
+    stream: () => this.recipeService.getIngredientsWithRecipes(),
+    defaultValue: [] as readonly IngredientDetailView[],
+  });
+  readonly ingredients = this.ingredientsResource.value;
+  readonly chefs = computed(() => [
     ...new Set(
-      this.ingredients.flatMap((ingredient) =>
+      this.ingredients().flatMap((ingredient) =>
         ingredient.madeByRecipe ? [ingredient.madeByRecipe.authorName] : [],
       ),
     ),
-  ];
+  ]);
   readonly selectedChef = signal<string | null>(null);
   readonly filteredIngredients = computed(() => {
     const selectedChef = this.selectedChef();
 
     if (selectedChef === null) {
-      return this.ingredients;
+      return this.ingredients();
     }
 
-    return this.ingredients.filter(
+    return this.ingredients().filter(
       (ingredient) => ingredient.madeByRecipe?.authorName === selectedChef,
     );
   });
@@ -66,16 +71,6 @@ export class IngredientsListPageComponent {
       ];
     }),
   );
-  readonly filteredRecipeCount = computed(() => {
-    const selectedChef = this.selectedChef();
-
-    if (selectedChef === null) {
-      return this.recipes.length;
-    }
-
-    return this.recipes.filter((recipe) => recipe.authorName === selectedChef)
-      .length;
-  });
   readonly pageTitle = computed(() => {
     const selectedChef = this.selectedChef();
 
