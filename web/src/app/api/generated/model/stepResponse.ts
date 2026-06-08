@@ -11,11 +11,11 @@ import { IngredientLineResponse } from './ingredientLineResponse';
 
 
 export interface StepResponse { 
-    publicId?: string;
-    position?: number;
-    instructions?: string;
-    timerMinutes?: number;
-    usedIngredients?: string;
-    ingredientDetails?: Array<IngredientLineResponse>;
+    publicId: string;
+    position: number;
+    instructions: string;
+    timerMinutes: number | null;
+    usedIngredients: string;
+    ingredientDetails: Array<IngredientLineResponse>;
 }
 

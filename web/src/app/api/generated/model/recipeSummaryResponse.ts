@@ -10,19 +10,28 @@
 
 
 export interface RecipeSummaryResponse { 
-    publicId?: string;
-    name?: string;
-    description?: string;
-    categoryLabel?: string;
-    authorName?: string;
-    publishedAt?: string;
-    kind?: string;
-    ingredientPublicId?: string;
-    heroImageUrl?: string;
-    totalTimeMinutes?: number;
-    difficulty?: string;
-    tags?: Array<string>;
-    servings?: number;
-    yieldAmount?: string;
+    publicId: string;
+    name: string;
+    description: string;
+    categoryLabel: string;
+    authorName: string;
+    publishedAt: string | null;
+    kind: RecipeSummaryResponseKindEnum;
+    ingredientPublicId: string | null;
+    heroImageUrl: string | null;
+    totalTimeMinutes: number | null;
+    difficulty: RecipeSummaryResponseDifficultyEnum | null;
+    tags: Array<string>;
+    servings: number | null;
+    yieldAmount: string | null;
 }
+export enum RecipeSummaryResponseKindEnum {
+    Dish = 'dish',
+    Ingredient = 'ingredient'
+};
+export enum RecipeSummaryResponseDifficultyEnum {
+    Easy = 'easy',
+    Medium = 'medium',
+    Hard = 'hard'
+};
 

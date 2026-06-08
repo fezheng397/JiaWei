@@ -1,5 +1,21 @@
 <main class="recipes-page recipe-document-page">
-  @if (ingredient(); as ingredient) {
+  @if (ingredientResource.isLoading()) {
+    <section class="empty-state" aria-live="polite">
+      <h2>Loading ingredient</h2>
+      <p>Gathering the ingredient details.</p>
+    </section>
+  } @else if (ingredientResource.error()) {
+    <section class="empty-state" role="alert">
+      <h2>Ingredient could not be loaded</h2>
+      <p>
+        No ingredient could be loaded for ID <code>{{ ingredientId() }}</code
+        >.
+      </p>
+      <button type="button" (click)="ingredientResource.reload()">
+        Try again
+      </button>
+    </section>
+  } @else if (ingredientResource.value(); as ingredient) {
     @if (ingredient.madeByRecipe; as recipe) {
       <app-recipe-document
         [recipe]="recipe"
@@ -21,7 +37,7 @@
     <section class="empty-state">
       <h2>Ingredient not found</h2>
       <p>
-        No mock ingredient has the ID <code>{{ ingredientId() }}</code
+        No ingredient has the ID <code>{{ ingredientId() }}</code
         >.
       </p>
     </section>

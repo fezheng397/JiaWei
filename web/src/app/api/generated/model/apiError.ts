@@ -10,7 +10,7 @@
 
 
 export interface ApiError { 
-    message?: string;
-    timestamp?: string;
+    message: string;
+    timestamp: string;
 }
 

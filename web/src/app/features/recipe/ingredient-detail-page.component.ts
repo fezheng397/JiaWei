@@ -1,5 +1,5 @@
 import { Component, computed, inject } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { rxResource, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { RecipeDocumentComponent } from "./recipe-document.component";
 import { RecipeService } from "./recipe.service";
@@ -17,8 +17,12 @@ export class IngredientDetailPageComponent {
     initialValue: this.route.snapshot.paramMap,
   });
 
-  readonly ingredientId = computed(() => this.paramMap().get("ingredientId"));
-  readonly ingredient = computed(() =>
-    this.recipeService.getIngredientView(this.ingredientId()),
+  readonly ingredientId = computed(
+    () => this.paramMap().get("ingredientId") ?? undefined,
   );
+  readonly ingredientResource = rxResource({
+    params: () => this.ingredientId(),
+    stream: ({ params: ingredientId }) =>
+      this.recipeService.getIngredientDetailView(ingredientId),
+  });
 }

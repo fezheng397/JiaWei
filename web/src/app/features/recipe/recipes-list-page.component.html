@@ -6,7 +6,7 @@
     </div>
 
     <app-chef-filter
-      [chefs]="chefs"
+      [chefs]="chefs()"
       [selectedChef]="selectedChef()"
       (selectedChefChange)="selectedChef.set($event)"
     />
@@ -27,11 +27,24 @@
       routerLinkActive="is-active"
       [routerLinkActiveOptions]="{ exact: true }"
     >
-      Ingredients ({{ filteredIngredientCount() }})
+      Ingredients
     </a>
   </nav>
 
-  @if (recipeCards().length > 0) {
+  @if (recipesResource.isLoading()) {
+    <section class="empty-state" aria-live="polite">
+      <h2 class="type-card-title">Loading recipes</h2>
+      <p class="type-body">Gathering the latest recipes.</p>
+    </section>
+  } @else if (recipesResource.error()) {
+    <section class="empty-state" role="alert">
+      <h2 class="type-card-title">Recipes could not be loaded</h2>
+      <p class="type-body">Please try again.</p>
+      <button type="button" (click)="recipesResource.reload()">
+        Try again
+      </button>
+    </section>
+  } @else if (recipeCards().length > 0) {
     <section class="recipe-grid" aria-label="Recipes">
       @for (card of recipeCards(); track card.route.join("/")) {
         <app-recipe-card [card]="card" />

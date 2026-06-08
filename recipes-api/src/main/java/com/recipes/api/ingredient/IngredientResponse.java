@@ -1,10 +1,13 @@
 package com.recipes.api.ingredient;
 
 import com.recipes.api.recipe.RecipeSummaryResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
 public record IngredientResponse(
-    String publicId,
-    String name,
-    RecipeSummaryResponse madeByRecipe,
-    List<RecipeSummaryResponse> usedInRecipes) {}
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String publicId,
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String name,
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
+        RecipeSummaryResponse madeByRecipe,
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+        List<RecipeSummaryResponse> usedInRecipes) {}

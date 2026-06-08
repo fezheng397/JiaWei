@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "generate:api": "rm -rf src/app/api/generated && openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g typescript-angular -o src/app/api/generated --additional-properties=providedInRoot=true,withInterfaces=true,stringEnums=true"

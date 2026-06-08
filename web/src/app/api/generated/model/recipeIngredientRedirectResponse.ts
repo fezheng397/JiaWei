@@ -10,6 +10,6 @@
 
 
 export interface RecipeIngredientRedirectResponse { 
-    ingredientPublicId?: string;
+    ingredientPublicId: string;
 }
 

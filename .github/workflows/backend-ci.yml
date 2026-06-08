@@ -5,16 +5,18 @@ on:
     paths:
       - "recipes-api/**"
       - ".github/workflows/backend-ci.yml"
-  push:
-    branches:
-      - main
-    paths:
-      - "recipes-api/**"
-      - ".github/workflows/backend-ci.yml"
+
+concurrency:
+  group: backend-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   test-api:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: recipes-api
@@ -50,6 +52,7 @@ jobs:
 
   test-dev-migrations:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: recipes-api
