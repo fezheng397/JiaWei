@@ -1,4 +1,4 @@
-package com.recipes.api.recipe;
+package com.recipes.api.recipe.entity;
 
 import java.util.Locale;
 

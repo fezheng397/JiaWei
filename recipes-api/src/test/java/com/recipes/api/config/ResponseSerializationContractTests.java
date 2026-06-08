@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.recipes.api.ingredient.IngredientResponse;
-import com.recipes.api.recipe.IngredientLineResponse;
-import com.recipes.api.recipe.RecipeResponse;
-import com.recipes.api.recipe.RecipeSummaryResponse;
-import com.recipes.api.recipe.StepResponse;
+import com.recipes.api.ingredient.dto.IngredientResponse;
+import com.recipes.api.recipe.dto.IngredientLineResponse;
+import com.recipes.api.recipe.dto.RecipeResponse;
+import com.recipes.api.recipe.dto.RecipeSummaryResponse;
+import com.recipes.api.recipe.dto.StepResponse;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;

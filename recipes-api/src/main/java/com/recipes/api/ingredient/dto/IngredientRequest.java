@@ -1,4 +1,4 @@
-package com.recipes.api.ingredient;
+package com.recipes.api.ingredient.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

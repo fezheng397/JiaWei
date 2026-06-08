@@ -1,4 +1,4 @@
-package com.recipes.api.recipe;
+package com.recipes.api.recipe.entity;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

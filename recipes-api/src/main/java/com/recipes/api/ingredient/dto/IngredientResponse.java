@@ -1,6 +1,6 @@
-package com.recipes.api.ingredient;
+package com.recipes.api.ingredient.dto;
 
-import com.recipes.api.recipe.RecipeSummaryResponse;
+import com.recipes.api.recipe.dto.RecipeSummaryResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 

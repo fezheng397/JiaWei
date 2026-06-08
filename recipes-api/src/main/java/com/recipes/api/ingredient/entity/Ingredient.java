@@ -1,6 +1,7 @@
-package com.recipes.api.ingredient;
+package com.recipes.api.ingredient.entity;
 
 import com.recipes.api.common.AuditedEntity;
+import com.recipes.api.ingredient.IngredientNameNormalizer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrePersist;

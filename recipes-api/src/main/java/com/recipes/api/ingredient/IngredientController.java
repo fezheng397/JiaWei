@@ -1,5 +1,7 @@
 package com.recipes.api.ingredient;
 
+import com.recipes.api.ingredient.dto.IngredientRequest;
+import com.recipes.api.ingredient.dto.IngredientResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;

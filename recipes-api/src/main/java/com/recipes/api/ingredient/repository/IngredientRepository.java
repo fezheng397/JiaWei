@@ -1,5 +1,6 @@
-package com.recipes.api.ingredient;
+package com.recipes.api.ingredient.repository;
 
+import com.recipes.api.ingredient.entity.Ingredient;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

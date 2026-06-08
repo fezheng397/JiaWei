@@ -1,9 +1,9 @@
-package com.recipes.api.recipe;
+package com.recipes.api.recipe.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
-public record RecipeResponse(
+public record RecipeSummaryResponse(
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String publicId,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String name,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED) String description,
@@ -15,8 +15,6 @@ public record RecipeResponse(
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
         String ingredientPublicId,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) String heroImageUrl,
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) Integer prepTimeMinutes,
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) Integer cookTimeMinutes,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) Integer totalTimeMinutes,
     @Schema(
             requiredMode = Schema.RequiredMode.REQUIRED,
@@ -25,6 +23,4 @@ public record RecipeResponse(
         String difficulty,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<String> tags,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) Integer servings,
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) String yieldAmount,
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<IngredientLineResponse> ingredients,
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<StepResponse> steps) {}
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) String yieldAmount) {}
