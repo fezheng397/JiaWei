@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spring Backend Package Structure"
+  short_description: "Keep Jiawei backend packages feature-focused"
+  default_prompt: "Use $spring-backend-package-structure to place or refactor these backend files consistently."
