@@ -2,11 +2,14 @@ package com.recipes.api.ingredient;
 
 import com.recipes.api.common.ConflictException;
 import com.recipes.api.common.NotFoundException;
-import com.recipes.api.recipe.Recipe;
-import com.recipes.api.recipe.RecipeKind;
+import com.recipes.api.ingredient.dto.IngredientResponse;
+import com.recipes.api.ingredient.entity.Ingredient;
+import com.recipes.api.ingredient.repository.IngredientRepository;
 import com.recipes.api.recipe.RecipeMapper;
-import com.recipes.api.recipe.RecipeRepository;
-import com.recipes.api.recipe.RecipeSummaryResponse;
+import com.recipes.api.recipe.dto.RecipeSummaryResponse;
+import com.recipes.api.recipe.entity.Recipe;
+import com.recipes.api.recipe.entity.RecipeKind;
+import com.recipes.api.recipe.repository.RecipeRepository;
 import java.util.List;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;

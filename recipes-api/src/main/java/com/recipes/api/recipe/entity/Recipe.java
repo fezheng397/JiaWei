@@ -1,8 +1,8 @@
-package com.recipes.api.recipe;
+package com.recipes.api.recipe.entity;
 
-import com.recipes.api.author.Author;
+import com.recipes.api.author.entity.Author;
 import com.recipes.api.common.AuditedEntity;
-import com.recipes.api.ingredient.Ingredient;
+import com.recipes.api.ingredient.entity.Ingredient;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;

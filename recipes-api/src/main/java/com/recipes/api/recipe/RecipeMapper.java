@@ -1,5 +1,13 @@
 package com.recipes.api.recipe;
 
+import com.recipes.api.recipe.dto.IngredientLineResponse;
+import com.recipes.api.recipe.dto.RecipeResponse;
+import com.recipes.api.recipe.dto.RecipeSummaryResponse;
+import com.recipes.api.recipe.dto.StepResponse;
+import com.recipes.api.recipe.entity.Recipe;
+import com.recipes.api.recipe.entity.RecipeIngredient;
+import com.recipes.api.recipe.entity.RecipeKind;
+import com.recipes.api.recipe.entity.RecipeStep;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;

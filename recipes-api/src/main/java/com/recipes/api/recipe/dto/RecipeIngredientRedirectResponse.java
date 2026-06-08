@@ -1,4 +1,4 @@
-package com.recipes.api.recipe;
+package com.recipes.api.recipe.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

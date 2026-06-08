@@ -1,4 +1,4 @@
-package com.recipes.api.author;
+package com.recipes.api.author.entity;
 
 import com.recipes.api.common.AuditedEntity;
 import jakarta.persistence.Column;
