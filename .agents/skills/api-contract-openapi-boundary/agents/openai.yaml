@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Contract OpenAPI Boundary"
+  short_description: "Keep Spring and Angular API contracts aligned"
+  default_prompt: "Use $api-contract-openapi-boundary to update and verify this API contract change end to end."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flyway Database Migration Safety"
+  short_description: "Safely evolve Jiawei PostgreSQL with Flyway"
+  default_prompt: "Use $flyway-database-migration-safety to plan and verify this database migration safely."
