@@ -2,7 +2,9 @@ package com.recipes.api.recipe;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.recipes.api.recipe.dto.RecipeCreateRequest;
 import com.recipes.api.recipe.repository.RecipeIngredientRepository;
@@ -11,15 +13,15 @@ import com.recipes.api.recipe.repository.RecipeStepRepository;
 import com.recipes.api.recipe.repository.StepIngredientRepository;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.server.ResponseStatusException;
 
 class RecipeServiceTests {
   @Test
-  void createRecipeValidatesBeforePersistenceIsImplemented() {
+  void createRecipeStopsBeforePersistenceWhenValidationFails() {
     RecipeCreateValidator validator = mock(RecipeCreateValidator.class);
+    RecipeRepository recipeRepository = mock(RecipeRepository.class);
     RecipeService service =
         new RecipeService(
-            mock(RecipeRepository.class),
+            recipeRepository,
             mock(RecipeIngredientRepository.class),
             mock(RecipeStepRepository.class),
             mock(StepIngredientRepository.class),
@@ -42,9 +44,11 @@ class RecipeServiceTests {
             null,
             List.of(),
             List.of());
+    when(validator.validate(request)).thenThrow(new IllegalArgumentException("Invalid recipe"));
 
-    assertThrows(ResponseStatusException.class, () -> service.createRecipe(request));
+    assertThrows(IllegalArgumentException.class, () -> service.createRecipe(request));
 
     verify(validator).validate(request);
+    verify(recipeRepository, never()).saveAndFlush(org.mockito.ArgumentMatchers.any());
   }
 }

@@ -4,24 +4,31 @@ import com.recipes.api.common.NotFoundException;
 import com.recipes.api.ingredient.entity.Ingredient;
 import com.recipes.api.recipe.dto.IngredientLineResponse;
 import com.recipes.api.recipe.dto.RecipeCreateRequest;
+import com.recipes.api.recipe.dto.RecipeIngredientCreateRequest;
 import com.recipes.api.recipe.dto.RecipeResponse;
+import com.recipes.api.recipe.dto.RecipeStepCreateRequest;
 import com.recipes.api.recipe.dto.RecipeSummaryResponse;
 import com.recipes.api.recipe.dto.StepResponse;
 import com.recipes.api.recipe.entity.Recipe;
+import com.recipes.api.recipe.entity.RecipeDifficulty;
+import com.recipes.api.recipe.entity.RecipeIngredient;
 import com.recipes.api.recipe.entity.RecipeKind;
+import com.recipes.api.recipe.entity.RecipeStep;
+import com.recipes.api.recipe.entity.StepIngredient;
 import com.recipes.api.recipe.repository.RecipeIngredientRepository;
 import com.recipes.api.recipe.repository.RecipeRepository;
 import com.recipes.api.recipe.repository.RecipeStepRepository;
 import com.recipes.api.recipe.repository.StepIngredientRepository;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional(readOnly = true)
@@ -59,10 +66,15 @@ public class RecipeService {
 
   @Transactional
   public RecipeResponse createRecipe(RecipeCreateRequest request) {
-    recipeCreateValidator.validate(request);
+    RecipeCreateReferences references = recipeCreateValidator.validate(request);
+    Recipe recipe = recipeRepository.saveAndFlush(toRecipe(request, references));
+    Map<String, RecipeIngredient> ingredientLines =
+        createIngredientLines(request, references, recipe);
+    List<RecipeStep> steps = createSteps(request, recipe);
 
-    throw new ResponseStatusException(
-        HttpStatus.NOT_IMPLEMENTED, "Recipe creation persistence is not implemented yet");
+    createStepIngredients(request, ingredientLines, steps);
+
+    return getRecipe(recipe.getPublicId());
   }
 
   public RecipeResponse getRecipe(String recipePublicId) {
@@ -100,5 +112,85 @@ public class RecipeService {
         .map(Recipe::getIngredient)
         .filter(Objects::nonNull)
         .map(Ingredient::getPublicId);
+  }
+
+  private Recipe toRecipe(RecipeCreateRequest request, RecipeCreateReferences references) {
+    RecipeDifficulty difficulty =
+        request.difficulty() == null
+            ? null
+            : RecipeDifficulty.valueOf(request.difficulty().toUpperCase(Locale.ROOT));
+
+    return new Recipe(
+        request.name(),
+        references.author(),
+        request.description(),
+        nullableText(request.heroImageUrl()),
+        request.prepTimeMinutes(),
+        request.cookTimeMinutes(),
+        difficulty,
+        RecipeKind.valueOf(request.kind().toUpperCase(Locale.ROOT)),
+        references.producedIngredient(),
+        request.servings(),
+        nullableText(request.yieldQuantity()),
+        nullableText(request.yieldUnit()),
+        request.tags());
+  }
+
+  private Map<String, RecipeIngredient> createIngredientLines(
+      RecipeCreateRequest request, RecipeCreateReferences references, Recipe recipe) {
+    Map<String, RecipeIngredient> ingredientLines = new LinkedHashMap<>();
+
+    for (int index = 0; index < request.ingredients().size(); index++) {
+      RecipeIngredientCreateRequest ingredientRequest = request.ingredients().get(index);
+      RecipeIngredient ingredientLine =
+          new RecipeIngredient(
+              recipe,
+              references.ingredientsByClientRef().get(ingredientRequest.clientRef()),
+              ingredientRequest.quantity(),
+              nullableText(ingredientRequest.unit()),
+              index + 1,
+              references.preparedRecipesByClientRef().get(ingredientRequest.clientRef()));
+      ingredientLines.put(ingredientRequest.clientRef(), ingredientLine);
+    }
+
+    recipeIngredientRepository.saveAllAndFlush(ingredientLines.values());
+    return ingredientLines;
+  }
+
+  private List<RecipeStep> createSteps(RecipeCreateRequest request, Recipe recipe) {
+    List<RecipeStep> steps = new ArrayList<>();
+
+    for (int index = 0; index < request.steps().size(); index++) {
+      RecipeStepCreateRequest stepRequest = request.steps().get(index);
+      steps.add(
+          new RecipeStep(recipe, index + 1, stepRequest.instructions(), stepRequest.timerMinutes()));
+    }
+
+    return recipeStepRepository.saveAllAndFlush(steps);
+  }
+
+  private void createStepIngredients(
+      RecipeCreateRequest request,
+      Map<String, RecipeIngredient> ingredientLines,
+      List<RecipeStep> steps) {
+    List<StepIngredient> stepIngredients = new ArrayList<>();
+
+    for (int index = 0; index < request.steps().size(); index++) {
+      RecipeStepCreateRequest stepRequest = request.steps().get(index);
+      RecipeStep step = steps.get(index);
+
+      stepRequest
+          .ingredientLineRefs()
+          .forEach(
+              ingredientLineRef ->
+                  stepIngredients.add(
+                      new StepIngredient(step, ingredientLines.get(ingredientLineRef))));
+    }
+
+    stepIngredientRepository.saveAllAndFlush(stepIngredients);
+  }
+
+  private String nullableText(String value) {
+    return value == null || value.isBlank() ? null : value;
   }
 }

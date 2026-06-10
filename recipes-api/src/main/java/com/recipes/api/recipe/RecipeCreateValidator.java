@@ -1,5 +1,6 @@
 package com.recipes.api.recipe;
 
+import com.recipes.api.author.entity.Author;
 import com.recipes.api.author.repository.AuthorRepository;
 import com.recipes.api.common.ConflictException;
 import com.recipes.api.common.NotFoundException;
@@ -12,7 +13,9 @@ import com.recipes.api.recipe.entity.Recipe;
 import com.recipes.api.recipe.entity.RecipeKind;
 import com.recipes.api.recipe.repository.RecipeRepository;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.stereotype.Component;
 
@@ -31,20 +34,21 @@ class RecipeCreateValidator {
     this.recipeRepository = recipeRepository;
   }
 
-  void validate(RecipeCreateRequest request) {
+  RecipeCreateReferences validate(RecipeCreateRequest request) {
     RecipeKind kind = RecipeKind.valueOf(request.kind().toUpperCase(Locale.ROOT));
 
-    validateKindSpecificFields(request, kind);
-    validateAuthor(request.authorPublicId());
-    validateIngredientLines(request);
+    Ingredient producedIngredient = validateKindSpecificFields(request, kind);
+    Author author = validateAuthor(request.authorPublicId());
+
+    return validateIngredientLines(request, author, producedIngredient);
   }
 
-  private void validateKindSpecificFields(RecipeCreateRequest request, RecipeKind kind) {
+  private Ingredient validateKindSpecificFields(RecipeCreateRequest request, RecipeKind kind) {
     if (kind == RecipeKind.DISH) {
       requireAbsent(request.producedIngredientPublicId(), "producedIngredientPublicId");
       requireAbsent(request.yieldQuantity(), "yieldQuantity");
       requireAbsent(request.yieldUnit(), "yieldUnit");
-      return;
+      return null;
     }
 
     requirePresent(request.producedIngredientPublicId(), "producedIngredientPublicId");
@@ -73,16 +77,21 @@ class RecipeCreateValidator {
                       + existingRecipe.getPublicId()
                       + ")");
             });
+
+    return producedIngredient;
   }
 
-  private void validateAuthor(String authorPublicId) {
-    authorRepository
+  private Author validateAuthor(String authorPublicId) {
+    return authorRepository
         .findByPublicId(authorPublicId)
         .orElseThrow(() -> new NotFoundException("Author not found: " + authorPublicId));
   }
 
-  private void validateIngredientLines(RecipeCreateRequest request) {
+  private RecipeCreateReferences validateIngredientLines(
+      RecipeCreateRequest request, Author author, Ingredient producedIngredient) {
     Set<String> clientRefs = new HashSet<>();
+    Map<String, Ingredient> ingredientsByClientRef = new LinkedHashMap<>();
+    Map<String, Recipe> preparedRecipesByClientRef = new LinkedHashMap<>();
 
     for (RecipeIngredientCreateRequest ingredientLine : request.ingredients()) {
       if (!clientRefs.add(ingredientLine.clientRef())) {
@@ -98,7 +107,12 @@ class RecipeCreateValidator {
                       new NotFoundException(
                           "Ingredient not found: " + ingredientLine.ingredientPublicId()));
 
-      validatePreparedByRecipe(ingredientLine, ingredient);
+      ingredientsByClientRef.put(ingredientLine.clientRef(), ingredient);
+
+      Recipe preparedByRecipe = validatePreparedByRecipe(ingredientLine, ingredient);
+      if (preparedByRecipe != null) {
+        preparedRecipesByClientRef.put(ingredientLine.clientRef(), preparedByRecipe);
+      }
     }
 
     for (RecipeStepCreateRequest step : request.steps()) {
@@ -116,12 +130,18 @@ class RecipeCreateValidator {
         }
       }
     }
+
+    return new RecipeCreateReferences(
+        author,
+        producedIngredient,
+        Map.copyOf(ingredientsByClientRef),
+        Map.copyOf(preparedRecipesByClientRef));
   }
 
-  private void validatePreparedByRecipe(
+  private Recipe validatePreparedByRecipe(
       RecipeIngredientCreateRequest ingredientLine, Ingredient ingredient) {
     if (!hasText(ingredientLine.preparedByRecipePublicId())) {
-      return;
+      return null;
     }
 
     Recipe preparedByRecipe =
@@ -139,6 +159,8 @@ class RecipeCreateValidator {
           "preparedByRecipePublicId must reference an ingredient recipe for ingredientPublicId: "
               + ingredientLine.ingredientPublicId());
     }
+
+    return preparedByRecipe;
   }
 
   private void requirePresent(String value, String field) {

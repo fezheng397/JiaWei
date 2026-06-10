@@ -59,6 +59,35 @@ public class Recipe extends AuditedEntity {
 
   protected Recipe() {}
 
+  public Recipe(
+      String name,
+      Author author,
+      String description,
+      String heroImageUrl,
+      Integer prepTimeMinutes,
+      Integer cookTimeMinutes,
+      RecipeDifficulty difficulty,
+      RecipeKind kind,
+      Ingredient ingredient,
+      Integer servings,
+      String yieldQuantity,
+      String yieldUnit,
+      List<String> tags) {
+    this.name = name;
+    this.author = author;
+    this.description = description;
+    this.heroImageUrl = heroImageUrl;
+    this.prepTimeMinutes = prepTimeMinutes;
+    this.cookTimeMinutes = cookTimeMinutes;
+    this.difficulty = difficulty;
+    this.kind = kind;
+    this.ingredient = ingredient;
+    this.servings = servings;
+    this.yieldQuantity = yieldQuantity;
+    this.yieldUnit = yieldUnit;
+    this.tags = new ArrayList<>(tags);
+  }
+
   public String getName() {
     return name;
   }

@@ -34,6 +34,21 @@ public class RecipeIngredient extends AuditedEntity {
 
   protected RecipeIngredient() {}
 
+  public RecipeIngredient(
+      Recipe recipe,
+      Ingredient ingredient,
+      String quantity,
+      String unit,
+      int position,
+      Recipe preparedByRecipe) {
+    this.recipe = recipe;
+    this.ingredient = ingredient;
+    this.quantity = quantity;
+    this.unit = unit;
+    this.position = position;
+    this.preparedByRecipe = preparedByRecipe;
+  }
+
   public Recipe getRecipe() {
     return recipe;
   }
