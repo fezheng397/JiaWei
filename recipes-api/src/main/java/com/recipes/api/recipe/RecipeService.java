@@ -31,18 +31,21 @@ public class RecipeService {
   private final RecipeStepRepository recipeStepRepository;
   private final StepIngredientRepository stepIngredientRepository;
   private final RecipeMapper recipeMapper;
+  private final RecipeCreateValidator recipeCreateValidator;
 
   public RecipeService(
       RecipeRepository recipeRepository,
       RecipeIngredientRepository recipeIngredientRepository,
       RecipeStepRepository recipeStepRepository,
       StepIngredientRepository stepIngredientRepository,
-      RecipeMapper recipeMapper) {
+      RecipeMapper recipeMapper,
+      RecipeCreateValidator recipeCreateValidator) {
     this.recipeRepository = recipeRepository;
     this.recipeIngredientRepository = recipeIngredientRepository;
     this.recipeStepRepository = recipeStepRepository;
     this.stepIngredientRepository = stepIngredientRepository;
     this.recipeMapper = recipeMapper;
+    this.recipeCreateValidator = recipeCreateValidator;
   }
 
   public List<RecipeSummaryResponse> getRecipes(Optional<RecipeKind> kind) {
@@ -56,6 +59,8 @@ public class RecipeService {
 
   @Transactional
   public RecipeResponse createRecipe(RecipeCreateRequest request) {
+    recipeCreateValidator.validate(request);
+
     throw new ResponseStatusException(
         HttpStatus.NOT_IMPLEMENTED, "Recipe creation persistence is not implemented yet");
   }
