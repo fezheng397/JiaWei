@@ -6,6 +6,7 @@ import { IngredientsListPageComponent } from "./features/recipe/ingredients-list
 import { RecipeDetailPageComponent } from "./features/recipe/recipe-detail-page.component";
 import { RecipeService } from "./features/recipe/recipe.service";
 import { RecipesListPageComponent } from "./features/recipe/recipes-list-page.component";
+import { RecipeCreatePageComponent } from "./features/recipe/create/recipe-create-page.component";
 import { ShellComponent } from "./layout/shell/shell.component";
 
 const redirectIngredientRecipes: CanActivateFn = (route) => {
@@ -37,6 +38,11 @@ export const routes: Routes = [
         path: "recipes",
         component: RecipesListPageComponent,
         title: "Recipes",
+      },
+      {
+        path: "recipes/new",
+        component: RecipeCreatePageComponent,
+        title: "Create Recipe",
       },
       {
         path: "recipe/:recipeId",

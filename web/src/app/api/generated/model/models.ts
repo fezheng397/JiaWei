@@ -1,4 +1,5 @@
 export * from './apiError';
+export * from './authorResponse';
 export * from './ingredientLineResponse';
 export * from './ingredientRequest';
 export * from './ingredientResponse';

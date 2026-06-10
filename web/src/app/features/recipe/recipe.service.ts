@@ -6,80 +6,97 @@ import type {
   StepIngredientView,
 } from "./recipe-view-model";
 import {
+  AuthorControllerService,
+  AuthorResponse,
+  IngredientControllerService,
   IngredientResponse,
   IngredientLineResponse,
+  IngredientRequest,
+  RecipeControllerService,
+  RecipeCreateRequest,
   RecipeIngredientRedirectResponse,
   RecipeResponse,
   RecipeSummaryResponse,
 } from "../../api/generated";
 import { forkJoin, map, Observable, of, switchMap } from "rxjs";
-import { ApiService } from "../../core/api/api.service";
 
 @Injectable({ providedIn: "root" })
 export class RecipeService {
-  private readonly apiService = inject(ApiService);
+  private readonly authorApi = inject(AuthorControllerService);
+  private readonly ingredientApi = inject(IngredientControllerService);
+  private readonly recipeApi = inject(RecipeControllerService);
 
   getDishRecipeViews(): Observable<readonly RecipeView[]> {
-    return this.apiService
-      .get<RecipeSummaryResponse[]>("/recipes?kind=dish")
+    return this.recipeApi
+      .getRecipes("dish")
       .pipe(map((dtos) => dtos.map((dto) => this.recipeSummaryViewFor(dto))));
   }
 
   getRecipeDetailView(recipeId: Id): Observable<RecipeView> {
-    return this.apiService
-      .get<RecipeResponse>(`/recipes/${encodeURIComponent(recipeId)}`)
+    return this.recipeApi
+      .getRecipe(recipeId)
       .pipe(map((dto) => this.recipeDetailViewFor(dto)));
   }
 
   getIngredientsWithRecipes(): Observable<readonly IngredientDetailView[]> {
-    return this.apiService
-      .get<IngredientResponse[]>("/ingredients?hasRecipe=true")
+    return this.ingredientApi
+      .getIngredients(true)
       .pipe(
         map((dtos) => dtos.map((dto) => this.ingredientSummaryViewFor(dto))),
       );
   }
 
   getIngredientDetailView(ingredientId: Id): Observable<IngredientDetailView> {
-    return this.apiService
-      .get<IngredientResponse>(
-        `/ingredients/${encodeURIComponent(ingredientId)}`,
-      )
-      .pipe(
-        switchMap((dto) => {
-          const usedInRecipes = dto.usedInRecipes.map((recipe) =>
-            this.recipeSummaryViewFor(recipe),
-          );
+    return this.ingredientApi.getIngredient(ingredientId).pipe(
+      switchMap((dto) => {
+        const usedInRecipes = dto.usedInRecipes.map((recipe) =>
+          this.recipeSummaryViewFor(recipe),
+        );
 
-          if (dto.madeByRecipe === null) {
-            return of({
-              id: dto.publicId,
-              name: dto.name,
-              madeByRecipe: null,
-              usedInRecipes,
-            });
-          }
+        if (dto.madeByRecipe === null) {
+          return of({
+            id: dto.publicId,
+            name: dto.name,
+            madeByRecipe: null,
+            usedInRecipes,
+          });
+        }
 
-          return forkJoin({
-            madeByRecipe: this.getRecipeDetailView(dto.madeByRecipe.publicId),
-            usedInRecipes: of(usedInRecipes),
-          }).pipe(
-            map(({ madeByRecipe, usedInRecipes }) => ({
-              id: dto.publicId,
-              name: dto.name,
-              madeByRecipe,
-              usedInRecipes,
-            })),
-          );
-        }),
-      );
+        return forkJoin({
+          madeByRecipe: this.getRecipeDetailView(dto.madeByRecipe.publicId),
+          usedInRecipes: of(usedInRecipes),
+        }).pipe(
+          map(({ madeByRecipe, usedInRecipes }) => ({
+            id: dto.publicId,
+            name: dto.name,
+            madeByRecipe,
+            usedInRecipes,
+          })),
+        );
+      }),
+    );
   }
 
   getIngredientRecipeRedirect(recipeId: Id): Observable<Id | null> {
-    return this.apiService
-      .get<RecipeIngredientRedirectResponse | null>(
-        `/recipes/${encodeURIComponent(recipeId)}/ingredient-redirect`,
-      )
+    return this.recipeApi
+      .getIngredientRedirect(recipeId)
       .pipe(map((response) => response?.ingredientPublicId ?? null));
+  }
+
+  getAuthors(): Observable<readonly AuthorResponse[]> {
+    return this.authorApi.getAuthors();
+  }
+
+  getAllIngredients(): Observable<readonly IngredientResponse[]> {
+    return this.ingredientApi.getIngredients(false);
+  }
+
+  createIngredient(request: IngredientRequest): Observable<IngredientResponse> {
+    return this.ingredientApi.createIngredient(request);
+  }
+
+  createRecipe(request: RecipeCreateRequest): Observable<RecipeResponse> {
+    return this.recipeApi.createRecipe(request);
   }
 
   private ingredientSummaryViewFor(

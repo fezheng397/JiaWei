@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.recipes.api.author.dto.AuthorResponse;
 import com.recipes.api.ingredient.dto.IngredientResponse;
 import com.recipes.api.recipe.dto.IngredientLineResponse;
 import com.recipes.api.recipe.dto.RecipeResponse;
@@ -16,6 +17,13 @@ import org.junit.jupiter.api.Test;
 
 class ResponseSerializationContractTests {
   private final JsonMapper jsonMapper = JsonMapper.builder().findAndAddModules().build();
+
+  @Test
+  void authorResponseOnlyIncludesPublicContractFields() {
+    JsonNode json = jsonMapper.valueToTree(new AuthorResponse("author-id", "Author"));
+
+    assertKeys(json, "publicId", "name");
+  }
 
   @Test
   void recipeSummaryIncludesEveryKeyAndSerializesUnavailableValuesAsNull() throws Exception {

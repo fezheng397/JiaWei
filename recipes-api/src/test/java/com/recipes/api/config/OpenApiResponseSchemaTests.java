@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.recipes.api.common.ApiError;
+import com.recipes.api.author.dto.AuthorResponse;
 import com.recipes.api.ingredient.dto.IngredientRequest;
 import com.recipes.api.ingredient.dto.IngredientResponse;
 import com.recipes.api.recipe.dto.IngredientLineResponse;
@@ -29,6 +30,7 @@ class OpenApiResponseSchemaTests {
   @Test
   void responseSchemasRequireEverySerializedProperty() {
     assertAllPropertiesRequired(ApiError.class);
+    assertAllPropertiesRequired(AuthorResponse.class);
     assertAllPropertiesRequired(IngredientResponse.class);
     assertAllPropertiesRequired(IngredientLineResponse.class);
     assertAllPropertiesRequired(RecipeIngredientRedirectResponse.class);
@@ -63,6 +65,7 @@ class OpenApiResponseSchemaTests {
         "yieldAmount");
     assertNullableProperties(StepResponse.class, "timerMinutes");
     assertNullableProperties(ApiError.class);
+    assertNullableProperties(AuthorResponse.class);
     assertNullableProperties(RecipeIngredientRedirectResponse.class);
   }
 

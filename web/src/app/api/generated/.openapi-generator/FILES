@@ -4,6 +4,8 @@ README.md
 api.base.service.ts
 api.module.ts
 api/api.ts
+api/authorController.service.ts
+api/authorController.serviceInterface.ts
 api/ingredientController.service.ts
 api/ingredientController.serviceInterface.ts
 api/recipeController.service.ts
@@ -13,6 +15,7 @@ encoder.ts
 git_push.sh
 index.ts
 model/apiError.ts
+model/authorResponse.ts
 model/ingredientLineResponse.ts
 model/ingredientRequest.ts
 model/ingredientResponse.ts
