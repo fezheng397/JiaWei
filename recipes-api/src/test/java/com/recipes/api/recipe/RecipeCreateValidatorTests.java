@@ -3,7 +3,10 @@ package com.recipes.api.recipe;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.recipes.api.author.entity.Author;
@@ -36,15 +39,40 @@ class RecipeCreateValidatorTests {
     Ingredient producedIngredient = ingredient("produced-ingredient-id");
 
     when(authorRepository.findByPublicId("author-id")).thenReturn(Optional.of(mock(Author.class)));
-    when(ingredientRepository.findByPublicId("ingredient-id"))
-        .thenReturn(Optional.of(ingredient));
+    when(ingredientRepository.findAllByPublicIdIn(anyCollection())).thenReturn(List.of(ingredient));
     when(ingredientRepository.findByPublicId("produced-ingredient-id"))
         .thenReturn(Optional.of(producedIngredient));
+    when(recipeRepository.findAllByPublicIdIn(anyCollection())).thenReturn(List.of());
   }
 
   @Test
   void acceptsValidDishRecipe() {
     assertDoesNotThrow(() -> validator.validate(dishRequest()));
+
+    verify(ingredientRepository).findAllByPublicIdIn(anyCollection());
+  }
+
+  @Test
+  void resolvesMultipleIngredientLinesWithOneBatchLookup() {
+    Ingredient firstIngredient = ingredient("ingredient-id");
+    Ingredient secondIngredient = ingredient("second-ingredient-id");
+    when(ingredientRepository.findAllByPublicIdIn(anyCollection()))
+        .thenReturn(List.of(firstIngredient, secondIngredient));
+    RecipeCreateRequest request =
+        copyDish(
+            null,
+            null,
+            null,
+            List.of(
+                new RecipeIngredientCreateRequest(
+                    "line-1", "ingredient-id", "1", null, null),
+                new RecipeIngredientCreateRequest(
+                    "line-2", "second-ingredient-id", "2", null, null)),
+            dishRequest().steps());
+
+    assertDoesNotThrow(() -> validator.validate(request));
+
+    verify(ingredientRepository, times(1)).findAllByPublicIdIn(anyCollection());
   }
 
   @Test
@@ -70,6 +98,33 @@ class RecipeCreateValidatorTests {
   }
 
   @Test
+  void rejectsInvalidKindWithFriendlyMessage() {
+    RecipeCreateRequest request =
+        new RecipeCreateRequest(
+            "FOOBAR",
+            "Dish",
+            "Description",
+            "author-id",
+            List.of("Dinner"),
+            null,
+            null,
+            null,
+            null,
+            4,
+            null,
+            null,
+            null,
+            dishRequest().ingredients(),
+            dishRequest().steps());
+
+    IllegalArgumentException exception =
+        assertThrows(IllegalArgumentException.class, () -> validator.validate(request));
+
+    assertEquals(
+        "Invalid kind: 'FOOBAR'. Must be one of: dish, ingredient", exception.getMessage());
+  }
+
+  @Test
   void rejectsIngredientRecipeWithoutRequiredYield() {
     RecipeCreateRequest request =
         copyIngredient(null, ingredientRequest().ingredients(), ingredientRequest().steps());
@@ -92,7 +147,7 @@ class RecipeCreateValidatorTests {
 
   @Test
   void rejectsMissingIngredient() {
-    when(ingredientRepository.findByPublicId("ingredient-id")).thenReturn(Optional.empty());
+    when(ingredientRepository.findAllByPublicIdIn(anyCollection())).thenReturn(List.of());
 
     NotFoundException exception =
         assertThrows(NotFoundException.class, () -> validator.validate(dishRequest()));
@@ -167,10 +222,10 @@ class RecipeCreateValidatorTests {
   void rejectsPreparedByRecipeForDifferentIngredient() {
     Recipe preparedByRecipe = mock(Recipe.class);
     Ingredient differentIngredient = ingredient("different-ingredient-id");
+    when(preparedByRecipe.getPublicId()).thenReturn("prepared-recipe-id");
     when(preparedByRecipe.getKind()).thenReturn(RecipeKind.INGREDIENT);
     when(preparedByRecipe.getIngredient()).thenReturn(differentIngredient);
-    when(recipeRepository.findByPublicId("prepared-recipe-id"))
-        .thenReturn(Optional.of(preparedByRecipe));
+    when(recipeRepository.findAllByPublicIdIn(anyCollection())).thenReturn(List.of(preparedByRecipe));
     RecipeIngredientCreateRequest line =
         new RecipeIngredientCreateRequest(
             "line-1", "ingredient-id", "1", null, "prepared-recipe-id");
