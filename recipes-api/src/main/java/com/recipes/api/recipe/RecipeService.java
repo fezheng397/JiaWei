@@ -3,6 +3,7 @@ package com.recipes.api.recipe;
 import com.recipes.api.common.NotFoundException;
 import com.recipes.api.ingredient.entity.Ingredient;
 import com.recipes.api.recipe.dto.IngredientLineResponse;
+import com.recipes.api.recipe.dto.RecipeCreateRequest;
 import com.recipes.api.recipe.dto.RecipeResponse;
 import com.recipes.api.recipe.dto.RecipeSummaryResponse;
 import com.recipes.api.recipe.dto.StepResponse;
@@ -17,8 +18,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,6 +52,12 @@ public class RecipeService {
         .stream()
         .map(recipeMapper::toSummary)
         .toList();
+  }
+
+  @Transactional
+  public RecipeResponse createRecipe(RecipeCreateRequest request) {
+    throw new ResponseStatusException(
+        HttpStatus.NOT_IMPLEMENTED, "Recipe creation persistence is not implemented yet");
   }
 
   public RecipeResponse getRecipe(String recipePublicId) {
