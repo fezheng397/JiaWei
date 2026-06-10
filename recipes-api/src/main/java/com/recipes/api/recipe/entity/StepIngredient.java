@@ -25,6 +25,12 @@ public class StepIngredient {
 
   protected StepIngredient() {}
 
+  public StepIngredient(RecipeStep step, RecipeIngredient recipeIngredient) {
+    this.id = new StepIngredientId(step.getId(), recipeIngredient.getId());
+    this.step = step;
+    this.recipeIngredient = recipeIngredient;
+  }
+
   public StepIngredientId getId() {
     return id;
   }

@@ -17,8 +17,11 @@ model/ingredientLineResponse.ts
 model/ingredientRequest.ts
 model/ingredientResponse.ts
 model/models.ts
+model/recipeCreateRequest.ts
+model/recipeIngredientCreateRequest.ts
 model/recipeIngredientRedirectResponse.ts
 model/recipeResponse.ts
+model/recipeStepCreateRequest.ts
 model/recipeSummaryResponse.ts
 model/stepResponse.ts
 param.ts

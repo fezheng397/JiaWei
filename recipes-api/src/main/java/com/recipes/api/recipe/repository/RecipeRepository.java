@@ -3,6 +3,7 @@ package com.recipes.api.recipe.repository;
 import com.recipes.api.ingredient.entity.Ingredient;
 import com.recipes.api.recipe.entity.Recipe;
 import com.recipes.api.recipe.entity.RecipeKind;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +28,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
 
   @EntityGraph(attributePaths = {"author", "ingredient", "tags"})
   Optional<Recipe> findByPublicId(String publicId);
+
+  @EntityGraph(attributePaths = {"ingredient"})
+  List<Recipe> findAllByPublicIdIn(Collection<String> publicIds);
 
   @EntityGraph(attributePaths = {"author", "ingredient", "tags"})
   List<Recipe> findAllByOrderByName();

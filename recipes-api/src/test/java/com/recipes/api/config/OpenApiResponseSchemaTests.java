@@ -7,8 +7,11 @@ import com.recipes.api.common.ApiError;
 import com.recipes.api.ingredient.dto.IngredientRequest;
 import com.recipes.api.ingredient.dto.IngredientResponse;
 import com.recipes.api.recipe.dto.IngredientLineResponse;
+import com.recipes.api.recipe.dto.RecipeCreateRequest;
+import com.recipes.api.recipe.dto.RecipeIngredientCreateRequest;
 import com.recipes.api.recipe.dto.RecipeIngredientRedirectResponse;
 import com.recipes.api.recipe.dto.RecipeResponse;
+import com.recipes.api.recipe.dto.RecipeStepCreateRequest;
 import com.recipes.api.recipe.dto.RecipeSummaryResponse;
 import com.recipes.api.recipe.dto.StepResponse;
 import io.swagger.v3.core.converter.ModelConverters;
@@ -64,10 +67,31 @@ class OpenApiResponseSchemaTests {
   }
 
   @Test
-  void requestSchemaOnlyRequiresActuallyRequiredInput() {
-    Schema<?> schema = schemaFor(IngredientRequest.class);
+  void requestSchemasOnlyRequireActuallyRequiredInput() {
+    assertRequiredProperties(IngredientRequest.class, "name");
+    assertRequiredProperties(
+        RecipeCreateRequest.class,
+        "kind",
+        "name",
+        "description",
+        "authorPublicId",
+        "tags",
+        "ingredients",
+        "steps");
+    assertRequiredProperties(
+        RecipeIngredientCreateRequest.class,
+        "clientRef",
+        "ingredientPublicId",
+        "quantity");
+    assertRequiredProperties(RecipeStepCreateRequest.class, "instructions", "ingredientLineRefs");
+  }
 
-    assertEquals(Set.of("name"), new HashSet<>(schema.getRequired()));
+  @Test
+  void recipeCreateSchemaDocumentsEnumValues() {
+    Schema<?> schema = schemaFor(RecipeCreateRequest.class);
+
+    assertEquals(List.of("dish", "ingredient"), property(schema, "kind").getEnum());
+    assertEquals(List.of("easy", "medium", "hard"), property(schema, "difficulty").getEnum());
   }
 
   @Test
@@ -119,6 +143,12 @@ class OpenApiResponseSchemaTests {
             .collect(Collectors.toSet());
 
     assertEquals(expectedNullable, actualNullable);
+  }
+
+  private static void assertRequiredProperties(Class<?> requestType, String... requiredProperties) {
+    Schema<?> schema = schemaFor(requestType);
+
+    assertEquals(Set.of(requiredProperties), new HashSet<>(schema.getRequired()));
   }
 
   private static boolean isNullable(Schema<?> schema) {
