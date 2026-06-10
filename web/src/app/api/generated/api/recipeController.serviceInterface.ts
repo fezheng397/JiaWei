@@ -11,6 +11,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { RecipeCreateRequest } from '../model/models';
 import { RecipeIngredientRedirectResponse } from '../model/models';
 import { RecipeResponse } from '../model/models';
 import { RecipeSummaryResponse } from '../model/models';
@@ -23,6 +24,14 @@ import { Configuration }                                     from '../configurat
 export interface RecipeControllerServiceInterface {
     defaultHeaders: HttpHeaders;
     configuration: Configuration;
+
+    /**
+     * 
+     * 
+     * @endpoint post /recipes
+     * @param recipeCreateRequest 
+     */
+    createRecipe(recipeCreateRequest: RecipeCreateRequest, extraHttpRequestParams?: any): Observable<RecipeResponse>;
 
     /**
      * 
