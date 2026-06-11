@@ -1,0 +1,148 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.autocomplete {
+  position: relative;
+  min-width: 0;
+}
+
+input {
+  min-height: 44px;
+  min-width: 0;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text-h);
+  background: #fff;
+  font: inherit;
+  font-weight: 400;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(3 2 19 / 8%);
+}
+
+.dropdown {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  min-width: 240px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 10%),
+    0 4px 6px -4px rgb(0 0 0 / 10%);
+}
+
+.section-label {
+  padding: 8px 12px 4px;
+  color: var(--text);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  line-height: 15px;
+  text-transform: uppercase;
+}
+
+.option-list {
+  max-height: 280px;
+  overflow-y: auto;
+  outline: none;
+}
+
+.option {
+  display: flex;
+  min-height: 40px;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  color: var(--text-h);
+  background: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.option[data-active],
+.option.is-active,
+.option:hover {
+  background: #e9ebef;
+}
+
+.option[aria-disabled="true"] {
+  color: var(--text);
+  cursor: not-allowed;
+}
+
+.badge {
+  flex: 0 0 auto;
+  border-radius: 8px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 16px;
+}
+
+.badge-recipe {
+  color: var(--accent);
+  background: rgb(3 2 19 / 10%);
+}
+
+.badge-ingredient {
+  color: #007a55;
+  background: #ecfdf5;
+}
+
+.badge-new {
+  color: #1447e6;
+  background: #eff6ff;
+}
+
+.option-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.option-name strong {
+  font-weight: 650;
+}
+
+.option-note {
+  margin-left: auto;
+  color: var(--text);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.check {
+  margin-left: auto;
+  color: var(--text);
+}
+
+.create-divider {
+  height: 1px;
+  margin: 4px 12px 0;
+  background: var(--border);
+}
+
+@media (max-width: 760px) {
+  .dropdown {
+    min-width: 100%;
+  }
+
+  .option-note {
+    display: none;
+  }
+}

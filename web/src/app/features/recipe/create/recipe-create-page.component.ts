@@ -14,6 +14,10 @@ import { firstValueFrom } from "rxjs";
 import type { ApiError, IngredientResponse } from "../../../api/generated";
 import { RecipeService } from "../recipe.service";
 import {
+  IngredientAutocompleteComponent,
+  type IngredientAutocompleteSelection,
+} from "./ingredient-autocomplete.component";
+import {
   type RecipeCreateFormValue,
   type RecipeIngredientFormValue,
   type RecipeStepFormValue,
@@ -22,7 +26,7 @@ import {
 
 @Component({
   selector: "app-recipe-create-page",
-  imports: [FormField, RouterLink],
+  imports: [FormField, IngredientAutocompleteComponent, RouterLink],
   templateUrl: "./recipe-create-page.component.html",
   styleUrl: "./recipe-create-page.component.css",
 })
@@ -190,6 +194,74 @@ export class RecipeCreatePageComponent {
     return this.ingredients().find(
       (ingredient) => this.normalizeName(ingredient.name) === normalized,
     );
+  }
+
+  onIngredientTextEdited(index: number): void {
+    this.model.update((value) => ({
+      ...value,
+      ingredients: value.ingredients.map((row, itemIndex) =>
+        itemIndex === index
+          ? {
+              ...row,
+              ingredientPublicId: "",
+              usePreparedRecipe: false,
+              preparedByRecipePublicId: "",
+            }
+          : row,
+      ),
+    }));
+  }
+
+  onIngredientSelection(
+    index: number,
+    selection: IngredientAutocompleteSelection,
+  ): void {
+    this.model.update((value) => ({
+      ...value,
+      ingredients: value.ingredients.map((row, itemIndex) => {
+        if (itemIndex !== index) {
+          return row;
+        }
+
+        if (selection.kind === "new") {
+          return {
+            ...row,
+            name: selection.name,
+            ingredientPublicId: "",
+            usePreparedRecipe: false,
+            preparedByRecipePublicId: "",
+          };
+        }
+
+        const preparedRecipe = selection.ingredient.madeByRecipe;
+        return {
+          ...row,
+          name: selection.ingredient.name,
+          ingredientPublicId: selection.ingredient.publicId,
+          usePreparedRecipe: preparedRecipe !== null,
+          preparedByRecipePublicId: preparedRecipe?.publicId ?? "",
+        };
+      }),
+    }));
+  }
+
+  onProducedIngredientTextEdited(): void {
+    this.model.update((value) => ({
+      ...value,
+      producedIngredientPublicId: "",
+    }));
+  }
+
+  onProducedIngredientSelection(
+    selection: IngredientAutocompleteSelection,
+  ): void {
+    this.model.update((value) => ({
+      ...value,
+      producedIngredientName:
+        selection.kind === "new" ? selection.name : selection.ingredient.name,
+      producedIngredientPublicId:
+        selection.kind === "new" ? "" : selection.ingredient.publicId,
+    }));
   }
 
   setPreparedRecipe(index: number, event: Event): void {

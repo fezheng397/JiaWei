@@ -3,25 +3,39 @@
 }
 
 .create-page {
-  width: min(1040px, calc(100% - 48px));
+  width: min(1016px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 40px 0 64px;
+  padding: 48px 0 72px;
 }
 
 .back-link {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 28px;
-  color: var(--text-h);
+  color: var(--text);
+  font-weight: 500;
   text-decoration: none;
 }
 
-.create-heading {
-  margin-bottom: 32px;
+.back-link::before {
+  content: "←";
 }
 
-.create-heading p {
-  max-width: 640px;
-  margin: 8px 0 0;
+.back-link:hover {
+  color: var(--text-h);
+}
+
+.editor-surface {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 48px;
+  background: var(--panel-bg);
+  box-shadow: 0 10px 28px rgb(0 0 0 / 8%);
+}
+
+.create-heading {
+  padding-bottom: 32px;
 }
 
 .create-heading .type-label,
@@ -34,58 +48,90 @@
   margin: 0;
 }
 
+.create-heading p:last-child {
+  max-width: 640px;
+  margin: 8px 0 0;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 24px;
+}
+
 form {
   display: grid;
-  gap: 24px;
 }
 
-.form-section,
-.status-panel {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 28px;
-  background: var(--panel-bg);
+.form-section {
+  border-top: 1px solid var(--border);
+  padding: 36px 0;
 }
 
-.section-heading,
-.form-actions {
+.section-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-}
-
-.section-heading {
   margin-bottom: 24px;
 }
 
+.kind-field {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.kind-label,
+.field > span,
+.tags-field > span {
+  color: var(--text-h);
+  font-size: 14px;
+  font-weight: 650;
+}
+
 .kind-control {
-  display: flex;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 3px;
-  background: var(--panel-soft);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .kind-control button {
-  min-width: 96px;
-  border: 0;
-  border-radius: 4px;
-  padding: 8px 14px;
-  color: var(--text);
-  background: transparent;
+  display: grid;
+  min-height: 76px;
+  gap: 3px;
+  place-content: center;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  color: var(--text-h);
+  background: #fff;
+  text-align: center;
   cursor: pointer;
 }
 
+.kind-control button strong {
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.kind-control button span {
+  color: var(--text);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.kind-control button:hover {
+  border-color: rgb(3 2 19 / 35%);
+}
+
 .kind-control button.is-active {
-  color: #fff;
-  background: var(--accent);
+  border-color: var(--accent);
+  background: rgb(3 2 19 / 5%);
 }
 
 .field-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 22px 24px;
+  align-items: start;
 }
 
 .field-wide {
@@ -96,7 +142,7 @@ form {
 .tags-field {
   display: grid;
   min-width: 0;
-  gap: 7px;
+  gap: 8px;
   color: var(--text-h);
   font-size: 14px;
   font-weight: 650;
@@ -109,15 +155,39 @@ form {
   min-width: 0;
   width: 100%;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 10px 12px;
   color: var(--text-h);
   background: #fff;
   font-weight: 400;
+  outline: none;
+}
+
+.field input,
+.field select {
+  min-height: 44px;
+}
+
+.field select {
+  appearance: none;
+  padding-right: 42px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230a0a0a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
 }
 
 .field textarea {
+  min-height: 96px;
   resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.tag-editor:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(3 2 19 / 8%);
 }
 
 .field small,
@@ -132,7 +202,7 @@ form {
 }
 
 .tags-field {
-  margin-top: 18px;
+  margin-top: 22px;
 }
 
 .tag-editor,
@@ -144,22 +214,24 @@ form {
 }
 
 .tag-editor {
+  min-height: 48px;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 7px;
 }
 
 .tag-editor input {
   flex: 1 1 180px;
   border: 0;
   padding: 4px;
+  box-shadow: none;
 }
 
 .tag,
 .step-ingredients label {
-  border: 0;
-  border-radius: 5px;
-  padding: 6px 9px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 5px 9px;
   color: var(--text-h);
   background: var(--social-bg);
 }
@@ -176,29 +248,39 @@ form {
 .ingredient-row,
 .step-row {
   display: grid;
-  grid-template-columns:
-    minmax(220px, 2fr) minmax(100px, 0.7fr) minmax(100px, 0.7fr)
-    38px;
   gap: 12px;
-  align-items: start;
-  border-top: 1px solid var(--border);
-  padding-top: 16px;
+  border-radius: 8px;
+  padding: 16px;
+  background: var(--panel-soft);
 }
 
-.ingredient-row:first-child,
-.step-row:first-child {
-  border-top: 0;
-  padding-top: 0;
+.ingredient-row {
+  grid-template-columns:
+    minmax(220px, 2fr) minmax(100px, 0.65fr) minmax(100px, 0.65fr)
+    36px;
+  align-items: start;
+}
+
+.ingredient-row .field input,
+.step-row .field input,
+.step-row .field textarea {
+  background: rgb(255 255 255 / 72%);
 }
 
 .prepared-option {
+  display: inline-flex;
   grid-column: 1 / -1;
+  gap: 8px;
+  align-items: center;
   color: var(--text-h);
   font-size: 14px;
+  font-weight: 500;
 }
 
 .step-row {
-  grid-template-columns: 38px minmax(0, 1fr) 150px 38px;
+  grid-template-columns: 36px minmax(0, 1fr) 148px 36px;
+  align-items: start;
+  padding: 18px 16px;
 }
 
 .step-number {
@@ -206,42 +288,65 @@ form {
   width: 32px;
   height: 32px;
   place-items: center;
+  margin-top: 26px;
   border-radius: 50%;
   color: #fff;
   background: var(--accent);
   font-family: var(--serif);
 }
 
+.step-instructions textarea {
+  min-height: 82px;
+}
+
 .step-ingredients {
   grid-column: 2 / -1;
   border: 0;
   margin: 0;
-  padding: 0;
+  padding: 2px 0 0;
 }
 
 .step-ingredients legend {
   width: 100%;
   margin-bottom: 7px;
-  color: var(--text-h);
-  font-size: 14px;
-  font-weight: 650;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .step-ingredients label {
   display: inline-flex;
   gap: 6px;
   align-items: center;
-  font-size: 13px;
+  border-color: var(--border);
+  background: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.step-ingredients label:has(input:checked) {
+  border-color: var(--accent);
+  background: rgb(3 2 19 / 8%);
 }
 
 .icon-button {
+  display: grid;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text-h);
-  background: #fff;
+  place-items: center;
+  margin-top: 26px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text);
+  background: transparent;
+  font-size: 20px;
   cursor: pointer;
+}
+
+.icon-button:hover {
+  color: #a12626;
+  background: rgb(161 38 38 / 7%);
 }
 
 .primary-button,
@@ -251,7 +356,7 @@ form {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--accent);
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 9px 16px;
   font-weight: 650;
   text-decoration: none;
@@ -268,43 +373,63 @@ form {
   background: #fff;
 }
 
+.secondary-button:hover {
+  background: var(--panel-soft);
+}
+
 .primary-button:disabled {
   opacity: 0.55;
   cursor: wait;
 }
 
 .form-actions {
-  position: sticky;
-  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   border-top: 1px solid var(--border);
-  padding: 16px 0;
-  background: var(--bg);
+  padding-top: 28px;
 }
 
 .submit-error {
-  margin: 0;
+  margin: 0 0 24px;
   border: 1px solid rgb(161 38 38 / 30%);
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 12px 14px;
   background: rgb(161 38 38 / 6%);
 }
 
+.status-panel {
+  border-top: 1px solid var(--border);
+  padding: 32px 0 0;
+}
+
 @media (max-width: 760px) {
   .create-page {
-    width: min(100% - 32px, 1040px);
-    padding-top: 28px;
+    width: min(100% - 32px, 1016px);
+    padding: 28px 0 48px;
+  }
+
+  .back-link {
+    margin-bottom: 20px;
+  }
+
+  .editor-surface {
+    padding: 24px 18px;
+  }
+
+  .create-heading {
+    padding-bottom: 24px;
   }
 
   .form-section {
-    padding: 20px;
+    padding: 28px 0;
   }
 
-  .section-heading,
-  .form-actions {
-    align-items: stretch;
-    flex-direction: column;
+  .section-heading {
+    align-items: flex-start;
   }
 
+  .kind-control,
   .field-grid,
   .ingredient-row,
   .step-row {
@@ -317,7 +442,26 @@ form {
     grid-column: auto;
   }
 
+  .ingredient-row,
+  .step-row {
+    padding: 14px;
+  }
+
+  .step-number,
+  .icon-button {
+    margin-top: 0;
+  }
+
+  .step-number {
+    justify-self: start;
+  }
+
   .icon-button {
     justify-self: end;
+  }
+
+  .form-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
   }
 }

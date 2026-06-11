@@ -1,0 +1,67 @@
+<div ngCombobox #combobox="ngCombobox" filterMode="manual" class="autocomplete">
+  <input
+    ngComboboxInput
+    [value]="value()"
+    (valueChange)="onInput($event)"
+    (keydown)="onKeydown($event)"
+    (blur)="onBlur()"
+    [attr.aria-controls]="isOpen() ? listboxId : null"
+    [attr.aria-activedescendant]="activeOptionId()"
+    [placeholder]="placeholder()"
+    autocomplete="off"
+  />
+
+  @if (isOpen() && query()) {
+    <div [id]="listboxId" role="listbox" class="dropdown">
+      <div class="section-label">
+        {{ matchingOptions().length ? "Use existing" : "No matches" }}
+      </div>
+      <div class="option-list">
+        @for (option of matchingOptions(); track option.publicId) {
+          <div
+            [id]="listboxId + '-' + option.publicId"
+            role="option"
+            [attr.aria-selected]="selectedPublicId() === option.publicId"
+            [attr.aria-disabled]="isDisabled(option)"
+            class="option"
+            [class.is-active]="isActive(option)"
+            (mousedown)="$event.preventDefault()"
+            (click)="selectExisting(option)"
+          >
+            <span
+              class="badge"
+              [class.badge-recipe]="option.madeByRecipe"
+              [class.badge-ingredient]="!option.madeByRecipe"
+            >
+              {{ option.madeByRecipe ? "Recipe" : "Ingredient" }}
+            </span>
+            <span class="option-name">{{ option.name }}</span>
+            @if (isDisabled(option)) {
+              <span class="option-note">Already has a recipe</span>
+            } @else if (selectedPublicId() === option.publicId) {
+              <span class="check" aria-hidden="true">✓</span>
+            }
+          </div>
+        }
+
+        @if (showCreateOption()) {
+          <div class="create-divider"></div>
+          <div
+            [id]="listboxId + '-new'"
+            role="option"
+            aria-selected="false"
+            class="option"
+            [class.is-active]="isNewActive()"
+            (mousedown)="$event.preventDefault()"
+            (click)="selectNew()"
+          >
+            <span class="badge badge-new">New</span>
+            <span class="option-name">
+              Create <strong>“{{ query() }}”</strong>
+            </span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
