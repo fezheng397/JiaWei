@@ -12,7 +12,7 @@ import {
 import { Router, RouterLink } from "@angular/router";
 import { firstValueFrom } from "rxjs";
 import type { ApiError, IngredientResponse } from "../../../api/generated";
-import { AppButtonComponent } from "../../../shared/ui/app-button.component";
+import { AppButtonComponent } from "../../../shared/button/app-button.component";
 import { RecipeService } from "../recipe.service";
 import {
   IngredientAutocompleteComponent,

@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { AppIconComponent } from "../../shared/ui/app-icon.component";
+import { AppIconComponent } from "../../shared/icon/app-icon.component";
 
 export interface RecipeCardView {
   title: string;

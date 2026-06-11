@@ -8,7 +8,7 @@ import {
   inject,
   signal,
 } from "@angular/core";
-import { AppIconComponent } from "../../shared/ui/app-icon.component";
+import { AppIconComponent } from "../../shared/icon/app-icon.component";
 
 @Component({
   selector: "app-chef-filter",

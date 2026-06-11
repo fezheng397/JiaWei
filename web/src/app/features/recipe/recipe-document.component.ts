@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { AppIconComponent } from "../../shared/ui/app-icon.component";
+import { AppIconComponent } from "../../shared/icon/app-icon.component";
 import { RecipeTimerComponent } from "./recipe-timer.component";
 import type { RecipeView } from "./recipe-view-model";
 

@@ -7,7 +7,7 @@ import {
 } from "./recipe-card.component";
 import { RecipeService } from "./recipe.service";
 import { rxResource } from "@angular/core/rxjs-interop";
-import { AppButtonComponent } from "../../shared/ui/app-button.component";
+import { AppButtonComponent } from "../../shared/button/app-button.component";
 import type { IngredientDetailView } from "./recipe-view-model";
 
 @Component({
