@@ -38,11 +38,6 @@
   padding-bottom: 32px;
 }
 
-.create-heading .type-label,
-.section-heading .type-label {
-  margin: 0 0 6px;
-}
-
 .create-heading h1,
 .section-heading h2 {
   margin: 0;
