@@ -11,9 +11,9 @@
         No ingredient could be loaded for ID <code>{{ ingredientId() }}</code
         >.
       </p>
-      <button type="button" (click)="ingredientResource.reload()">
+      <app-button variant="secondary" (click)="ingredientResource.reload()">
         Try again
-      </button>
+      </app-button>
     </section>
   } @else if (ingredientResource.value(); as ingredient) {
     @if (ingredient.madeByRecipe; as recipe) {

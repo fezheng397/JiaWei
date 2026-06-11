@@ -12,6 +12,7 @@ import {
 import { Router, RouterLink } from "@angular/router";
 import { firstValueFrom } from "rxjs";
 import type { ApiError, IngredientResponse } from "../../../api/generated";
+import { AppButtonComponent } from "../../../shared/ui/app-button.component";
 import { RecipeService } from "../recipe.service";
 import {
   IngredientAutocompleteComponent,
@@ -26,7 +27,12 @@ import {
 
 @Component({
   selector: "app-recipe-create-page",
-  imports: [FormField, IngredientAutocompleteComponent, RouterLink],
+  imports: [
+    AppButtonComponent,
+    FormField,
+    IngredientAutocompleteComponent,
+    RouterLink,
+  ],
   templateUrl: "./recipe-create-page.component.html",
   styleUrl: "./recipe-create-page.component.css",
 })

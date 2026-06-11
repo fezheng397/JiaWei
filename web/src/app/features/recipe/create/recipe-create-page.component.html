@@ -177,9 +177,9 @@
                 (keydown)="onTagKeydown($event)"
                 placeholder="Add a tag"
               />
-              <button type="button" class="secondary-button" (click)="addTag()">
+              <app-button variant="secondary" (click)="addTag()">
                 Add
-              </button>
+              </app-button>
             </div>
             @if (recipeForm.tags().touched() && recipeForm.tags().invalid()) {
               <small>{{ recipeForm.tags().errors()[0].message }}</small>
@@ -194,13 +194,9 @@
                 Ingredients
               </h2>
             </div>
-            <button
-              type="button"
-              class="secondary-button"
-              (click)="addIngredient()"
-            >
+            <app-button variant="secondary" (click)="addIngredient()">
               Add ingredient
-            </button>
+            </app-button>
           </div>
 
           <div class="repeat-list">
@@ -272,14 +268,14 @@
                     placeholder="tbsp"
                   />
                 </label>
-                <button
-                  type="button"
-                  class="icon-button"
-                  aria-label="Remove ingredient"
+                <app-button
+                  class="row-remove-button"
+                  variant="icon"
+                  ariaLabel="Remove ingredient"
                   (click)="removeIngredient(ingredientIndex)"
                 >
                   ×
-                </button>
+                </app-button>
                 @if (
                   ingredientForName(ingredientValue.name)?.madeByRecipe;
                   as preparedRecipe
@@ -305,9 +301,9 @@
                 Instructions
               </h2>
             </div>
-            <button type="button" class="secondary-button" (click)="addStep()">
+            <app-button variant="secondary" (click)="addStep()">
               Add step
-            </button>
+            </app-button>
           </div>
 
           <div class="repeat-list">
@@ -344,14 +340,14 @@
                     [formField]="recipeForm.steps[stepIndex].timerMinutes"
                   />
                 </label>
-                <button
-                  type="button"
-                  class="icon-button"
-                  aria-label="Remove step"
+                <app-button
+                  class="row-remove-button"
+                  variant="icon"
+                  ariaLabel="Remove step"
                   (click)="removeStep(stepIndex)"
                 >
                   ×
-                </button>
+                </app-button>
                 <fieldset class="step-ingredients">
                   <legend>Ingredients used in this step</legend>
                   @for (row of model().ingredients; track row.clientRef) {
@@ -381,14 +377,17 @@
         }
 
         <footer class="form-actions">
-          <a class="secondary-button" routerLink="/recipes">Cancel</a>
-          <button
-            class="primary-button"
+          <app-button variant="secondary" size="lg" [route]="['/recipes']">
+            Cancel
+          </app-button>
+          <app-button
+            variant="primary"
+            size="lg"
             type="submit"
-            [disabled]="submitting()"
+            [loading]="submitting()"
           >
             {{ submitting() ? "Creating..." : "Create Recipe" }}
-          </button>
+          </app-button>
         </footer>
       </form>
     }

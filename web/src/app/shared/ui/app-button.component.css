@@ -1,0 +1,146 @@
+:host {
+  display: inline-flex;
+  min-width: 0;
+}
+
+:host.is-full-width {
+  width: 100%;
+}
+
+.button-control {
+  box-sizing: border-box;
+  width: 100%;
+  font: inherit;
+}
+
+.button-control--unstyled {
+  color: inherit;
+}
+
+.button-control:not(.button-control--unstyled) {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--text-h);
+  font-weight: 650;
+  line-height: 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.button-control--sm {
+  min-height: 32px;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.button-control--md {
+  min-height: 40px;
+  padding: 9px 16px;
+  font-size: 14px;
+}
+
+.button-control--lg {
+  min-height: 46px;
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+.button-control.button-control--primary {
+  border-color: var(--accent);
+  color: #fff;
+  background: var(--accent);
+}
+
+.button-control.button-control--primary:hover:not(
+    :disabled,
+    [aria-disabled="true"]
+  ) {
+  background: rgb(3 2 19 / 86%);
+}
+
+.button-control.button-control--secondary {
+  border-color: var(--border);
+  color: var(--text-h);
+  background: var(--panel-bg);
+}
+
+.button-control.button-control--secondary:hover:not(
+    :disabled,
+    [aria-disabled="true"]
+  ) {
+  background: var(--panel-soft);
+}
+
+.button-control.button-control--ghost {
+  border-color: var(--border);
+  background: var(--panel-bg);
+}
+
+.button-control.button-control--ghost:hover:not(
+    :disabled,
+    [aria-disabled="true"]
+  ) {
+  background: var(--social-bg);
+}
+
+.button-control.button-control--icon {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  border-color: transparent;
+  padding: 0;
+  color: var(--text);
+  background: transparent;
+  font-size: 20px;
+}
+
+.button-control.button-control--icon.button-control--sm {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  min-height: 32px;
+}
+
+.button-control.button-control--icon.button-control--lg {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+}
+
+.button-control.button-control--icon:hover:not(
+    :disabled,
+    [aria-disabled="true"]
+  ) {
+  color: #a12626;
+  background: rgb(161 38 38 / 7%);
+}
+
+.button-control--full-width {
+  width: 100%;
+}
+
+.button-control:focus-visible {
+  outline: 3px solid rgb(3 2 19 / 22%);
+  outline-offset: 2px;
+}
+
+.button-control:disabled,
+.button-control[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.button-control[aria-busy="true"] {
+  cursor: wait;
+}

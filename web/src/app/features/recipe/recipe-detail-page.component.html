@@ -11,7 +11,9 @@
         No recipe could be loaded for ID <code>{{ recipeId() }}</code
         >.
       </p>
-      <button type="button" (click)="recipeResource.reload()">Try again</button>
+      <app-button variant="secondary" (click)="recipeResource.reload()">
+        Try again
+      </app-button>
     </section>
   } @else if (recipeResource.value(); as recipe) {
     <app-recipe-document

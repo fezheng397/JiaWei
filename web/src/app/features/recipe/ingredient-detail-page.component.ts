@@ -1,12 +1,13 @@
 import { Component, computed, inject } from "@angular/core";
 import { rxResource, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterLink } from "@angular/router";
+import { AppButtonComponent } from "../../shared/ui/app-button.component";
 import { RecipeDocumentComponent } from "./recipe-document.component";
 import { RecipeService } from "./recipe.service";
 
 @Component({
   selector: "app-ingredient-detail-page",
-  imports: [RecipeDocumentComponent, RouterLink],
+  imports: [AppButtonComponent, RecipeDocumentComponent, RouterLink],
   templateUrl: "./ingredient-detail-page.component.html",
   styleUrl: "./recipe-display.css",
 })
