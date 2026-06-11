@@ -39,6 +39,14 @@ export const routes: Routes = [
         title: "Recipes",
       },
       {
+        path: "recipes/new",
+        loadComponent: () =>
+          import("./features/recipe/create/recipe-create-page.component").then(
+            (module) => module.RecipeCreatePageComponent,
+          ),
+        title: "Create Recipe",
+      },
+      {
         path: "recipe/:recipeId",
         component: RecipeDetailPageComponent,
         title: "Recipe",

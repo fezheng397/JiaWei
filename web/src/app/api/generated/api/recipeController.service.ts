@@ -51,10 +51,10 @@ export class RecipeControllerService extends BaseService implements RecipeContro
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public createRecipe(recipeCreateRequest: RecipeCreateRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<RecipeResponse>;
-    public createRecipe(recipeCreateRequest: RecipeCreateRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecipeResponse>>;
-    public createRecipe(recipeCreateRequest: RecipeCreateRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecipeResponse>>;
-    public createRecipe(recipeCreateRequest: RecipeCreateRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public createRecipe(recipeCreateRequest: RecipeCreateRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RecipeResponse>;
+    public createRecipe(recipeCreateRequest: RecipeCreateRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecipeResponse>>;
+    public createRecipe(recipeCreateRequest: RecipeCreateRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecipeResponse>>;
+    public createRecipe(recipeCreateRequest: RecipeCreateRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (recipeCreateRequest === null || recipeCreateRequest === undefined) {
             throw new Error('Required parameter recipeCreateRequest was null or undefined when calling createRecipe.');
         }
@@ -62,7 +62,7 @@ export class RecipeControllerService extends BaseService implements RecipeContro
         let localVarHeaders = this.defaultHeaders;
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*'
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -116,10 +116,10 @@ export class RecipeControllerService extends BaseService implements RecipeContro
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public getIngredientRedirect(publicId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<RecipeIngredientRedirectResponse>;
-    public getIngredientRedirect(publicId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecipeIngredientRedirectResponse>>;
-    public getIngredientRedirect(publicId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecipeIngredientRedirectResponse>>;
-    public getIngredientRedirect(publicId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getIngredientRedirect(publicId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RecipeIngredientRedirectResponse>;
+    public getIngredientRedirect(publicId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecipeIngredientRedirectResponse>>;
+    public getIngredientRedirect(publicId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecipeIngredientRedirectResponse>>;
+    public getIngredientRedirect(publicId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (publicId === null || publicId === undefined) {
             throw new Error('Required parameter publicId was null or undefined when calling getIngredientRedirect.');
         }
@@ -127,7 +127,7 @@ export class RecipeControllerService extends BaseService implements RecipeContro
         let localVarHeaders = this.defaultHeaders;
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*'
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -171,10 +171,10 @@ export class RecipeControllerService extends BaseService implements RecipeContro
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public getRecipe(publicId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<RecipeResponse>;
-    public getRecipe(publicId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecipeResponse>>;
-    public getRecipe(publicId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecipeResponse>>;
-    public getRecipe(publicId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getRecipe(publicId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RecipeResponse>;
+    public getRecipe(publicId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecipeResponse>>;
+    public getRecipe(publicId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecipeResponse>>;
+    public getRecipe(publicId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (publicId === null || publicId === undefined) {
             throw new Error('Required parameter publicId was null or undefined when calling getRecipe.');
         }
@@ -182,7 +182,7 @@ export class RecipeControllerService extends BaseService implements RecipeContro
         let localVarHeaders = this.defaultHeaders;
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*'
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -226,10 +226,10 @@ export class RecipeControllerService extends BaseService implements RecipeContro
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public getRecipes(kind?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<Array<RecipeSummaryResponse>>;
-    public getRecipes(kind?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RecipeSummaryResponse>>>;
-    public getRecipes(kind?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RecipeSummaryResponse>>>;
-    public getRecipes(kind?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getRecipes(kind?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<RecipeSummaryResponse>>;
+    public getRecipes(kind?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RecipeSummaryResponse>>>;
+    public getRecipes(kind?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RecipeSummaryResponse>>>;
+    public getRecipes(kind?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
 
@@ -245,7 +245,7 @@ export class RecipeControllerService extends BaseService implements RecipeContro
         let localVarHeaders = this.defaultHeaders;
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*'
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);

@@ -1,0 +1,396 @@
+<main class="create-page">
+  <a class="back-link" routerLink="/recipes">Back to recipes</a>
+
+  <div class="editor-surface">
+    <header class="create-heading">
+      <h1 class="type-page-title">Create Recipe</h1>
+      <p class="type-body-lg">
+        Add the ingredients and instructions that make this recipe yours.
+      </p>
+    </header>
+
+    @if (authorsResource.isLoading() || ingredientsResource.isLoading()) {
+      <section class="status-panel" aria-live="polite">
+        Loading form options...
+      </section>
+    } @else if (authorsResource.error() || ingredientsResource.error()) {
+      <section class="status-panel" role="alert">
+        The form options could not be loaded. Please refresh and try again.
+      </section>
+    } @else {
+      <form (submit)="onSubmit($event)">
+        <section class="form-section" aria-labelledby="basics-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="basics-heading" class="type-section-title">
+                Recipe details
+              </h2>
+            </div>
+          </div>
+
+          <div class="kind-field">
+            <span class="kind-label">Recipe type</span>
+            <div class="kind-control" aria-label="Recipe type">
+              <button
+                type="button"
+                [class.is-active]="!isIngredientRecipe()"
+                (click)="setKind('dish')"
+              >
+                <strong>Dish</strong>
+                <span>A complete meal or recipe</span>
+              </button>
+              <button
+                type="button"
+                [class.is-active]="isIngredientRecipe()"
+                (click)="setKind('ingredient')"
+              >
+                <strong>Ingredient</strong>
+                <span>A homemade ingredient used in dishes</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="field-grid">
+            <label class="field field-wide">
+              <span>Recipe title</span>
+              <input
+                [formField]="recipeForm.name"
+                placeholder="Miso butter noodles"
+              />
+              @if (recipeForm.name().touched() && recipeForm.name().invalid()) {
+                <small>{{ recipeForm.name().errors()[0].message }}</small>
+              }
+            </label>
+
+            <label class="field">
+              <span>Author</span>
+              <select [formField]="recipeForm.authorPublicId">
+                <option value="">Choose an author</option>
+                @for (author of authors(); track author.publicId) {
+                  <option [value]="author.publicId">{{ author.name }}</option>
+                }
+              </select>
+              @if (
+                recipeForm.authorPublicId().touched() &&
+                recipeForm.authorPublicId().invalid()
+              ) {
+                <small>{{
+                  recipeForm.authorPublicId().errors()[0].message
+                }}</small>
+              }
+            </label>
+
+            <label class="field">
+              <span>Difficulty</span>
+              <select [formField]="recipeForm.difficulty">
+                <option value="">Not set</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </label>
+
+            <label class="field field-wide">
+              <span>Description</span>
+              <textarea
+                rows="4"
+                [formField]="recipeForm.description"
+                placeholder="What makes this recipe special?"
+              ></textarea>
+              @if (
+                recipeForm.description().touched() &&
+                recipeForm.description().invalid()
+              ) {
+                <small>{{
+                  recipeForm.description().errors()[0].message
+                }}</small>
+              }
+            </label>
+
+            <label class="field metadata-field">
+              <span>Prep time (minutes)</span>
+              <input type="number" [formField]="recipeForm.prepTimeMinutes" />
+            </label>
+            <label class="field metadata-field">
+              <span>Cook time (minutes)</span>
+              <input type="number" [formField]="recipeForm.cookTimeMinutes" />
+            </label>
+
+            @if (!isIngredientRecipe()) {
+              <label class="field metadata-field">
+                <span>Servings</span>
+                <input type="number" [formField]="recipeForm.servings" />
+              </label>
+            } @else {
+              <label class="field field-wide">
+                <span>Produced ingredient</span>
+                <app-ingredient-autocomplete
+                  [formField]="recipeForm.producedIngredientName"
+                  [options]="ingredients()"
+                  [selectedPublicId]="model().producedIngredientPublicId"
+                  [producedIngredient]="true"
+                  placeholder="Search or create an ingredient"
+                  (textEdited)="onProducedIngredientTextEdited()"
+                  (selectionChange)="onProducedIngredientSelection($event)"
+                ></app-ingredient-autocomplete>
+                @if (
+                  recipeForm.producedIngredientName().touched() &&
+                  recipeForm.producedIngredientName().invalid()
+                ) {
+                  <small>
+                    {{
+                      recipeForm.producedIngredientName().errors()[0].message
+                    }}
+                  </small>
+                }
+              </label>
+              <label class="field">
+                <span>Yield quantity</span>
+                <input [formField]="recipeForm.yieldQuantity" placeholder="2" />
+                @if (
+                  recipeForm.yieldQuantity().touched() &&
+                  recipeForm.yieldQuantity().invalid()
+                ) {
+                  <small>{{
+                    recipeForm.yieldQuantity().errors()[0].message
+                  }}</small>
+                }
+              </label>
+              <label class="field">
+                <span>Yield unit</span>
+                <input [formField]="recipeForm.yieldUnit" placeholder="cups" />
+              </label>
+            }
+          </div>
+
+          <div class="tags-field">
+            <span>Tags</span>
+            <div class="tag-editor">
+              @for (tag of model().tags; track tag) {
+                <button type="button" class="tag" (click)="removeTag(tag)">
+                  {{ tag }} <span aria-hidden="true">×</span>
+                </button>
+              }
+              <input
+                [value]="tagDraft()"
+                (input)="tagDraft.set($any($event.target).value)"
+                (keydown)="onTagKeydown($event)"
+                placeholder="Add a tag"
+              />
+              <button type="button" class="secondary-button" (click)="addTag()">
+                Add
+              </button>
+            </div>
+            @if (recipeForm.tags().touched() && recipeForm.tags().invalid()) {
+              <small>{{ recipeForm.tags().errors()[0].message }}</small>
+            }
+          </div>
+        </section>
+
+        <section class="form-section" aria-labelledby="ingredients-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="ingredients-heading" class="type-section-title">
+                Ingredients
+              </h2>
+            </div>
+            <button
+              type="button"
+              class="secondary-button"
+              (click)="addIngredient()"
+            >
+              Add ingredient
+            </button>
+          </div>
+
+          <div class="repeat-list">
+            @for (
+              ingredientValue of model().ingredients;
+              track ingredientValue.clientRef;
+              let ingredientIndex = $index
+            ) {
+              <article class="ingredient-row">
+                <label class="field ingredient-name">
+                  <span>Ingredient</span>
+                  <app-ingredient-autocomplete
+                    [formField]="recipeForm.ingredients[ingredientIndex].name"
+                    [options]="ingredients()"
+                    [selectedPublicId]="ingredientValue.ingredientPublicId"
+                    placeholder="Search or create an ingredient"
+                    (textEdited)="onIngredientTextEdited(ingredientIndex)"
+                    (selectionChange)="
+                      onIngredientSelection(ingredientIndex, $event)
+                    "
+                  ></app-ingredient-autocomplete>
+                  @if (
+                    recipeForm.ingredients[ingredientIndex].name().touched() &&
+                    recipeForm.ingredients[ingredientIndex].name().invalid()
+                  ) {
+                    <small>
+                      {{
+                        recipeForm.ingredients[ingredientIndex]
+                          .name()
+                          .errors()[0].message
+                      }}
+                    </small>
+                  } @else if (
+                    ingredientValue.name &&
+                    !ingredientForName(ingredientValue.name)
+                  ) {
+                    <small class="new-note"
+                      >A new ingredient will be created.</small
+                    >
+                  }
+                </label>
+                <label class="field">
+                  <span>Quantity</span>
+                  <input
+                    [formField]="
+                      recipeForm.ingredients[ingredientIndex].quantity
+                    "
+                    placeholder="2"
+                  />
+                  @if (
+                    recipeForm.ingredients[ingredientIndex]
+                      .quantity()
+                      .touched() &&
+                    recipeForm.ingredients[ingredientIndex].quantity().invalid()
+                  ) {
+                    <small>
+                      {{
+                        recipeForm.ingredients[ingredientIndex]
+                          .quantity()
+                          .errors()[0].message
+                      }}
+                    </small>
+                  }
+                </label>
+                <label class="field">
+                  <span>Unit</span>
+                  <input
+                    [formField]="recipeForm.ingredients[ingredientIndex].unit"
+                    placeholder="tbsp"
+                  />
+                </label>
+                <button
+                  type="button"
+                  class="icon-button"
+                  aria-label="Remove ingredient"
+                  (click)="removeIngredient(ingredientIndex)"
+                >
+                  ×
+                </button>
+                @if (
+                  ingredientForName(ingredientValue.name)?.madeByRecipe;
+                  as preparedRecipe
+                ) {
+                  <label class="prepared-option">
+                    <input
+                      type="checkbox"
+                      [checked]="ingredientValue.usePreparedRecipe"
+                      (change)="setPreparedRecipe(ingredientIndex, $event)"
+                    />
+                    Use {{ preparedRecipe.name }}
+                  </label>
+                }
+              </article>
+            }
+          </div>
+        </section>
+
+        <section class="form-section" aria-labelledby="steps-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="steps-heading" class="type-section-title">
+                Instructions
+              </h2>
+            </div>
+            <button type="button" class="secondary-button" (click)="addStep()">
+              Add step
+            </button>
+          </div>
+
+          <div class="repeat-list">
+            @for (
+              stepValue of model().steps;
+              track $index;
+              let stepIndex = $index
+            ) {
+              <article class="step-row">
+                <div class="step-number">{{ stepIndex + 1 }}</div>
+                <label class="field step-instructions">
+                  <span>Instructions</span>
+                  <textarea
+                    rows="4"
+                    [formField]="recipeForm.steps[stepIndex].instructions"
+                    placeholder="Describe this step"
+                  ></textarea>
+                  @if (
+                    recipeForm.steps[stepIndex].instructions().touched() &&
+                    recipeForm.steps[stepIndex].instructions().invalid()
+                  ) {
+                    <small>
+                      {{
+                        recipeForm.steps[stepIndex].instructions().errors()[0]
+                          .message
+                      }}
+                    </small>
+                  }
+                </label>
+                <label class="field timer-field">
+                  <span>Timer (minutes)</span>
+                  <input
+                    type="number"
+                    [formField]="recipeForm.steps[stepIndex].timerMinutes"
+                  />
+                </label>
+                <button
+                  type="button"
+                  class="icon-button"
+                  aria-label="Remove step"
+                  (click)="removeStep(stepIndex)"
+                >
+                  ×
+                </button>
+                <fieldset class="step-ingredients">
+                  <legend>Ingredients used in this step</legend>
+                  @for (row of model().ingredients; track row.clientRef) {
+                    @if (row.name.trim()) {
+                      <label>
+                        <input
+                          type="checkbox"
+                          [checked]="
+                            stepValue.ingredientLineRefs.includes(row.clientRef)
+                          "
+                          (change)="
+                            toggleStepIngredient(stepIndex, row.clientRef)
+                          "
+                        />
+                        {{ row.name }}
+                      </label>
+                    }
+                  }
+                </fieldset>
+              </article>
+            }
+          </div>
+        </section>
+
+        @if (submitError()) {
+          <p class="submit-error" role="alert">{{ submitError() }}</p>
+        }
+
+        <footer class="form-actions">
+          <a class="secondary-button" routerLink="/recipes">Cancel</a>
+          <button
+            class="primary-button"
+            type="submit"
+            [disabled]="submitting()"
+          >
+            {{ submitting() ? "Creating..." : "Create Recipe" }}
+          </button>
+        </footer>
+      </form>
+    }
+  </div>
+</main>
