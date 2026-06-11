@@ -180,9 +180,12 @@ export class IngredientAutocompleteComponent implements FormValueControl<string>
     if (!selection) {
       return;
     }
-    selection.kind === "new"
-      ? this.selectNew()
-      : this.selectExisting(selection.option);
+    if (selection.kind === "new") {
+      this.selectNew();
+      return;
+    }
+
+    this.selectExisting(selection.option);
   }
 
   private selectionAt(

@@ -14,7 +14,6 @@ import {
   IngredientRequest,
   RecipeControllerService,
   RecipeCreateRequest,
-  RecipeIngredientRedirectResponse,
   RecipeResponse,
   RecipeSummaryResponse,
 } from "../../api/generated";

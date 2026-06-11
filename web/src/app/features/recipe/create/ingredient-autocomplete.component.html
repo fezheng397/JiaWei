@@ -25,8 +25,7 @@
             [attr.aria-disabled]="isDisabled(option)"
             class="option"
             [class.is-active]="isActive(option)"
-            (mousedown)="$event.preventDefault()"
-            (click)="selectExisting(option)"
+            (mousedown)="selectExisting(option); $event.preventDefault()"
           >
             <span
               class="badge"
@@ -58,8 +57,7 @@
             aria-selected="false"
             class="option"
             [class.is-active]="isNewActive()"
-            (mousedown)="$event.preventDefault()"
-            (click)="selectNew()"
+            (mousedown)="selectNew(); $event.preventDefault()"
           >
             <span class="badge badge-new">
               <app-icon name="plus" [size]="12" />
