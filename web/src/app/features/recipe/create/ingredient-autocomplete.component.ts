@@ -11,6 +11,7 @@ import {
 } from "@angular/core";
 import type { FormValueControl } from "@angular/forms/signals";
 import type { IngredientResponse } from "../../../api/generated";
+import { AppIconComponent } from "../../../shared/ui/app-icon.component";
 
 let nextAutocompleteId = 0;
 
@@ -26,7 +27,7 @@ export type IngredientAutocompleteSelection =
 
 @Component({
   selector: "app-ingredient-autocomplete",
-  imports: [Combobox, ComboboxInput],
+  imports: [AppIconComponent, Combobox, ComboboxInput],
   templateUrl: "./ingredient-autocomplete.component.html",
   styleUrl: "./ingredient-autocomplete.component.css",
   changeDetection: ChangeDetectionStrategy.OnPush,

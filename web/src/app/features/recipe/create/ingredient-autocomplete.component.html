@@ -33,13 +33,19 @@
               [class.badge-recipe]="option.madeByRecipe"
               [class.badge-ingredient]="!option.madeByRecipe"
             >
+              <app-icon
+                [name]="option.madeByRecipe ? 'book-open' : 'leaf'"
+                [size]="12"
+              />
               {{ option.madeByRecipe ? "Recipe" : "Ingredient" }}
             </span>
             <span class="option-name">{{ option.name }}</span>
             @if (isDisabled(option)) {
               <span class="option-note">Already has a recipe</span>
             } @else if (selectedPublicId() === option.publicId) {
-              <span class="check" aria-hidden="true">✓</span>
+              <span class="check" aria-hidden="true">
+                <app-icon name="check" [size]="14" />
+              </span>
             }
           </div>
         }
@@ -55,7 +61,10 @@
             (mousedown)="$event.preventDefault()"
             (click)="selectNew()"
           >
-            <span class="badge badge-new">New</span>
+            <span class="badge badge-new">
+              <app-icon name="plus" [size]="12" />
+              New
+            </span>
             <span class="option-name">
               Create <strong>“{{ query() }}”</strong>
             </span>

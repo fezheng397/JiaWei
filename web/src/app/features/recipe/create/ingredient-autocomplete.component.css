@@ -85,7 +85,10 @@ input:focus {
 }
 
 .badge {
+  display: inline-flex;
   flex: 0 0 auto;
+  gap: 6px;
+  align-items: center;
   border-radius: 8px;
   padding: 2px 6px;
   font-size: 11px;
