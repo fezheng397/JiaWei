@@ -101,7 +101,7 @@ describe("IngredientAutocompleteComponent", () => {
     const option = fixture.nativeElement.querySelector(
       '.option:not([aria-disabled="true"])',
     ) as HTMLElement;
-    option.click();
+    option.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
     await fixture.whenStable();
 
     expect(selection).toEqual({ kind: "existing", ingredient: options[0] });
@@ -116,7 +116,9 @@ describe("IngredientAutocompleteComponent", () => {
 
     (
       fixture.nativeElement.querySelector(".badge-new") as HTMLElement
-    ).parentElement?.click();
+    ).parentElement?.dispatchEvent(
+      new MouseEvent("mousedown", { bubbles: true }),
+    );
     await fixture.whenStable();
 
     expect(selection).toEqual({ kind: "new", name: "Bok Choy" });

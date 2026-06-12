@@ -7,6 +7,7 @@ import {
 } from "./recipe-card.component";
 import { RecipeService } from "./recipe.service";
 import { rxResource } from "@angular/core/rxjs-interop";
+import { AppButtonComponent } from "../../shared/button/app-button.component";
 import type { IngredientDetailView } from "./recipe-view-model";
 
 @Component({
@@ -14,6 +15,7 @@ import type { IngredientDetailView } from "./recipe-view-model";
   imports: [
     RouterLink,
     RouterLinkActive,
+    AppButtonComponent,
     ChefFilterComponent,
     RecipeCardComponent,
   ],

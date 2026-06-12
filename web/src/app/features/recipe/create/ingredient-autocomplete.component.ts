@@ -11,7 +11,7 @@ import {
 } from "@angular/core";
 import type { FormValueControl } from "@angular/forms/signals";
 import type { IngredientResponse } from "../../../api/generated";
-import { AppIconComponent } from "../../../shared/ui/app-icon.component";
+import { AppIconComponent } from "../../../shared/icon/app-icon.component";
 
 let nextAutocompleteId = 0;
 
@@ -180,9 +180,12 @@ export class IngredientAutocompleteComponent implements FormValueControl<string>
     if (!selection) {
       return;
     }
-    selection.kind === "new"
-      ? this.selectNew()
-      : this.selectExisting(selection.option);
+    if (selection.kind === "new") {
+      this.selectNew();
+      return;
+    }
+
+    this.selectExisting(selection.option);
   }
 
   private selectionAt(

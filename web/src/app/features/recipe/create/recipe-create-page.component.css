@@ -325,56 +325,8 @@ form {
   background: rgb(3 2 19 / 8%);
 }
 
-.icon-button {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
+.row-remove-button {
   margin-top: 26px;
-  border: 0;
-  border-radius: 8px;
-  color: var(--text);
-  background: transparent;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.icon-button:hover {
-  color: #a12626;
-  background: rgb(161 38 38 / 7%);
-}
-
-.primary-button,
-.secondary-button {
-  display: inline-flex;
-  min-height: 40px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--accent);
-  border-radius: 8px;
-  padding: 9px 16px;
-  font-weight: 650;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.primary-button {
-  color: #fff;
-  background: var(--accent);
-}
-
-.secondary-button {
-  color: var(--text-h);
-  background: #fff;
-}
-
-.secondary-button:hover {
-  background: var(--panel-soft);
-}
-
-.primary-button:disabled {
-  opacity: 0.55;
-  cursor: wait;
 }
 
 .form-actions {
@@ -443,7 +395,7 @@ form {
   }
 
   .step-number,
-  .icon-button {
+  .row-remove-button {
     margin-top: 0;
   }
 
@@ -451,7 +403,7 @@ form {
     justify-self: start;
   }
 
-  .icon-button {
+  .row-remove-button {
     justify-self: end;
   }
 

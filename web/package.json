@@ -7,6 +7,8 @@
     "build": "ng build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "generate:api": "rm -rf src/app/api/generated && openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g typescript-angular -o src/app/api/generated --additional-properties=providedInRoot=true,withInterfaces=true,stringEnums=true"
@@ -29,10 +31,14 @@
     "@angular/build": "^21.2.11",
     "@angular/cli": "^21.2.11",
     "@angular/compiler-cli": "^21.2.0",
+    "@eslint/js": "^9.39.4",
     "@openapitools/openapi-generator-cli": "^2.34.0",
+    "angular-eslint": "^21.4.0",
+    "eslint": "^9.39.4",
     "jsdom": "^28.1.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
+    "typescript-eslint": "^8.61.0",
     "vitest": "^4.1.8"
   }
 }
