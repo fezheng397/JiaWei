@@ -8,6 +8,7 @@ import com.recipes.api.recipe.entity.Recipe;
 import com.recipes.api.recipe.entity.RecipeIngredient;
 import com.recipes.api.recipe.entity.RecipeKind;
 import com.recipes.api.recipe.entity.RecipeStep;
+import com.recipes.api.media.entity.MediaAsset;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,8 @@ public class RecipeMapper {
         recipe.getPublishedAt() == null ? null : recipe.getPublishedAt().toString(),
         recipe.getKind().toApiValue(),
         recipe.getIngredient() == null ? null : recipe.getIngredient().getPublicId(),
-        recipe.getHeroImageUrl(),
+        heroImageUrlFor(recipe),
+        heroImagePublicIdFor(recipe),
         recipe.getPrepTimeMinutes(),
         recipe.getCookTimeMinutes(),
         totalTimeFor(recipe),
@@ -47,7 +49,8 @@ public class RecipeMapper {
         recipe.getPublishedAt() == null ? null : recipe.getPublishedAt().toString(),
         recipe.getKind().toApiValue(),
         recipe.getIngredient() == null ? null : recipe.getIngredient().getPublicId(),
-        recipe.getHeroImageUrl(),
+        heroImageUrlFor(recipe),
+        heroImagePublicIdFor(recipe),
         totalTimeFor(recipe),
         recipe.getDifficulty() == null ? null : recipe.getDifficulty().toApiValue(),
         recipe.getTags(),
@@ -119,5 +122,15 @@ public class RecipeMapper {
     }
 
     return recipe.getKind() == RecipeKind.DISH ? "Recipe" : "Ingredient";
+  }
+
+  private String heroImageUrlFor(Recipe recipe) {
+    MediaAsset heroImage = recipe.getHeroImage();
+    return heroImage == null ? recipe.getHeroImageUrl() : heroImage.getPublicUrl();
+  }
+
+  private String heroImagePublicIdFor(Recipe recipe) {
+    MediaAsset heroImage = recipe.getHeroImage();
+    return heroImage == null ? null : heroImage.getPublicId();
   }
 }

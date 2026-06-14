@@ -2,6 +2,9 @@ package com.recipes.api.recipe;
 
 import com.recipes.api.common.NotFoundException;
 import com.recipes.api.ingredient.entity.Ingredient;
+import com.recipes.api.media.entity.MediaAsset;
+import com.recipes.api.media.entity.MediaType;
+import com.recipes.api.media.repository.MediaAssetRepository;
 import com.recipes.api.recipe.dto.IngredientLineResponse;
 import com.recipes.api.recipe.dto.RecipeCreateRequest;
 import com.recipes.api.recipe.dto.RecipeIngredientCreateRequest;
@@ -37,6 +40,7 @@ public class RecipeService {
   private final RecipeIngredientRepository recipeIngredientRepository;
   private final RecipeStepRepository recipeStepRepository;
   private final StepIngredientRepository stepIngredientRepository;
+  private final MediaAssetRepository mediaAssetRepository;
   private final RecipeMapper recipeMapper;
   private final RecipeCreateValidator recipeCreateValidator;
 
@@ -45,12 +49,14 @@ public class RecipeService {
       RecipeIngredientRepository recipeIngredientRepository,
       RecipeStepRepository recipeStepRepository,
       StepIngredientRepository stepIngredientRepository,
+      MediaAssetRepository mediaAssetRepository,
       RecipeMapper recipeMapper,
       RecipeCreateValidator recipeCreateValidator) {
     this.recipeRepository = recipeRepository;
     this.recipeIngredientRepository = recipeIngredientRepository;
     this.recipeStepRepository = recipeStepRepository;
     this.stepIngredientRepository = stepIngredientRepository;
+    this.mediaAssetRepository = mediaAssetRepository;
     this.recipeMapper = recipeMapper;
     this.recipeCreateValidator = recipeCreateValidator;
   }
@@ -67,7 +73,10 @@ public class RecipeService {
   @Transactional
   public RecipeResponse createRecipe(RecipeCreateRequest request) {
     RecipeCreateReferences references = recipeCreateValidator.validate(request);
-    Recipe recipe = recipeRepository.saveAndFlush(toRecipe(request, references));
+    MediaAsset heroImage = resolveHeroImage(request.heroImagePublicId());
+    Recipe recipe = toRecipe(request, references);
+    recipe.assignHeroImage(heroImage);
+    recipe = recipeRepository.saveAndFlush(recipe);
     Map<String, RecipeIngredient> ingredientLines =
         createIngredientLines(request, references, recipe);
     List<RecipeStep> steps = createSteps(request, recipe);
@@ -134,6 +143,24 @@ public class RecipeService {
         nullableText(request.yieldQuantity()),
         nullableText(request.yieldUnit()),
         request.tags());
+  }
+
+  private MediaAsset resolveHeroImage(String heroImagePublicId) {
+    String publicId = nullableText(heroImagePublicId);
+    if (publicId == null) {
+      return null;
+    }
+
+    MediaAsset heroImage =
+        mediaAssetRepository
+            .findByPublicId(publicId)
+            .orElseThrow(() -> new NotFoundException("Media asset not found: " + publicId));
+
+    if (heroImage.getMediaType() != MediaType.IMAGE) {
+      throw new IllegalArgumentException("Hero image media asset must be an image: " + publicId);
+    }
+
+    return heroImage;
   }
 
   private Map<String, RecipeIngredient> createIngredientLines(

@@ -18,6 +18,7 @@ export interface RecipeCreateRequest {
     authorPublicId: string;
     tags: Array<string>;
     heroImageUrl?: string;
+    heroImagePublicId?: string;
     prepTimeMinutes?: number;
     cookTimeMinutes?: number;
     difficulty?: RecipeCreateRequestDifficultyEnum;

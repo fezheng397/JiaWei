@@ -19,6 +19,7 @@ export interface RecipeSummaryResponse {
     kind: RecipeSummaryResponseKindEnum;
     ingredientPublicId: string | null;
     heroImageUrl: string | null;
+    heroImagePublicId: string | null;
     totalTimeMinutes: number | null;
     difficulty: RecipeSummaryResponseDifficultyEnum | null;
     tags: Array<string>;

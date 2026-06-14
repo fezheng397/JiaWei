@@ -21,6 +21,7 @@ export interface RecipeResponse {
     kind: RecipeResponseKindEnum;
     ingredientPublicId: string | null;
     heroImageUrl: string | null;
+    heroImagePublicId: string | null;
     prepTimeMinutes: number | null;
     cookTimeMinutes: number | null;
     totalTimeMinutes: number | null;

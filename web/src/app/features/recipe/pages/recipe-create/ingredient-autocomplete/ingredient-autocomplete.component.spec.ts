@@ -208,6 +208,7 @@ const options: readonly IngredientResponse[] = [
       kind: RecipeSummaryResponseKindEnum.Ingredient,
       ingredientPublicId: "ground-pork-id",
       heroImageUrl: null,
+      heroImagePublicId: null,
       totalTimeMinutes: 10,
       difficulty: RecipeSummaryResponseDifficultyEnum.Easy,
       tags: [],
