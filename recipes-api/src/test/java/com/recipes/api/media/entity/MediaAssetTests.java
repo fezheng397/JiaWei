@@ -21,9 +21,6 @@ class MediaAssetTests {
     asset.markUploaded();
     assertEquals(MediaAssetStatus.UPLOADED, asset.getStatus());
 
-    asset.markAttached();
-    assertEquals(MediaAssetStatus.ATTACHED, asset.getStatus());
-
     asset.markDeleted();
     assertEquals(MediaAssetStatus.DELETED, asset.getStatus());
   }

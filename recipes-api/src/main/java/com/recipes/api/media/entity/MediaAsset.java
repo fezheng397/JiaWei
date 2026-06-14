@@ -83,10 +83,6 @@ public class MediaAsset extends AuditedEntity {
     status = MediaAssetStatus.UPLOADED;
   }
 
-  public void markAttached() {
-    status = MediaAssetStatus.ATTACHED;
-  }
-
   public void markDeleted() {
     status = MediaAssetStatus.DELETED;
   }
