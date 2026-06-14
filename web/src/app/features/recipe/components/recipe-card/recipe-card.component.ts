@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { AppIconComponent } from "../../shared/icon/app-icon.component";
+import { AppIconComponent } from "../../../../shared/icon/app-icon.component";
 
 export interface RecipeCardView {
   title: string;
@@ -19,7 +19,7 @@ export interface RecipeCardView {
   selector: "app-recipe-card",
   imports: [RouterLink, AppIconComponent],
   templateUrl: "./recipe-card.component.html",
-  styleUrl: "./recipe-display.css",
+  styleUrl: "./recipe-card.component.css",
   host: {
     class: "recipe-card-host",
   },

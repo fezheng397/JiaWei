@@ -1,11 +1,11 @@
 import { inject } from "@angular/core";
 import { CanActivateFn, Router, Routes } from "@angular/router";
 import { map } from "rxjs";
-import { IngredientDetailPageComponent } from "./features/recipe/ingredient-detail-page.component";
-import { IngredientsListPageComponent } from "./features/recipe/ingredients-list-page.component";
-import { RecipeDetailPageComponent } from "./features/recipe/recipe-detail-page.component";
-import { RecipeService } from "./features/recipe/recipe.service";
-import { RecipesListPageComponent } from "./features/recipe/recipes-list-page.component";
+import { RecipeService } from "./features/recipe/data-access/recipe.service";
+import { IngredientDetailPageComponent } from "./features/recipe/pages/ingredient-detail/ingredient-detail-page.component";
+import { IngredientsListPageComponent } from "./features/recipe/pages/ingredients-list/ingredients-list-page.component";
+import { RecipeDetailPageComponent } from "./features/recipe/pages/recipe-detail/recipe-detail-page.component";
+import { RecipesListPageComponent } from "./features/recipe/pages/recipes-list/recipes-list-page.component";
 import { ShellComponent } from "./layout/shell/shell.component";
 
 const redirectIngredientRecipes: CanActivateFn = (route) => {
@@ -41,7 +41,7 @@ export const routes: Routes = [
       {
         path: "recipes/new",
         loadComponent: () =>
-          import("./features/recipe/create/recipe-create-page.component").then(
+          import("./features/recipe/pages/recipe-create/recipe-create-page.component").then(
             (module) => module.RecipeCreatePageComponent,
           ),
         title: "Create Recipe",

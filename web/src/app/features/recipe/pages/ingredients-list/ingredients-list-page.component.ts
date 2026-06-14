@@ -1,14 +1,14 @@
 import { Component, computed, inject, signal } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { ChefFilterComponent } from "./chef-filter.component";
+import { ChefFilterComponent } from "../../components/chef-filter/chef-filter.component";
 import {
   RecipeCardComponent,
   type RecipeCardView,
-} from "./recipe-card.component";
-import { RecipeService } from "./recipe.service";
+} from "../../components/recipe-card/recipe-card.component";
+import { RecipeService } from "../../data-access/recipe.service";
 import { rxResource } from "@angular/core/rxjs-interop";
-import { AppButtonComponent } from "../../shared/button/app-button.component";
-import type { IngredientDetailView } from "./recipe-view-model";
+import { AppButtonComponent } from "../../../../shared/button/app-button.component";
+import type { IngredientDetailView } from "../../models/recipe-view-model";
 
 @Component({
   selector: "app-ingredients-list-page",
@@ -20,7 +20,7 @@ import type { IngredientDetailView } from "./recipe-view-model";
     RecipeCardComponent,
   ],
   templateUrl: "./ingredients-list-page.component.html",
-  styleUrl: "./recipe-display.css",
+  styleUrl: "../../styles/recipe-page-shared.css",
 })
 export class IngredientsListPageComponent {
   private readonly recipeService = inject(RecipeService);

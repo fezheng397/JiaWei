@@ -1,10 +1,10 @@
 import { inject, Injectable } from "@angular/core";
-import type { Id } from "./recipe";
+import type { Id } from "../models/recipe";
 import type {
   IngredientDetailView,
   RecipeView,
   StepIngredientView,
-} from "./recipe-view-model";
+} from "../models/recipe-view-model";
 import {
   AuthorControllerService,
   AuthorResponse,
@@ -16,7 +16,7 @@ import {
   RecipeCreateRequest,
   RecipeResponse,
   RecipeSummaryResponse,
-} from "../../api/generated";
+} from "../../../api/generated";
 import { forkJoin, map, Observable, of, switchMap } from "rxjs";
 
 @Injectable({ providedIn: "root" })

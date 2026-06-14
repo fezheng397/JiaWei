@@ -11,13 +11,13 @@ import {
 } from "@angular/forms/signals";
 import { Router, RouterLink } from "@angular/router";
 import { firstValueFrom } from "rxjs";
-import type { ApiError, IngredientResponse } from "../../../api/generated";
-import { AppButtonComponent } from "../../../shared/button/app-button.component";
-import { RecipeService } from "../recipe.service";
+import type { ApiError, IngredientResponse } from "../../../../api/generated";
+import { AppButtonComponent } from "../../../../shared/button/app-button.component";
+import { RecipeService } from "../../data-access/recipe.service";
 import {
   IngredientAutocompleteComponent,
   type IngredientAutocompleteSelection,
-} from "./ingredient-autocomplete.component";
+} from "./ingredient-autocomplete/ingredient-autocomplete.component";
 import {
   type RecipeCreateFormValue,
   type RecipeIngredientFormValue,

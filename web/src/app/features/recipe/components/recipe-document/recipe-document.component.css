@@ -1,0 +1,285 @@
+.back-link {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  border: 0;
+  margin-bottom: 32px;
+  padding: 0;
+  color: var(--text);
+  background: transparent;
+  text-decoration: none;
+}
+
+.back-link::before {
+  margin-right: 8px;
+  content: "<";
+}
+
+.back-link:hover {
+  color: var(--text-h);
+}
+
+.description {
+  color: var(--text);
+}
+
+.ingredient-link,
+.prerequisite {
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.prerequisite {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+}
+
+.ingredient-link:hover,
+.prerequisite:hover,
+.related-recipe:hover strong {
+  text-decoration: underline;
+}
+
+.amount {
+  color: var(--text-h);
+}
+
+.ingredient-usage {
+  border-top: 1px solid var(--border);
+  padding: 24px;
+}
+
+.related-recipes {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.related-recipe {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid var(--border);
+  padding: 12px 0;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.related-recipe strong {
+  color: var(--text-h);
+}
+
+.recipe-document-card {
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--panel-bg);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 10%),
+    0 4px 6px -4px rgb(0 0 0 / 10%);
+}
+
+.document-hero {
+  display: grid;
+  height: 384px;
+  place-items: center;
+  color: var(--text);
+  background: var(--panel-soft);
+}
+
+.document-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.document-hero span {
+  padding: 32px;
+  text-align: center;
+}
+
+.document-content {
+  padding: 48px;
+}
+
+.document-title {
+  margin-bottom: 32px;
+}
+
+.document-title h1 {
+  margin: 0;
+}
+
+.document-category {
+  margin: 0 0 12px;
+  color: var(--text);
+}
+
+.document-title .description {
+  max-width: none;
+  margin: 24px 0 0;
+}
+
+.document-byline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-top: 16px;
+  color: var(--text);
+}
+
+.document-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  border-radius: 14px;
+  margin: 0 0 32px;
+  padding: 24px;
+  background: var(--social-bg);
+}
+
+.document-stats div {
+  min-width: 0;
+}
+
+.document-stats dt {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.document-stats dd {
+  margin: 0;
+  color: var(--text-h);
+}
+
+.document-section {
+  margin-bottom: 40px;
+}
+
+.document-section:last-child {
+  margin-bottom: 0;
+}
+
+.document-section h2 {
+  margin: 0 0 24px;
+  color: var(--text-h);
+}
+
+.document-ingredient-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.document-ingredient-list li {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.24fr) minmax(0, 1fr);
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+  padding: 8px 0;
+}
+
+.document-ingredient-list li:last-child {
+  border-bottom: 0;
+}
+
+.document-steps {
+  display: grid;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.document-steps > li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 24px;
+}
+
+.step-number {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: var(--accent);
+}
+
+.step-content {
+  display: grid;
+  gap: 12px;
+}
+
+.step-content > p {
+  margin: 0;
+  color: var(--text-h);
+}
+
+.step-ingredients {
+  border-left: 2px solid var(--border);
+  padding-left: 18px;
+}
+
+.step-ingredients p {
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.step-ingredients ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step-ingredients li {
+  display: grid;
+  grid-template-columns: minmax(64px, max-content) minmax(0, 1fr);
+  gap: 8px;
+  color: var(--text-h);
+}
+
+.step-ingredients span {
+  color: var(--text);
+}
+
+.step-ingredients a {
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.step-ingredients a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 560px) {
+  .document-content {
+    padding: 28px 20px;
+  }
+
+  .document-hero {
+    height: 260px;
+  }
+
+  .document-stats,
+  .document-ingredient-list li,
+  .document-steps > li {
+    grid-template-columns: 1fr;
+  }
+
+  .document-steps > li {
+    gap: 12px;
+  }
+}

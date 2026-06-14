@@ -1,14 +1,14 @@
 import { Component, Input } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { AppIconComponent } from "../../shared/icon/app-icon.component";
-import { RecipeTimerComponent } from "./recipe-timer.component";
-import type { RecipeView } from "./recipe-view-model";
+import { AppIconComponent } from "../../../../shared/icon/app-icon.component";
+import type { RecipeView } from "../../models/recipe-view-model";
+import { RecipeTimerComponent } from "./recipe-timer/recipe-timer.component";
 
 @Component({
   selector: "app-recipe-document",
   imports: [RouterLink, RecipeTimerComponent, AppIconComponent],
   templateUrl: "./recipe-document.component.html",
-  styleUrl: "./recipe-display.css",
+  styleUrl: "./recipe-document.component.css",
 })
 export class RecipeDocumentComponent {
   @Input({ required: true }) recipe!: RecipeView;

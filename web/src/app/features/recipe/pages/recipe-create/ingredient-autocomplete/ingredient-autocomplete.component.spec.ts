@@ -3,7 +3,7 @@ import {
   type IngredientResponse,
   RecipeSummaryResponseDifficultyEnum,
   RecipeSummaryResponseKindEnum,
-} from "../../../api/generated";
+} from "../../../../../api/generated";
 import {
   IngredientAutocompleteComponent,
   type IngredientAutocompleteSelection,

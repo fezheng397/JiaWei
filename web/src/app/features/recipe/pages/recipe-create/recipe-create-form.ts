@@ -1,4 +1,4 @@
-import type { RecipeCreateRequest } from "../../../api/generated";
+import type { RecipeCreateRequest } from "../../../../api/generated";
 
 export type RecipeCreateKind = "dish" | "ingredient";
 export type RecipeCreateDifficulty = "" | "easy" | "medium" | "hard";
