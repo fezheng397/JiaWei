@@ -22,6 +22,7 @@ public record RecipeCreateRequest(
         @NotNull
         List<@NotBlank String> tags,
     String heroImageUrl,
+    String heroImagePublicId,
     @PositiveOrZero Integer prepTimeMinutes,
     @PositiveOrZero Integer cookTimeMinutes,
     @Schema(allowableValues = {"easy", "medium", "hard"})
@@ -38,4 +39,39 @@ public record RecipeCreateRequest(
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         @Valid
         @NotEmpty
-        List<RecipeStepCreateRequest> steps) {}
+        List<RecipeStepCreateRequest> steps) {
+  public RecipeCreateRequest(
+      String kind,
+      String name,
+      String description,
+      String authorPublicId,
+      List<String> tags,
+      String heroImageUrl,
+      Integer prepTimeMinutes,
+      Integer cookTimeMinutes,
+      String difficulty,
+      Integer servings,
+      String producedIngredientPublicId,
+      String yieldQuantity,
+      String yieldUnit,
+      List<RecipeIngredientCreateRequest> ingredients,
+      List<RecipeStepCreateRequest> steps) {
+    this(
+        kind,
+        name,
+        description,
+        authorPublicId,
+        tags,
+        heroImageUrl,
+        null,
+        prepTimeMinutes,
+        cookTimeMinutes,
+        difficulty,
+        servings,
+        producedIngredientPublicId,
+        yieldQuantity,
+        yieldUnit,
+        ingredients,
+        steps);
+  }
+}

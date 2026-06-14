@@ -3,6 +3,7 @@ package com.recipes.api.recipe.entity;
 import com.recipes.api.author.entity.Author;
 import com.recipes.api.common.AuditedEntity;
 import com.recipes.api.ingredient.entity.Ingredient;
+import com.recipes.api.media.entity.MediaAsset;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -33,6 +34,11 @@ public class Recipe extends AuditedEntity {
 
   private OffsetDateTime publishedAt;
   private String heroImageUrl;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "hero_image_id")
+  private MediaAsset heroImage;
+
   private Integer prepTimeMinutes;
   private Integer cookTimeMinutes;
 
@@ -106,6 +112,14 @@ public class Recipe extends AuditedEntity {
 
   public String getHeroImageUrl() {
     return heroImageUrl;
+  }
+
+  public MediaAsset getHeroImage() {
+    return heroImage;
+  }
+
+  public void assignHeroImage(MediaAsset heroImage) {
+    this.heroImage = heroImage;
   }
 
   public Integer getPrepTimeMinutes() {

@@ -7,6 +7,10 @@ import com.recipes.api.author.entity.Author;
 import com.recipes.api.author.repository.AuthorRepository;
 import com.recipes.api.ingredient.entity.Ingredient;
 import com.recipes.api.ingredient.repository.IngredientRepository;
+import com.recipes.api.media.entity.MediaAsset;
+import com.recipes.api.media.entity.MediaAssetStatus;
+import com.recipes.api.media.entity.MediaType;
+import com.recipes.api.media.repository.MediaAssetRepository;
 import com.recipes.api.recipe.dto.RecipeCreateRequest;
 import com.recipes.api.recipe.dto.RecipeIngredientCreateRequest;
 import com.recipes.api.recipe.dto.RecipeResponse;
@@ -28,6 +32,7 @@ class RecipeCreationPersistenceTests {
   @Autowired private RecipeService recipeService;
   @Autowired private AuthorRepository authorRepository;
   @Autowired private IngredientRepository ingredientRepository;
+  @Autowired private MediaAssetRepository mediaAssetRepository;
   @Autowired private RecipeRepository recipeRepository;
   @Autowired private RecipeIngredientRepository recipeIngredientRepository;
   @Autowired private RecipeStepRepository recipeStepRepository;
@@ -153,5 +158,50 @@ class RecipeCreationPersistenceTests {
     assertEquals(
         preparedRecipe.publicId(),
         dishRecipe.steps().getFirst().ingredientDetails().getFirst().preparedByRecipePublicId());
+  }
+
+  @Test
+  void associatesUploadedHeroImageAndUsesItsPublicUrl() {
+    Author author = authorRepository.saveAndFlush(new Author("Hero Image Test Author"));
+    Ingredient salt = ingredientRepository.saveAndFlush(new Ingredient("hero image test salt"));
+    MediaAsset heroImage =
+        new MediaAsset(
+            MediaType.IMAGE,
+            "recipes/hero-image-test.jpg",
+            "https://media.jiawei.app/recipes/hero-image-test.jpg",
+            "hero-image-test.jpg",
+            "image/jpeg",
+            2048);
+    heroImage.markUploaded();
+    mediaAssetRepository.saveAndFlush(heroImage);
+
+    RecipeResponse response =
+        recipeService.createRecipe(
+            new RecipeCreateRequest(
+                "dish",
+                "Hero Image Test Recipe",
+                "A recipe with a persisted hero image.",
+                author.getPublicId(),
+                List.of("test"),
+                "https://legacy.jiawei.app/hero-image-test.jpg",
+                heroImage.getPublicId(),
+                null,
+                null,
+                "easy",
+                2,
+                null,
+                null,
+                null,
+                List.of(
+                    new RecipeIngredientCreateRequest(
+                        "salt-line", salt.getPublicId(), "1", "tsp", null)),
+                List.of(new RecipeStepCreateRequest("Add salt.", null, List.of("salt-line")))));
+
+    Recipe recipe = recipeRepository.findByPublicId(response.publicId()).orElseThrow();
+
+    assertEquals(heroImage.getId(), recipe.getHeroImage().getId());
+    assertEquals(heroImage.getPublicId(), response.heroImagePublicId());
+    assertEquals(heroImage.getPublicUrl(), response.heroImageUrl());
+    assertEquals(MediaAssetStatus.UPLOADED, heroImage.getStatus());
   }
 }

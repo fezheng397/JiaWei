@@ -15,6 +15,7 @@ public record RecipeSummaryResponse(
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
         String ingredientPublicId,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) String heroImageUrl,
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) String heroImagePublicId,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) Integer totalTimeMinutes,
     @Schema(
             requiredMode = Schema.RequiredMode.REQUIRED,
@@ -23,4 +24,37 @@ public record RecipeSummaryResponse(
         String difficulty,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED) List<String> tags,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) Integer servings,
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) String yieldAmount) {}
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) String yieldAmount) {
+  public RecipeSummaryResponse(
+      String publicId,
+      String name,
+      String description,
+      String categoryLabel,
+      String authorName,
+      String publishedAt,
+      String kind,
+      String ingredientPublicId,
+      String heroImageUrl,
+      Integer totalTimeMinutes,
+      String difficulty,
+      List<String> tags,
+      Integer servings,
+      String yieldAmount) {
+    this(
+        publicId,
+        name,
+        description,
+        categoryLabel,
+        authorName,
+        publishedAt,
+        kind,
+        ingredientPublicId,
+        heroImageUrl,
+        null,
+        totalTimeMinutes,
+        difficulty,
+        tags,
+        servings,
+        yieldAmount);
+  }
+}
