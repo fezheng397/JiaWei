@@ -7,6 +7,8 @@ import com.recipes.api.common.ApiError;
 import com.recipes.api.author.dto.AuthorResponse;
 import com.recipes.api.ingredient.dto.IngredientRequest;
 import com.recipes.api.ingredient.dto.IngredientResponse;
+import com.recipes.api.media.dto.MediaUploadRequest;
+import com.recipes.api.media.dto.MediaUploadResponse;
 import com.recipes.api.recipe.dto.IngredientLineResponse;
 import com.recipes.api.recipe.dto.RecipeCreateRequest;
 import com.recipes.api.recipe.dto.RecipeIngredientCreateRequest;
@@ -33,6 +35,7 @@ class OpenApiResponseSchemaTests {
     assertAllPropertiesRequired(AuthorResponse.class);
     assertAllPropertiesRequired(IngredientResponse.class);
     assertAllPropertiesRequired(IngredientLineResponse.class);
+    assertAllPropertiesRequired(MediaUploadResponse.class);
     assertAllPropertiesRequired(RecipeIngredientRedirectResponse.class);
     assertAllPropertiesRequired(RecipeResponse.class);
     assertAllPropertiesRequired(RecipeSummaryResponse.class);
@@ -68,12 +71,14 @@ class OpenApiResponseSchemaTests {
     assertNullableProperties(StepResponse.class, "timerMinutes");
     assertNullableProperties(ApiError.class);
     assertNullableProperties(AuthorResponse.class);
+    assertNullableProperties(MediaUploadResponse.class);
     assertNullableProperties(RecipeIngredientRedirectResponse.class);
   }
 
   @Test
   void requestSchemasOnlyRequireActuallyRequiredInput() {
     assertRequiredProperties(IngredientRequest.class, "name");
+    assertRequiredProperties(MediaUploadRequest.class, "fileName", "contentType", "sizeBytes");
     assertRequiredProperties(
         RecipeCreateRequest.class,
         "kind",

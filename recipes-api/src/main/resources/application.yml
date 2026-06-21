@@ -25,3 +25,12 @@ management:
 app:
   cors:
     allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:4200}
+  storage:
+    bucket: ${APP_STORAGE_BUCKET:local-media}
+    endpoint: ${APP_STORAGE_ENDPOINT:http://localhost:9000}
+    region: ${APP_STORAGE_REGION:auto}
+    access-key-id: ${APP_STORAGE_ACCESS_KEY_ID:local}
+    secret-access-key: ${APP_STORAGE_SECRET_ACCESS_KEY:local}
+    public-base-url: ${APP_STORAGE_PUBLIC_BASE_URL:http://localhost:9000/local-media}
+    presign-expiration-minutes: ${APP_STORAGE_PRESIGN_EXPIRATION_MINUTES:15}
+    max-upload-bytes: ${APP_STORAGE_MAX_UPLOAD_BYTES:10485760}

@@ -35,6 +35,26 @@ public class MediaAsset extends AuditedEntity {
 
   protected MediaAsset() {}
 
+  public static MediaAsset pendingImage(
+      String originalFilename, String contentType, long sizeBytes) {
+    MediaAsset asset = new MediaAsset();
+    asset.initializePublicId();
+    asset.mediaType = MediaType.IMAGE;
+    asset.originalFilename = originalFilename;
+    asset.contentType = contentType;
+    asset.sizeBytes = sizeBytes;
+    asset.status = MediaAssetStatus.PENDING_UPLOAD;
+    return asset;
+  }
+
+  public void assignStorageLocation(String objectKey, String publicUrl) {
+    if (this.objectKey != null || this.publicUrl != null) {
+      throw new IllegalStateException("Storage location is already assigned");
+    }
+    this.objectKey = objectKey;
+    this.publicUrl = publicUrl;
+  }
+
   public MediaAsset(
       MediaType mediaType,
       String objectKey,

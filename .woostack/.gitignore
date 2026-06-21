@@ -1,0 +1,12 @@
+# Transient, per-clone — not shared knowledge.
+metrics.json
+*.local.*
+visuals/
+overnight/
+worktrees/
+memory/.telemetry.tsv
+memory/.dream-watermark
+
+# Obsidian per-user UI state (the shared .obsidian/*.json config IS tracked).
+.obsidian/workspace*
+.obsidian/cache
