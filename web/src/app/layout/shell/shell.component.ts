@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { RouterLink, RouterOutlet } from "@angular/router";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-shell",
@@ -7,4 +8,6 @@ import { RouterLink, RouterOutlet } from "@angular/router";
   templateUrl: "./shell.component.html",
   styleUrl: "./shell.component.css",
 })
-export class ShellComponent {}
+export class ShellComponent {
+  protected readonly showCreateAction = !environment.production;
+}
