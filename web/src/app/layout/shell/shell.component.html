@@ -7,7 +7,9 @@
       <nav aria-label="Primary navigation">
         <a routerLink="/recipes">Recipes</a>
         <a routerLink="/ingredients">Ingredients</a>
-        <a routerLink="/recipes/new">Create</a>
+        @if (showCreateAction) {
+          <a routerLink="/recipes/new">Create</a>
+        }
       </nav>
     </div>
   </header>
