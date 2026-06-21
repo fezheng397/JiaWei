@@ -3,6 +3,8 @@ export * from './authorResponse';
 export * from './ingredientLineResponse';
 export * from './ingredientRequest';
 export * from './ingredientResponse';
+export * from './mediaUploadRequest';
+export * from './mediaUploadResponse';
 export * from './recipeCreateRequest';
 export * from './recipeIngredientCreateRequest';
 export * from './recipeIngredientRedirectResponse';

@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.base.service.ts
 api.module.ts
@@ -8,6 +7,8 @@ api/authorController.service.ts
 api/authorController.serviceInterface.ts
 api/ingredientController.service.ts
 api/ingredientController.serviceInterface.ts
+api/mediaController.service.ts
+api/mediaController.serviceInterface.ts
 api/recipeController.service.ts
 api/recipeController.serviceInterface.ts
 configuration.ts
@@ -19,6 +20,8 @@ model/authorResponse.ts
 model/ingredientLineResponse.ts
 model/ingredientRequest.ts
 model/ingredientResponse.ts
+model/mediaUploadRequest.ts
+model/mediaUploadResponse.ts
 model/models.ts
 model/recipeCreateRequest.ts
 model/recipeIngredientCreateRequest.ts

@@ -6,6 +6,132 @@
       "sourceType": "github",
       "skillPath": "skills/neon-postgres/SKILL.md",
       "computedHash": "3c53df29c959dc0a7f724ff8620063b20fabd2b1fa702ec97e3f17e6a23d5a1c"
+    },
+    "using-woostack": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/using-woostack/SKILL.md",
+      "computedHash": "3b7537bd1e558dd25cdf94ee700f11f6bbf75b455e14107c165120b491a9ed7d"
+    },
+    "woostack-address-comments": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-address-comments/SKILL.md",
+      "computedHash": "9d177f6477e3e28ba1d31b3b2adc211863cbfcb91be87e439bb21e7ede9de002"
+    },
+    "woostack-ask": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-ask/SKILL.md",
+      "computedHash": "b4c3d3ea72fc39ab3f57379049da2324d937ff95bf7a3ea92a245faf6194cde4"
+    },
+    "woostack-bootstrap": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-bootstrap/SKILL.md",
+      "computedHash": "7c5357b8e5d5319089cf740449055119fa732d1c9c06d9d654efd92ab7e60d6e"
+    },
+    "woostack-build": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-build/SKILL.md",
+      "computedHash": "52c1be9022076ab1789a4070cd523817b756799a811538c7bb08972637dca1cd"
+    },
+    "woostack-commit": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-commit/SKILL.md",
+      "computedHash": "9c23f8875ec16766509284d008f9890f1b5ccafd8a3da54c92bffe64a59c1e4e"
+    },
+    "woostack-debug": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-debug/SKILL.md",
+      "computedHash": "7e0f05932331e87ee9c696bbeb0aed9afa1124148cc1ef74b56057790d872d07"
+    },
+    "woostack-doctor": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-doctor/SKILL.md",
+      "computedHash": "f4a91603de484be592f0f31062cfbe7116dbc5ea7aee6db79e187d6594124e55"
+    },
+    "woostack-dream": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-dream/SKILL.md",
+      "computedHash": "dd4638d5870cd3c92901cc93d228877425e088385efd68d9baf353826e176aae"
+    },
+    "woostack-execute": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-execute/SKILL.md",
+      "computedHash": "39980646ae71ec599cd0b0f24103ecc972b0f16f410185acdb2a32ee608918b1"
+    },
+    "woostack-execute-overnight": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-execute-overnight/SKILL.md",
+      "computedHash": "6d13de0ebe6432e859948b43674a8f98f0953d173ab3e40e23cc5695932ec21c"
+    },
+    "woostack-fix": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-fix/SKILL.md",
+      "computedHash": "a03b4d8888b6969dca2ffc7c547b3f80bd4d60e9446e421db6f65be61db6bf66"
+    },
+    "woostack-harden": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-harden/SKILL.md",
+      "computedHash": "924567fd41a537e61c5d0445c871d04c4cd6f3936afd1c6bb5ee5a82402b98ba"
+    },
+    "woostack-ideate": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-ideate/SKILL.md",
+      "computedHash": "8a4b36ac611b7f259bdc43d265d6c7519d5273ee4ae460b2e3ddaa30f6a2c9e2"
+    },
+    "woostack-init": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-init/SKILL.md",
+      "computedHash": "157024da64648c0570a1837d5b332c18921eb625f9e7cec5e0aab25e21c6ffa3"
+    },
+    "woostack-plan": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-plan/SKILL.md",
+      "computedHash": "ddc0ceceaa3869be78b368b73ddd11a5436d5f865821f1a96b916486b91ba009"
+    },
+    "woostack-review": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-review/SKILL.md",
+      "computedHash": "ba8c91dfa19904444e447ec168f876c4ce61d9ae4a1599edb6232c30d4b787dc"
+    },
+    "woostack-status": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-status/SKILL.md",
+      "computedHash": "56b7671c03df29455fe56f7977fe5e0faacdee3dbe31e3b8f6fb2400109cffc2"
+    },
+    "woostack-sweep": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-sweep/SKILL.md",
+      "computedHash": "7f5b72bf44081cbe624ba00d93b40853fb6533a83e2846ac971a29a92a5db08f"
+    },
+    "woostack-tdd": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-tdd/SKILL.md",
+      "computedHash": "17a0b0a9c813152b7f58d6e00863a7a5bc4bfc3ea20da97a9cc2ec95be2e4d52"
+    },
+    "woostack-visualize": {
+      "source": "howarewoo/woostack",
+      "sourceType": "github",
+      "skillPath": "skills/woostack-visualize/SKILL.md",
+      "computedHash": "954e8f8fb1f027d3a802b695ed0f01975a31114ff1e345d701a479ad669f48b5"
     }
   }
 }

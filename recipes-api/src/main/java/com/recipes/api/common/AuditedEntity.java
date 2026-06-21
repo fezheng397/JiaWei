@@ -66,13 +66,18 @@ public abstract class AuditedEntity {
     return version;
   }
 
+  protected final String initializePublicId() {
+    if (publicId == null) {
+      publicId = PublicIdGenerator.generate();
+    }
+    return publicId;
+  }
+
   @PrePersist
   void prePersist() {
     OffsetDateTime now = OffsetDateTime.now();
 
-    if (publicId == null) {
-      publicId = PublicIdGenerator.generate();
-    }
+    initializePublicId();
 
     createdAt = now;
     updatedAt = now;
