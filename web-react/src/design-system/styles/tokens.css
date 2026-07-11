@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Serif+Display:ital@0;1&display=swap");
+
+:root {
+  --text: #717182;
+  --text-h: #0a0a0a;
+  --muted: #717182;
+  --bg: #faf9f7;
+  --panel-bg: #ffffff;
+  --panel-soft: #f3f4f6;
+  --border: rgb(0 0 0 / 10%);
+  --code-bg: #eceef2;
+  --accent: #030213;
+  --accent-strong: #030213;
+  --accent-soft: #eceef2;
+  --social-bg: #eceef2;
+  --danger: #a12626;
+  --success: #007a55;
+  --info: #1447e6;
+  --shadow:
+    0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -2px rgb(0 0 0 / 10%);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 10%),
+    0 4px 6px -4px rgb(0 0 0 / 10%);
+  --serif: "DM Serif Display", Georgia, "Times New Roman", Times, serif;
+  --sans:
+    "DM Sans", Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}

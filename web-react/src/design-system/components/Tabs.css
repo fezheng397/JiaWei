@@ -1,0 +1,29 @@
+.tabs__list {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 36px;
+  overflow-x: auto;
+}
+
+.tabs__trigger {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0 0 12px;
+  color: var(--text);
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tabs__trigger:hover,
+.tabs__trigger[data-state="active"] {
+  border-bottom-color: var(--accent);
+  color: var(--text-h);
+}
+
+.tabs__trigger:focus-visible {
+  outline: 3px solid rgb(3 2 19 / 22%);
+  outline-offset: 3px;
+}

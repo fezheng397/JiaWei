@@ -1,0 +1,9 @@
+.app-icon {
+  display: inline-flex;
+  flex: none;
+  line-height: 0;
+}
+
+.app-icon svg {
+  display: block;
+}
